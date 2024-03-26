@@ -11,6 +11,7 @@ use App\Models\penduduk;
 use App\Models\penjabatan_RT;
 use App\Models\RT;
 use Illuminate\Support\Facades\Route;
+// nanti ini dihapus aja
 
 /*
 |--------------------------------------------------------------------------
