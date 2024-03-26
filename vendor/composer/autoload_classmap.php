@@ -5592,7 +5592,6 @@ return array(
     'Symfony\\Component\\Mime\\Crypto\\SMimeEncrypter' => $vendorDir . '/symfony/mime/Crypto/SMimeEncrypter.php',
     'Symfony\\Component\\Mime\\Crypto\\SMimeSigner' => $vendorDir . '/symfony/mime/Crypto/SMimeSigner.php',
     'Symfony\\Component\\Mime\\DependencyInjection\\AddMimeTypeGuesserPass' => $vendorDir . '/symfony/mime/DependencyInjection/AddMimeTypeGuesserPass.php',
-    'Symfony\\Component\\Mime\\DraftEmail' => $vendorDir . '/symfony/mime/DraftEmail.php',
     'Symfony\\Component\\Mime\\Email' => $vendorDir . '/symfony/mime/Email.php',
     'Symfony\\Component\\Mime\\Encoder\\AddressEncoderInterface' => $vendorDir . '/symfony/mime/Encoder/AddressEncoderInterface.php',
     'Symfony\\Component\\Mime\\Encoder\\Base64ContentEncoder' => $vendorDir . '/symfony/mime/Encoder/Base64ContentEncoder.php',
