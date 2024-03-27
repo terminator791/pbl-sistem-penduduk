@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\pendidikan;
+use App\Models\penduduk;
 use Illuminate\Http\Request;
 
 class PendidikanController extends Controller
 {
-    //
-    
+   public function index(Request $request){
+       $penduduk = penduduk::with(['pendidikan'])->get();
+
+       return view('pendidikan.index', compact('penduduk'));
+   }
+
 public function create()
 {
     return view('warga.tambah');

@@ -29,8 +29,8 @@
                 <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
                     <a href="#" class="submenu-link">Kesehatan</a>
                 </li>
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Pendidikan</a>
+                <li class="submenu-item {{ Request::is('pendidikan') ? 'active' : '' }} ">
+                    <a href="{{route('pendidikan')}}" class="submenu-link">Pendidikan</a>
                 </li>
                 <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
                     <a href="#" class="submenu-link">Sosial</a>

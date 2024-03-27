@@ -29,9 +29,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [PendudukController::class, 'index'])->name('home');
-
-Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
-Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+//route untuk Penddikan
+Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
+Route::get('/tambah_pendidkan', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/tambah_pendidikan/save', [PendidikanController::class, 'store'])->name("pendidikan.add");
 
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);
