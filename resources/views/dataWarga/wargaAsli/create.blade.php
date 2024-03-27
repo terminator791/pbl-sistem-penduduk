@@ -12,7 +12,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Dasbor</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Data Warga
                         </li>
@@ -35,23 +35,24 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('wargaAsli.store') }}" data-parsley-validate>
+                            @csrf
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">NIK</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="NIK" name="fname-column" data-parsley-required="true" />
+                                            <input type="text" id="NIK" class="form-control"
+                                                placeholder="NIK" name="NIK" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Jenis Kelamin</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
                                                     <option disabled selected>Pilih Jenis Kelamin</option>
-                                                    <option>Perempuan</option>
-                                                    <option>Laki-laki</option>
+                                                    <option value="wanita">Perempuan</option>
+                                                    <option value="pria">Laki-laki</option>
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -59,22 +60,22 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Nama</label>
-                                            <input type="text" id="last-name-column" class="form-control"
-                                                placeholder="Nama" name="lname-column" data-parsley-required="true" />
+                                            <input type="text" id="nama" class="form-control"
+                                                placeholder="Nama" name="nama" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Agama</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" id="agama" name="agama">
                                                     <option disabled selected>Pilih Agama</option>
-                                                    <option>Islam</option>
-                                                    <option>Katholik</option>
-                                                    <option>Kristen</option>
-                                                    <option>Hindu</option>
-                                                    <option>Buddha</option>
-                                                    <option>Konghuchu</option>
+                                                    <option value="islam">Islam</option>
+                                                    <option value="katolik">Katholik</option>
+                                                    <option value="kristen">Kristen</option>
+                                                    <option value="hindhu">Hindu</option>
+                                                    <option value="Budha">Buddha</option>
+                                                    <option value="konghucu">Konghuchu</option>
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -82,8 +83,8 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">Tempat Lahir</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="Tempat Lahir" name="fname-column"
+                                            <input type="text" id="tempat_lahir" class="form-control"
+                                                placeholder="Tempat Lahir" name="tempat_lahir"
                                                 data-parsley-required="true" />
                                         </div>
                                     </div>
@@ -91,19 +92,11 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Pendidikan</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
                                                     <option disabled selected>Pilih Pendidikan</option>
-                                                    <option>SD</option>
-                                                    <option>SLTP/SMP</option>
-                                                    <option>SLTA/SMA/SMK/MA</option>
-                                                    <option>S1</option>
-                                                    <option>S2</option>
-                                                    <option>S3</option>
-                                                    <option>D1</option>
-                                                    <option>D2</option>
-                                                    <option>D3</option>
-                                                    <option>D4</option>
-                                                    <option>Tidak Sekolah</option>
+                                                    @foreach ($list_pendidikan as $pendidikan)
+                                                        <option value="{{ $pendidikan->id }}">{{ $pendidikan->jenis_pendidikan }}</option> <!-- Use actual database values -->
+                                                    @endforeach
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -111,100 +104,18 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="country-floating" class="form-label">Tanggal Lahir</label>
-                                            <input type="date" class="form-control">
+                                            <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Pekerjaan</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
-                                                    <option>Pilih Pekerjaan</option>
-                                                    <option>Mengurus Rumah Tangga</option>
-                                                    <option>Pelajar/Mahasiswa</option>
-                                                    <option>Belum/Tidak Bekerja</option>
-                                                    <option>Pensiunan</option>
-                                                    <option>Pegawai Negeri Sipil</option>
-                                                    <option>Tentara Nasional Indonesia</option>
-                                                    <option>Perdagangan</option>
-                                                    <option>Petani/Pekebun</option>
-                                                    <option>Peternak</option>
-                                                    <option>Nelayan/Perikanan</option>
-                                                    <option>Industri</option>
-                                                    <option>Konstruksi</option>
-                                                    <option>Transportasi</option>
-                                                    <option>Karyawan Swasta</option>
-                                                    <option>Karyawan Honorer</option>
-                                                    <option>Buruh Harian Lepas</option>
-                                                    <option>Buruh Tani/Perkebunan</option>
-                                                    <option>Buruh Nelayan/Perikanan</option>
-                                                    <option>Buruh Peternakan</option>
-                                                    <option>Pembantu Rumah Tangga</option>
-                                                    <option>Tukang Cukur</option>
-                                                    <option>Tukang Listrik</option>
-                                                    <option>Tukang Batu</option>
-                                                    <option>Tukang Kayu</option>
-                                                    <option>Tukang Sol Sepatu</option>
-                                                    <option>Tukang Las/Pandai Besi</option>
-                                                    <option>Tukang Jahit</option>
-                                                    <option>Tukang Gigi</option>
-                                                    <option>Penata Rias</option>
-                                                    <option>Penata Busana</option>
-                                                    <option>Penata Rambut</option>
-                                                    <option>Mekanik</option>
-                                                    <option>Seniman</option>
-                                                    <option>Tabib</option>
-                                                    <option>Paraji</option>
-                                                    <option>Perancang Busana</option>
-                                                    <option>Penterjemah</option>
-                                                    <option>Imam Mesjid</option>
-                                                    <option>Pendeta</option>
-                                                    <option>Pastor</option>
-                                                    <option>Wartawan</option>
-                                                    <option>Ustadz/Mubaligh</option>
-                                                    <option>Juru Masak</option>
-                                                    <option>Promotor Acara</option>
-                                                    <option>Anggota DPR-RI</option>
-                                                    <option>Anggota DPD</option>
-                                                    <option>Anggota BPK</option>
-                                                    <option>Presiden</option>
-                                                    <option>Wakil Presiden</option>
-                                                    <option>Anggota Mahkamah Konstitusi</option>
-                                                    <option>Anggota Kabinet/Kementerian</option>
-                                                    <option>Duta Besar</option>
-                                                    <option>Gubernur</option>
-                                                    <option>Wakil Gubernur</option>
-                                                    <option>Bupati</option>
-                                                    <option>Wakil Bupati</option>
-                                                    <option>Walikota</option>
-                                                    <option>Wakil Walikota</option>
-                                                    <option>Anggota DPRD Provinsi</option>
-                                                    <option>Anggota DPRD Kabupaten/Kota</option>
-                                                    <option>Dosen</option>
-                                                    <option>Guru</option>
-                                                    <option>Pilot</option>
-                                                    <option>Pengacara</option>
-                                                    <option>Notaris</option>
-                                                    <option>Arsitek</option>
-                                                    <option>Akuntan</option>
-                                                    <option>Konsultan</option>
-                                                    <option>Dokter</option>
-                                                    <option>Bidan</option>
-                                                    <option>Perawat</option>
-                                                    <option>Apoteker</option>
-                                                    <option>Psikiater/Psikolog</option>
-                                                    <option>Penyiar Televisi</option>
-                                                    <option>Penyiar Radio</option>
-                                                    <option>Pelaut</option>
-                                                    <option>Peneliti</option>
-                                                    <option>Sopir</option>
-                                                    <option>Pialang</option>
-                                                    <option>Paranormal</option>
-                                                    <option>Kepala Desa</option>
-                                                    <option>Biarawati</option>
-                                                    <option>Wiraswasta</option>
-                                                    <option>Lain-lain</option>
-                                                    <option>Polri</option>
+                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                    <option disabled selected>Pilih Pekerjaan</option>
+                                                    @foreach ($list_pekerjaan as $pekerjaan)
+                                                        <option value="{{ $pekerjaan->id }}">{{ $pekerjaan->jenis_pekerjaan }}</option> <!-- Use actual database values -->
+                                                    @endforeach
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -214,11 +125,11 @@
                                             <label for="last-name-column" class="form-label">Status Hubungan
                                                 Keluarga</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" id="id_keluarga" name="id_keluarga">
                                                     <option disabled selected>Pilih Hubungan Keluarga</option>
-                                                    <option>Kepala keluarga</option>
-                                                    <option>Ibu</option>
-                                                    <option>Anak</option>
+                                                    @foreach ($list_keluarga as $keluarga)
+                                                        <option value="{{ $keluarga->id }}">{{ $keluarga->status_keluarga }}</option> <!-- Use actual database values -->
+                                                    @endforeach
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -227,10 +138,11 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Status Perkawinan</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" id="id_status_perkawinan" name="id_status_perkawinan">
                                                     <option disabled selected>Pilih Status Perkawinan</option>
-                                                    <option>Kawin</option>
-                                                    <option>Belum Kawin</option>
+                                                        @foreach ($list_perkawinan as $perkawinan)
+                                                            <option value="{{ $perkawinan->id }}">{{ $perkawinan->status_perkawinan }}</option> <!-- Use actual database values -->
+                                                        @endforeach
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -239,11 +151,11 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Status Tinggal</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="basicSelect">
+                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
                                                     <option disabled selected>Pilih Status Tinggal</option>
-                                                    <option>Kos</option>
-                                                    <option>Kontrak</option>
-                                                    <option>Tetap</option>
+                                                    <option value="tetap">Tetap</option>
+                                                    <option value="pindah">Pindah</option>
+                                                    <option value="meninggal">Meninggal</option>
                                                 </select>
                                             </fieldset>
                                         </div>
@@ -251,8 +163,8 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">Nama Jalan</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="Alamat Rumah" name="fname-column"
+                                            <input type="text" id="nama_jalan" class="form-control"
+                                                placeholder="Alamat Rumah" name="nama_jalan"
                                                 data-parsley-required="true" />
                                         </div>
                                     </div>
@@ -260,17 +172,19 @@
                                         <div class="form-group mandatory">
                                             <label for="rt-dropdown" class="form-label">RT / RW</label>
                                             <div class="d-flex">
-                                                <select id="rt-dropdown" class="form-select me-2"
+                                                <select id="id_rt" class="form-select me-2" name="id_rt"
                                                     data-parsley-required="true">
-                                                    <option value="">Pilih RT</option>
-                                                    <option value="rt1">RT 01</option>
-                                                    <option value="rt2">RT 02</option>
+                                                    <option disabled selected>Pilih RT</option>
+                                                    @foreach ($list_RT as $RT)
+                                                        <option value="{{ $RT->id }}">{{ $RT->nama_rt }}</option> <!-- Use actual database values -->
+                                                    @endforeach
                                                 </select>
-                                                <select id="rw-dropdown" class="form-select"
+                                                <select id="id_rw" class="form-select" name="id_rw"
                                                     data-parsley-required="true">
-                                                    <option value="">Pilih RW</option>
-                                                    <option value="rw1">RW 01</option>
-                                                    <option value="rw2">RW 02</option>
+                                                    <option visabled selected>Pilih RW</option>
+                                                    @foreach ($list_RW as $RW)
+                                                        <option value="{{ $RW->id }}">{{ $RW->nama_rw }}</option> <!-- Use actual database values -->
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -278,16 +192,16 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">Nomor HP</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="Nomor HP" name="fname-column"
+                                            <input type="text" id="no_hp" class="form-control"
+                                                placeholder="Nomor HP" name="no_hp"
                                                 data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">Email</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="Email" name="fname-column" data-parsley-required="true" />
+                                            <input type="text" id="email" class="form-control"
+                                                placeholder="Email" name="email" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-6 col-12">
@@ -298,13 +212,8 @@
                                     </div> --}}
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <a href='{{ route('wargaAsli') }}' type="submit"
-                                                class="btn btn-primary me-1 mb-1">
-                                                Submit
-                                            </a>
-                                            <a type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                Reset
-                                            </a>
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
                                     </div>
                             </form>
@@ -328,5 +237,18 @@
                 birthdateInput.value = formattedDate;
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var resetButton = document.querySelector('button[type="reset"]');
+            resetButton.addEventListener('click', function() {
+                resetForm();
+                window.location.href = "{{ route('wargaAsli.create') }}";
+            });
+        });
+
+        function resetForm() {
+            var form = document.querySelector('form');
+            form.reset();
+        }
     </script>
 @endsection
