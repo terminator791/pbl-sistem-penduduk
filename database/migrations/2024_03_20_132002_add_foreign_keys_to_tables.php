@@ -30,6 +30,10 @@ return new class extends Migration
             $table->foreign('id_kos')->references('id')->on('kos');
         });
 
+        Schema::table('rt', function (Blueprint $table) {
+            $table->foreign('id_rw')->references('id')->on('rw');
+        });
+
         Schema::table('penjabatan_rt', function (Blueprint $table) { 
             $table->foreign('NIK_ketua_RT')->references('NIK')->on('penduduk');
             $table->foreign('id_rt')->references('id')->on('rt');

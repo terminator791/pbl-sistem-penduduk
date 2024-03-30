@@ -72,27 +72,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        RT::create([
-            'nama_rt' => '01',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '02',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '03',
-           
-        ],);
-        RT::create([
-            'nama_rt' => '04',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '05',
-            
-        ],);
-
 
         RW::create([
             'nama_rw' => '01',
@@ -109,6 +88,36 @@ class DatabaseSeeder extends Seeder
             'ketua_rw' => 'Husein'
            
         ],);
+
+
+        RT::create([
+            'nama_rt' => '01',
+            'id_rw' => '1',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '02',
+            'id_rw' => '1',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '03',
+            'id_rw' => '2',
+           
+        ],);
+        RT::create([
+            'nama_rt' => '04',
+            'id_rw' => '2',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '05',
+            'id_rw' => '3',
+            
+        ],);
+
+
+
 
         jenis_penyakit::create([
             'nama_penyakit' => 'HIV/AIDS'
