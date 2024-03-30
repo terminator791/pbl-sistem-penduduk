@@ -42,14 +42,32 @@ class dataKosController extends Controller
     }
 
     // Update
-    public function update()
+    public function edit($id)
     {
-        return view('dataKos.update');
+        $data_kos = kos::findOrFail($id);
+        $list_RT = RT::all();
+        return view('dataKos.update', compact('data_kos', 'list_RT'));
+    }
+    public function update(Request $request, $id)
+    {
+        $data_kos = kos::where('id', $id)->first();
+        $data_kos->id_rt = $request->input('id_rt');
+        $data_kos->pemilik_kos = $request->input('pemilik_kos');
+        $data_kos->nama_kos = $request->input('nama_kos');
+        $data_kos->alamat_kos = $request->input('alamat_kos');
+        $data_kos->jumlah_penghuni = $request->input('jumlah_penghuni');
+        $data_kos->no_hp_pemilik = $request->input('no_hp_pemilik');
+        $data_kos->email_pemilik = $request->input('email_pemilik');
+        $data_kos->update();
+
+        return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
     }
 
     // Delete
-    public function delete()
+    public function delete($id)
     {
-        return view('dataKos.index');
+        $data_kos = kos::findOrFail($id);
+        $data_kos->delete();
+        return redirect()->route('dataKos')->with('success', 'Penduduk Deleted successfully!');
     }
 }

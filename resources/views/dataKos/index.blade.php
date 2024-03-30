@@ -55,7 +55,7 @@
                             <tr>
                                 <td>1</td>
                                 <td>{{ $kos->nama_kos }}</td>
-                                <td>{{ $kos->nama_pemilik }}</td>
+                                <td>{{ $kos->pemilik_kos }}</td>
                                 <td>{{ $kos->jumlah_penghuni }}</td>
                                 <td>{{ $kos->alamat_kos }}</td>
                                 <td>
@@ -63,12 +63,13 @@
                                 </td>
                                 <td>
                                     <!-- Tombol Toggle Edit -->
-                                    <a href="{{ route('dataKos.update') }}" class="btn btn-sm btn-warning toggle-edit"
-                                        data-toggle="modal">
+                                    <a href="{{ route('dataKos.edit', $kos->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                         <i class="bi bi-pencil-fill text-white"></i>
                                     </a>
+
+                                        
                                     <!-- Tombol Hapus -->
-                                    <a href="{{ route('dataKos.delete') }}" class="btn btn-sm btn-danger toggle-delete"
+                                    <a href="{{ route('dataKos.delete', $kos->id) }}" class="btn btn-sm btn-danger toggle-delete"
                                         data-toggle="modal">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>

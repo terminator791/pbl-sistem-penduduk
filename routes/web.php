@@ -78,9 +78,9 @@ Route::get('/warga-json', function () {
 Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
 Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
 Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
-Route::get('/dataKos/edit-data-kos', [dataKosController::class, 'edit'])->name('dataKos.edit');
-Route::get('/dataKos/update-data-kos', [dataKosController::class, 'update'])->name('dataKos.update');
-Route::get('/dataKos/hapus-kos', [dataKosController::class, 'delete'])->name('dataKos.delete');
+Route::get('/dataKos/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+Route::post('/dataKos/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
+Route::get('/dataKos/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
 
 // Data Warga Asli
 Route::get('/wargaAsli/tambah-warga-asli', [wargaAsliController::class, 'create'])->name('wargaAsli.create');
