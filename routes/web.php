@@ -76,6 +76,7 @@ Route::get('/warga-json', function () {
 
 // Data Kos
 Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
+Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
 Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
 Route::get('/dataKos/edit-data-kos', [dataKosController::class, 'edit'])->name('dataKos.edit');
 Route::get('/dataKos/update-data-kos', [dataKosController::class, 'update'])->name('dataKos.update');

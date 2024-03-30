@@ -441,6 +441,38 @@ class DatabaseSeeder extends Seeder
             'NIK_penduduk' => '3317120041795',
             'tanggal_terdampak' => $tanggal_lahir,
         ],);
+
+
+        kos::create([
+            'id_rt' => 1,
+            'pemilik_kos' => 'iqbal bagus',
+            'nama_kos' => 'Baskoro 69',
+            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'jumlah_penghuni' => 8,
+            'no_hp_pemilik' => '0895423630500',
+            'email_pemilik' => 'iqbal@mail.com',
+            
+        ],);
+
+        kos::create([
+            'id_rt' => 2,
+            'pemilik_kos' => 'iqbal bagus',
+            'nama_kos' => 'Baskoro 70',
+            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'jumlah_penghuni' => 11,
+            'no_hp_pemilik' => '0895423630500',
+            'email_pemilik' => 'iqbal@mail.com',
+        ],);
+
+        kos::create([
+            'id_rt' => '5',
+            'pemilik_kos' => 'Rifqi',
+            'nama_kos' => 'Norma House',
+            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'jumlah_penghuni' => 19,
+            'no_hp_pemilik' => '08213131231',
+            'email_pemilik' => 'rifqi@mail.com',
+        ],);
         
     }
 }

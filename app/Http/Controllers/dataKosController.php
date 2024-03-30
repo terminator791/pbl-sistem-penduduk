@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kos;
+use App\Models\RT;
 use Illuminate\Http\Request;
 
 class dataKosController extends Controller
@@ -9,19 +11,35 @@ class dataKosController extends Controller
     // Create
     public function Create()
     {
-        return view('dataKos.create');
+        $data_kos = kos::all();
+        $list_RT = RT::all();
+        return view('dataKos.create', compact( 'data_kos', 'list_RT'));
     }
 
     // Read
     public function index(Request $request)
-{
-    $menu = $request->query('menu', 'data_warga');
-    $penduduk = Penduduk::with(['pekerjaan'])
-                    ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
-                    ->get();
-    
-    return view('dataWarga.wargaAsli.index', compact('menu', 'penduduk'));
-}
+    {
+        $menu = $request->query('menu', 'data_warga');
+        $data_kos = kos::all();
+        return view('dataKos.index', compact('menu', 'data_kos'));
+    }
+
+    public function store(Request $request)
+    {
+        $data_kos = new kos();
+        $data_kos->id_rt = $request->input('id_rt');
+        $data_kos->pemilik_kos = $request->input('pemilik_kos');
+        $data_kos->nama_kos = $request->input('nama_kos');
+        $data_kos->alamat_kos = $request->input('alamat_kos');
+        $data_kos->jumlah_penghuni = $request->input('jumlah_penghuni');
+        $data_kos->no_hp_pemilik = $request->input('no_hp_pemilik');
+        $data_kos->email_pemilik = $request->input('email_pemilik');
+
+        $data_kos->save();
+
+    // Redirect kembali ke halaman 'wargaAsli'
+    return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
+    }
 
     // Update
     public function update()
