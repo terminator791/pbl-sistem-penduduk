@@ -13,10 +13,15 @@ class dataKosController extends Controller
     }
 
     // Read
-    public function index()
-    {
-        return view('dataKos.index');
-    }
+    public function index(Request $request)
+{
+    $menu = $request->query('menu', 'data_warga');
+    $penduduk = Penduduk::with(['pekerjaan'])
+                    ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
+                    ->get();
+    
+    return view('dataWarga.wargaAsli.index', compact('menu', 'penduduk'));
+}
 
     // Update
     public function update()

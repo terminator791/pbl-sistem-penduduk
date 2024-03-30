@@ -19,7 +19,7 @@ class PendudukController extends Controller
     $menu = $request->query('menu', 'data_warga');
     $penduduk = penduduk::with(['pekerjaan'])->get();
     
-    return view('warga.index', compact('menu', 'penduduk'));
+    return view('home', compact('menu', 'penduduk'));
 }
 
 public function create()
