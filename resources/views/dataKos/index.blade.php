@@ -42,24 +42,28 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Kos</th>
-                                <th>Pemilik</th>
-                                <th>Jumlah Penghuni</th>
-                                <th>Alamat Kos</th>
-                                <th>Alamat Kos</th>
-                                <th>Aksi</th>
+                                <th style="text-align: center;">Nama Kos</th>
+                                <th style="text-align: center;">Pemilik</th>
+                                <th style="text-align: center;">Jumlah Penghuni</th>
+                                <th style="text-align: center;">Alamat Kos</th>
+                                <th style="text-align: center;">Status</th>
+                                <th style="text-align: center;">Aksi</th>
                             </tr>
                         </thead>
                         @foreach($data_kos as $kos)
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>{{ $kos->nama_kos }}</td>
-                                <td>{{ $kos->pemilik_kos }}</td>
-                                <td>{{ $kos->jumlah_penghuni }}</td>
-                                <td>{{ $kos->alamat_kos }}</td>
-                                <td>
-                                    <span class="badge bg-success">Active</span>
+                                <td style="text-align: center;">{{ $kos->nama_kos }}</td>
+                                <td style="text-align: center;">{{ $kos->pemilik_kos }}</td>
+                                <td style="text-align: center;">{{ $kos->jumlah_penghuni }}</td>
+                                <td style="text-align: center;">{{ $kos->alamat_kos }}</td>
+                                <td style="text-align: center;">
+                                    @if($kos->status)
+                                        <span class="badge bg-success">Aktif</span>
+                                    @else
+                                        <span class="badge bg-danger">Non Aktif</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <!-- Tombol Toggle Edit -->

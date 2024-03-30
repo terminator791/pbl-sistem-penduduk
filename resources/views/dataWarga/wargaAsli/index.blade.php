@@ -50,8 +50,7 @@
                             </tr>
                         </thead>
                         @foreach($penduduk as $p)
-                        <tbody>
-                            
+                        <tbody class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
                             <tr>
                                 <td>{{ $p->id }}</td>
                                 <td>{{ $p->NIK }}</td>
@@ -63,16 +62,15 @@
                                         <i class="bi bi-pencil-fill text-white"></i>
                                     </a>
 
-                                        
                                     <!-- Tombol Hapus -->
                                     <a href="{{ route('wargaAsli.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete"
                                         data-toggle="modal">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </td>
-                               
                             </tr>
-                            @endforeach
+                        </tbody>
+                        @endforeach
                            
                         </tbody>
                     </table>
@@ -93,6 +91,23 @@
     </div>
 
     <!-- End Floating Toggle -->
+
+    <style>
+        /* Aturan CSS */
+        .fade-row {
+            opacity: 0.5; /* Sesuaikan dengan tingkat opasitas yang diinginkan */
+            transition: opacity 0.3s ease; /* Animasi perubahan opasitas */
+        }
+
+        .fade-row:hover {
+            opacity: 1; /* Opasitas kembali ke normal saat dihover */
+        }
+
+        .fade-row td {
+        text-decoration: line-through;
+    }
+    
+    </style>
 @endsection
 
 @section('scripts')

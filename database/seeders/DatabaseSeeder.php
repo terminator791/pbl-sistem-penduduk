@@ -407,13 +407,29 @@ class DatabaseSeeder extends Seeder
             'status_penghuni' => 'meninggal',
             'nama_jalan' => 'Jl Galang Sewu No. 1',
             'email' => 'iqbalbagus@mail.com',
+            'no_hp' => '0895423630500',
+
+        ],);
+        penduduk::create([
+            'NIK' => '3317120041796',
+            'nama' => "Sandra",
+            'jenis_kelamin' => 'wanita',
+            'tempat_lahir' => 'Pematang Siantar',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'katolik',
+            'id_pendidikan' => 3,
+            'id_pekerjaan' => 5,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 2,
+            'id_keluarga' => 2,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl Galang Sewu No. 30',
+            'email' => 'sandra@mail.com',
             'no_hp' => '0895423630600',
 
         ],);
-        
-
         penduduk::create([
-            'NIK' => '3317120041796',
+            'NIK' => '3317120041797',
             'nama' => "Rifqi haezul",
             'jenis_kelamin' => 'pria',
             'tempat_lahir' => 'Rembang',
@@ -424,7 +440,7 @@ class DatabaseSeeder extends Seeder
             'id_status_perkawinan' => 2,
             'id_rt' => 2,
             'id_keluarga' => 2,
-            'status_penghuni' => 'tetap',
+            'status_penghuni' => 'kos',
             'nama_jalan' => 'Jl nirwana sari no 30',
             'email' => 'rifqi.haezul@mail.com',
             'no_hp' => '0895423630600',
@@ -451,6 +467,7 @@ class DatabaseSeeder extends Seeder
             'jumlah_penghuni' => 8,
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
+            'status' => true,
             
         ],);
 
@@ -462,16 +479,18 @@ class DatabaseSeeder extends Seeder
             'jumlah_penghuni' => 11,
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
+            'status' => false,
         ],);
 
         kos::create([
             'id_rt' => '5',
             'pemilik_kos' => 'Rifqi',
             'nama_kos' => 'Norma House',
-            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'alamat_kos' => 'Jalan Nirwana Sari No. 30',
             'jumlah_penghuni' => 19,
             'no_hp_pemilik' => '08213131231',
             'email_pemilik' => 'rifqi@mail.com',
+            'status' => true,
         ],);
         
     }
