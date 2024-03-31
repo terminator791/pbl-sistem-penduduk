@@ -23,26 +23,22 @@
             "email": "rifqi.haezul@mail.com"
         },
         {
-            "NIK ": "3317120041797",
-            "avatar": null,
-            "jenis_kelamin": "wanita",
-            "tempat_lahir": "pematang siantar",
-            "id_rt": 3,
+            "NIK ": "3479576",
+            "jenis_kelamin": "pria",
+            "nama": "sjdff",
+            "tanggal_lahir": "2024-03-19",
+            "agama": "konghucu",
+            "id_pendidikan": 4,
+            "tempat_lahir": "sjfvorrgs",
+            "id_rt": 2,
             "id_rw": 1,
-            "tanggal_lahir": "2008-06-16",
-            "no_hp": "tetap",
-            "email": "zxfsd.mail.com"
-        },
-        {
-            "NIK ": "324242",
-            "avatar": null,
-            "jenis_kelamin": "wanita",
-            "tempat_lahir": "dfs",
-            "id_rt": 1,
-            "id_rw": 2,
-            "tanggal_lahir": "2024-03-27",
-            "no_hp": "pindah",
-            "email": "dsfdsdfds"
+            "id_pekerjaan": 12,
+            "id_status_perkawinan": 2,
+            "nama_jalan": "kdsgduco",
+            "id_keluarga": 3,
+            "status_penghuni": "tetap",
+            "no_hp": "94735",
+            "email": "aadh@mail.com"
         }
     ]
 }

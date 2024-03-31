@@ -49,36 +49,38 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        @foreach($penduduk as $p)
                         <tbody>
-                            
-                            <tr>
-                                <td>{{ $p->id }}</td>
-                                <td>{{ $p->NIK }}</td>
-                                <td>{{ $p->nama }}</td>
-                                <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
-                                <td>
-                                    <!-- Tombol Toggle Edit -->
-                                    <a href="{{ route('wargaAsli.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
-                                        <i class="bi bi-pencil-fill text-white"></i>
-                                    </a>
+                            @foreach ($penduduk as $p)
+                                <tr class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
+                                    <td>{{ $p->id }}</td>
+                                    <td>{{ $p->NIK }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
+                                    <td>
+                                        <!-- Tombol Toggle Edit -->
+                                        <a href="{{ route('wargaAsli.edit', $p->id) }}"
+                                            class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
+                                            <i class="bi bi-pencil-fill text-white"></i>
+                                        </a>
 
-                                        
-                                    <!-- Tombol Hapus -->
-                                    <a href="{{ route('wargaAsli.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete"
-                                        data-toggle="modal">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
-                                </td>
-                               
-                            </tr>
+                                        <!-- Tombol Hapus -->
+                                        <a href="#" class="btn btn-sm btn-danger toggle-delete"
+                                            onclick="confirmDelete({{ $p->id }})">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+
+                                        <!-- Tombol Toggle Detail -->
+                                        <a href="#" class="btn btn-sm btn-primary toggle-detail" data-toggle="modal">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
-                           
                         </tbody>
                     </table>
                 </div>
             </div>
-           
+
         </div>
 
     </section>
@@ -93,8 +95,58 @@
     </div>
 
     <!-- End Floating Toggle -->
+
+    <style>
+        /* Aturan CSS */
+        .fade-row {
+            opacity: 0.5;
+            /* Sesuaikan dengan tingkat opasitas yang diinginkan */
+            transition: opacity 0.3s ease;
+            /* Animasi perubahan opasitas */
+        }
+
+        .fade-row:hover {
+            opacity: 1;
+            /* Opasitas kembali ke normal saat dihover */
+        }
+
+        .fade-row td {
+            text-decoration: line-through;
+        }
+    </style>
 @endsection
 
 @section('scripts')
     {{--  --}}
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Konfirmasi Hapus',
+                text: "Apakah Anda yakin ingin menghapus data ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete route
+                    window.location.href = "{{ route('wargaAsli.delete', $p->id) }}";
+                }
+            });
+        }
+    </script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    @endif
 @endsection
