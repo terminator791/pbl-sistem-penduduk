@@ -228,15 +228,15 @@
 
 @section('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var birthdateInput = document.getElementById("birthdate");
-            birthdateInput.addEventListener("change", function() {
-                var selectedDate = new Date(birthdateInput.value);
-                var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
-                    selectedDate.getFullYear();
-                birthdateInput.value = formattedDate;
-            });
-        });
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     var birthdateInput = document.getElementById("birthdate");
+        //     birthdateInput.addEventListener("change", function() {
+        //         var selectedDate = new Date(birthdateInput.value);
+        //         var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
+        //             selectedDate.getFullYear();
+        //         birthdateInput.value = formattedDate;
+        //     });
+        // });
 
         document.addEventListener("DOMContentLoaded", function() {
             var resetButton = document.querySelector('button[type="reset"]');
