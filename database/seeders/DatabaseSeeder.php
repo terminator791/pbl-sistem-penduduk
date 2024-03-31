@@ -384,7 +384,7 @@ class DatabaseSeeder extends Seeder
             'nama_penyakit' => 'Stunting'
         ],);
         jenis_penyakit::create([
-            'nama_penyakit' => 'Demam Berdarah'
+            'nama_penyakit' => 'Demam_Berdarah'
         ],);
         jenis_penyakit::create([
             'nama_penyakit' => 'Kanker'
