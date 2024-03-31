@@ -6,10 +6,10 @@
             "jenis_kelamin": "pria",
             "tempat_lahir": "Rembang",
             "id_rt": 1,
-            "id_rw": null,
-            "tanggal_lahir": "1990-06-15",
-            "no_hp": "mati",
-            "email": "asdas"
+            "id_rw": 2,
+            "tanggal_lahir": "2004-06-15",
+            "no_hp": "meninggal",
+            "email": "iqbalbagus@mail.com"
         },
         {
             "NIK ": "3317120041796",
@@ -17,10 +17,32 @@
             "jenis_kelamin": "pria",
             "tempat_lahir": "Rembang",
             "id_rt": 2,
-            "id_rw": null,
-            "tanggal_lahir": "1990-06-15",
-            "no_hp": "hidup",
-            "email": "asdas"
+            "id_rw": 3,
+            "tanggal_lahir": "2004-06-15",
+            "no_hp": "kos",
+            "email": "rifqi.haezul@mail.com"
+        },
+        {
+            "NIK ": "3317120041797",
+            "avatar": null,
+            "jenis_kelamin": "wanita",
+            "tempat_lahir": "pematang siantar",
+            "id_rt": 3,
+            "id_rw": 1,
+            "tanggal_lahir": "2008-06-16",
+            "no_hp": "tetap",
+            "email": "zxfsd.mail.com"
+        },
+        {
+            "NIK ": "324242",
+            "avatar": null,
+            "jenis_kelamin": "wanita",
+            "tempat_lahir": "dfs",
+            "id_rt": 1,
+            "id_rw": 2,
+            "tanggal_lahir": "2024-03-27",
+            "no_hp": "pindah",
+            "email": "dsfdsdfds"
         }
     ]
 }

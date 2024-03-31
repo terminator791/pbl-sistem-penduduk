@@ -12,7 +12,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Dasbor</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Data Warga
                         </li>
@@ -35,38 +35,185 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('wargaAsli.store') }}" data-parsley-validate>
+                            @csrf
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">NIK</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="NIK" name="fname-column" data-parsley-required="true" />
+                                            <input type="text" id="NIK" class="form-control"
+                                                placeholder="NIK" name="NIK" data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Jenis Kelamin</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
+                                                    <option disabled selected>Pilih Jenis Kelamin</option>
+                                                    <option value="wanita">Perempuan</option>
+                                                    <option value="pria">Laki-laki</option>
+                                                </select>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Nama</label>
-                                            <input type="text" id="last-name-column" class="form-control"
-                                                placeholder="Nama" name="lname-column" data-parsley-required="true" />
+                                            <input type="text" id="nama" class="form-control"
+                                                placeholder="Nama" name="nama" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Alamat</label>
-                                            <input type="text" id="country-floating" class="form-control"
-                                                name="country-floating" placeholder="Alamat" data-parsley-required="true" />
+                                            <label for="last-name-column" class="form-label">Agama</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="agama" name="agama">
+                                                    <option disabled selected>Pilih Agama</option>
+                                                    <option value="islam">Islam</option>
+                                                    <option value="katolik">Katholik</option>
+                                                    <option value="kristen">Kristen</option>
+                                                    <option value="hindhu">Hindu</option>
+                                                    <option value="Budha">Buddha</option>
+                                                    <option value="konghucu">Konghuchu</option>
+                                                </select>
+                                            </fieldset>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name-column" class="form-label">Tempat Lahir</label>
+                                            <input type="text" id="tempat_lahir" class="form-control"
+                                                placeholder="Tempat Lahir" name="tempat_lahir"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Pendidikan</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
+                                                    <option disabled selected>Pilih Pendidikan</option>
+                                                    @foreach ($list_pendidikan as $pendidikan)
+                                                        <option value="{{ $pendidikan->id }}">{{ $pendidikan->jenis_pendidikan }}</option> <!-- Use actual database values -->
+                                                    @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="country-floating" class="form-label">Tanggal Lahir</label>
+                                            <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Pekerjaan</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                    <option disabled selected>Pilih Pekerjaan</option>
+                                                    @foreach ($list_pekerjaan as $pekerjaan)
+                                                        <option value="{{ $pekerjaan->id }}">{{ $pekerjaan->jenis_pekerjaan }}</option> <!-- Use actual database values -->
+                                                    @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Status Hubungan
+                                                Keluarga</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_keluarga" name="id_keluarga">
+                                                    <option disabled selected>Pilih Hubungan Keluarga</option>
+                                                    @foreach ($list_keluarga as $keluarga)
+                                                        <option value="{{ $keluarga->id }}">{{ $keluarga->status_keluarga }}</option> <!-- Use actual database values -->
+                                                    @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Status Perkawinan</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_status_perkawinan" name="id_status_perkawinan">
+                                                    <option disabled selected>Pilih Status Perkawinan</option>
+                                                        @foreach ($list_perkawinan as $perkawinan)
+                                                            <option value="{{ $perkawinan->id }}">{{ $perkawinan->status_perkawinan }}</option> <!-- Use actual database values -->
+                                                        @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">Status Tinggal</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                    <option disabled selected>Pilih Status Tinggal</option>
+                                                    <option value="tetap">Tetap</option>
+                                                    <option value="pindah">Pindah</option>
+                                                    <option value="meninggal">Meninggal</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name-column" class="form-label">Nama Jalan</label>
+                                            <input type="text" id="nama_jalan" class="form-control"
+                                                placeholder="Alamat Rumah" name="nama_jalan"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="rt-dropdown" class="form-label">RT / RW</label>
+                                            <div class="d-flex">
+                                                <select id="id_rt" class="form-select me-2" name="id_rt"
+                                                    data-parsley-required="true">
+                                                    <option disabled selected>Pilih RT</option>
+                                                    @foreach ($list_RT as $RT)
+                                                        <option value="{{ $RT->id }}">{{ $RT->nama_rt }}</option> <!-- Use actual database values -->
+                                                    @endforeach
+                                                </select>
+                                                <select id="id_rw" class="form-select" name="id_rw"
+                                                    data-parsley-required="true">
+                                                    <option visabled selected>Pilih RW</option>
+                                                    @foreach ($list_RW as $RW)
+                                                        <option value="{{ $RW->id }}">{{ $RW->nama_rw }}</option> <!-- Use actual database values -->
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name-column" class="form-label">Nomor HP</label>
+                                            <input type="text" id="no_hp" class="form-control"
+                                                placeholder="Nomor HP" name="no_hp"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name-column" class="form-label">Email</label>
+                                            <input type="text" id="email" class="form-control"
+                                                placeholder="Email" name="email" data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name-column" class="form-label">File KTP</label>
+                                            <input type="file" class="basic-filepond form-control">
+                                        </div>
+                                    </div> --}}
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <a href='{{ route('wargaAsli') }}' type="submit"
-                                                class="btn btn-primary me-1 mb-1">
-                                                Submit
-                                            </a>
-                                            <a type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                Reset
-                                            </a>
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
                                     </div>
                             </form>
@@ -80,5 +227,28 @@
 @endsection
 
 @section('scripts')
-    {{--  --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var birthdateInput = document.getElementById("birthdate");
+            birthdateInput.addEventListener("change", function() {
+                var selectedDate = new Date(birthdateInput.value);
+                var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
+                    selectedDate.getFullYear();
+                birthdateInput.value = formattedDate;
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var resetButton = document.querySelector('button[type="reset"]');
+            resetButton.addEventListener('click', function() {
+                resetForm();
+                window.location.href = "{{ route('wargaAsli.create') }}";
+            });
+        });
+
+        function resetForm() {
+            var form = document.querySelector('form');
+            form.reset();
+        }
+    </script>
 @endsection

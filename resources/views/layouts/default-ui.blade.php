@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Dashboard - Sistem Kependudukan</title>
 
     @include('includes.style')
 
@@ -18,7 +18,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <span>Proyek PBL</span>
+                            <span>Sistem Data Penduduk</span>
                         </div>
 
                         {{-- dark mode --}}

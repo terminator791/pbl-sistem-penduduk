@@ -12,7 +12,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Dasbor</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Data Warga
                         </li>
@@ -51,19 +51,21 @@
                         </thead>
                         @foreach($penduduk as $p)
                         <tbody>
+                            
                             <tr>
                                 <td>{{ $p->id }}</td>
                                 <td>{{ $p->NIK }}</td>
                                 <td>{{ $p->nama }}</td>
-                                <td>{{ $p->nama_jalan }}</td>
+                                <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
                                 <td>
                                     <!-- Tombol Toggle Edit -->
-                                    <a href="{{ route('wargaAsli.update') }}" class="btn btn-sm btn-warning toggle-edit"
-                                        data-toggle="modal">
+                                    <a href="{{ route('wargaAsli.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                         <i class="bi bi-pencil-fill text-white"></i>
                                     </a>
+
+                                        
                                     <!-- Tombol Hapus -->
-                                    <a href="{{ route('wargaAsli.delete') }}" class="btn btn-sm btn-danger toggle-delete"
+                                    <a href="{{ route('wargaAsli.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete"
                                         data-toggle="modal">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
