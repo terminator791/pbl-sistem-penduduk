@@ -52,7 +52,7 @@
                         @foreach($penduduk as $p)
                         <tbody>
                             <tr>
-                                <td>{{ $p->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $p->NIK }}</td>
                                 <td>{{ $p->nama }}</td>
                                 <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>

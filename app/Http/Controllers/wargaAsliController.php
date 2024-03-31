@@ -19,11 +19,11 @@ class wargaAsliController extends Controller
     public function index(Request $request)
     {
         $menu = $request->query('menu', 'data_warga');
-        $penduduk = Penduduk::with(['pekerjaan'])
+        $penduduk = penduduk::with(['pekerjaan'])
             ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
             ->get();
-
-        return view('dataWarga.wargaAsli.index', compact('menu', 'penduduk'));
+        $list_RT = RT::with(['RW'])->get();
+        return view('dataWarga.wargaAsli.index', compact('menu', 'penduduk', 'list_RT'));
     }
 
 
@@ -32,8 +32,7 @@ class wargaAsliController extends Controller
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
         $list_perkawinan = perkawinan::all();
-        $list_RT = RT::all();
-        $list_RW = RW::all();
+        $list_RT = RT::with(['RW'])->get();
         $list_keluarga = keluarga::all();
         return view('dataWarga.wargaAsli.create', compact(
             'list_pendidikan',

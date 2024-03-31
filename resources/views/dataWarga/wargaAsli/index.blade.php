@@ -52,10 +52,12 @@
                         <tbody>
                             @foreach ($penduduk as $p)
                                 <tr class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
-                                    <td>{{ $p->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->NIK }}</td>
                                     <td>{{ $p->nama }}</td>
+                                    
                                     <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
+                                    
                                     <td>
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('wargaAsli.edit', $p->id) }}"
@@ -118,25 +120,27 @@
 
 @section('scripts')
     {{--  --}}
+
     <script>
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: "Apakah Anda yakin ingin menghapus data ini?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Hapus',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect to the delete route
-                    window.location.href = "{{ route('wargaAsli.delete', $p->id) }}";
-                }
-            });
-        }
-    </script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Konfirmasi Hapus',
+            text: "Apakah Anda yakin ingin menghapus data ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete route with the correct id
+                window.location.href = "{{ url('/wargaAsli/hapus-data-warga-asli') }}/" + id;
+            }
+        });
+    }
+</script>
+
 
     @if (session('success'))
         <script>
