@@ -50,8 +50,8 @@
                                 <th style="text-align: center;">Aksi</th>
                             </tr>
                         </thead>
-                        @foreach($data_kos as $kos)
                         <tbody>
+                            @foreach($data_kos as $kos)
                             <tr>
                                 <td>1</td>
                                 <td style="text-align: center;">{{ $kos->nama_kos }}</td>
@@ -101,4 +101,5 @@
 
 @section('scripts')
     {{--  --}}
+    
 @endsection

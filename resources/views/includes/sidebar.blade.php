@@ -26,8 +26,8 @@
                 <span>Data Umum</span>
             </a>
             <ul class="submenu ">
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Kesehatan</a>
+                <li class="submenu-item {{ Request::is('kesehatan') ? 'active' : '' }} ">
+                    <a href="kesehatan" class="submenu-link">Kesehatan</a>
                 </li>
                 <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
                     <a href="#" class="submenu-link">Pendidikan</a>

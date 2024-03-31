@@ -51,7 +51,6 @@
                         </thead>
                         @foreach($penduduk as $p)
                         <tbody>
-                            
                             <tr>
                                 <td>{{ $p->id }}</td>
                                 <td>{{ $p->NIK }}</td>

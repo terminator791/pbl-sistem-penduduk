@@ -13,9 +13,11 @@ class KesehatanController extends Controller
     public function index()
     {
         //
+        $list_penduduk = penduduk::all();
         $kesehatan = kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
+        $list_penyakit = jenis_penyakit::all();
         
-        return view('kesehatan.index', compact('kesehatan'));
+        return view('kesehatan.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
     }
 
     /**
@@ -49,24 +51,13 @@ class KesehatanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(s $s)
+    public function delete(Request $request, $id)
     {
         //
+        $kesehatan = kesehatan::findOrFail($id);
+        $kesehatan->delete();
+        return redirect()->route('kesehatan')->with('success', 'Kesehatan Deleted successfully!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, s $s)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(s $s)
-    {
-        //
-    }
 }

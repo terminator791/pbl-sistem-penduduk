@@ -49,9 +49,10 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        @foreach($penduduk as $p)
-                        <tbody class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
-                            <tr>
+                        <tbody>
+                            @foreach($penduduk as $p)
+                        
+                            <tr class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
                                 <td>{{ $p->id }}</td>
                                 <td>{{ $p->NIK }}</td>
                                 <td>{{ $p->nama }}</td>
@@ -69,9 +70,7 @@
                                     </a>
                                 </td>
                             </tr>
-                        </tbody>
                         @endforeach
-                           
                         </tbody>
                     </table>
                 </div>
@@ -112,4 +111,5 @@
 
 @section('scripts')
     {{--  --}}
+    
 @endsection
