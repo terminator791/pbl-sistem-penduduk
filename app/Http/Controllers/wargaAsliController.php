@@ -34,6 +34,7 @@ class wargaAsliController extends Controller
         $list_perkawinan = perkawinan::all();
         $list_RT = RT::with(['RW'])->get();
         $list_keluarga = keluarga::all();
+        $list_RW = RW::all();
         return view('dataWarga.wargaAsli.create', compact(
             'list_pendidikan',
             'list_pekerjaan',
@@ -68,7 +69,7 @@ class wargaAsliController extends Controller
         $penduduk->save();
 
         // Redirect kembali ke halaman 'wargaAsli'
-        return redirect()->route('warga_json')->with('success', 'Penduduk added successfully!');
+        return redirect()->route('warga_json')->with('success', "$penduduk->nama berhasil ditambahkan");
     }
 
     // Update
@@ -115,7 +116,7 @@ class wargaAsliController extends Controller
 
         $penduduk->update();
 
-        return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil diedit');
+        return redirect()->route('wargaAsli')->with('success', "$penduduk->nama berhasil diedit");
     }
 
 
@@ -124,7 +125,7 @@ class wargaAsliController extends Controller
     {
         $penduduk = penduduk::findOrFail($id);
         $penduduk->delete();
-        return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil dihapus');
+        return redirect()->route('wargaAsli')->with('success', "$penduduk->nama berhasil dihapus");
     }
 
     //print

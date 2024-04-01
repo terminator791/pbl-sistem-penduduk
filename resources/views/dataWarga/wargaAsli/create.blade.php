@@ -26,7 +26,7 @@
 
 @section('content')
     {{-- Start Table --}}
-    <section id="multiple-column-form">
+    {{-- <section id="multiple-column-form">
         <div class="row match-height">
             <div class="col-12">
                 <div class="card">
@@ -125,7 +125,8 @@
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
+                                            <label for="id_pekerjaan"
+                                                class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
@@ -252,9 +253,67 @@
                                                 class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
                                     </div>
-
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
+
+    <section id="form-and-scrolling-components">
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <h4 class="card-title">Modal with Login Form</h4>
+                                <p> Created Simple Login Form.</p>
+
+                                <!--login form Modal -->
+                                <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel33" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel33">Login Form </h4>
+                                                <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <i data-feather="x"></i>
+                                                </button>
+                                            </div>
+                                            <form action="#">
+                                                <div class="modal-body">
+                                                    <label for="email">Email: </label>
+                                                    <div class="form-group">
+                                                        <input id="email" type="text" placeholder="Email Address"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label for="password">Password: </label>
+                                                    <div class="form-group">
+                                                        <input id="password" type="password" placeholder="Password"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Close</span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary ms-1"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">login</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -267,22 +326,12 @@
 @section('scripts')
     <script>
         // document.addEventListener("DOMContentLoaded", function() {
-        //     var birthdateInput = document.getElementById("birthdate");
-        //     birthdateInput.addEventListener("change", function() {
-        //         var selectedDate = new Date(birthdateInput.value);
-        //         var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
-        //             selectedDate.getFullYear();
-        //         birthdateInput.value = formattedDate;
+        //     var resetButton = document.querySelector('button[type="reset"]');
+        //     resetButton.addEventListener('click', function() {
+        //         resetForm();
+        //         window.location.href = "{{ route('wargaAsli.create') }}";
         //     });
         // });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var resetButton = document.querySelector('button[type="reset"]');
-            resetButton.addEventListener('click', function() {
-                resetForm();
-                window.location.href = "{{ route('wargaAsli.create') }}";
-            });
-        });
 
         function resetForm() {
             var form = document.querySelector('form');
