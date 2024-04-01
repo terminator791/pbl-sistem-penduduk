@@ -1,0 +1,26 @@
+{
+    "data": [
+        {
+            "NIK ": "3317120041795",
+            "avatar": null,
+            "jenis_kelamin": "pria",
+            "tempat_lahir": "Rembang",
+            "id_rt": 1,
+            "id_rw": null,
+            "tanggal_lahir": "1990-06-15",
+            "no_hp": "mati",
+            "email": "asdas"
+        },
+        {
+            "NIK ": "3317120041796",
+            "avatar": null,
+            "jenis_kelamin": "pria",
+            "tempat_lahir": "Rembang",
+            "id_rt": 2,
+            "id_rw": null,
+            "tanggal_lahir": "1990-06-15",
+            "no_hp": "hidup",
+            "email": "asdas"
+        }
+    ]
+}

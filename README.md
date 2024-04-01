@@ -15,7 +15,11 @@
 Moh Iqbal Bagus P H
 Hussain Tamam Gucci
 Mirza Syahir N R
+<<<<<<< HEAD
 Maulana Albaihaqi A
 Arya
 coba ya ini haqi
+=======
+Masukin sendiri
+>>>>>>> 846622cf9b45603cfea8dc44a600897bc3b82107
 ```

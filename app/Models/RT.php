@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class RT extends Model
+{
+    use HasFactory;
+
+    protected $table = 'rt';
+
+    protected $fillable = ['nama_rt', 'id_penjabatan'];
+
+    public function kos(){
+        return $this->hasMany(kos::class, 'id_rt')->withTimestamps();
+    }
+
+    public function penduduk(){
+        return $this->belongsToMany(penduduk::class, 'penjabatan_rt', 'id_rt', 'NIK_ketua_rt')->withTimestamps();
+    }
+
+    public function penjabatan_rt(){
+        return $this->hasMany(penjabatan_RT::class, 'id_rt')->withTimestamps();
+    }
+}

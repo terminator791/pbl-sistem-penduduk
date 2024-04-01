@@ -21,4 +21,7 @@ class kesehatan extends Model
         return $this->belongsTo(jenis_penyakit::class, 'id_penyakit');
     }
 }
+<<<<<<< HEAD
 //contoh gais yah
+=======
+>>>>>>> 846622cf9b45603cfea8dc44a600897bc3b82107
