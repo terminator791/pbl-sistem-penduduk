@@ -4,6 +4,8 @@ use App\Http\Controllers\dataKosController;
 use App\Http\Controllers\kesehatan;
 use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\PendidikanController;
+use App\Http\Controllers\BencanaController;
+use App\Http\Controllers\SosialController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\wargaAsliController;
 use App\Http\Controllers\wargaPendatangController;
@@ -18,9 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [PendudukController::class, 'index'])->name('home');
-
-Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
-Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
 
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);
@@ -103,3 +102,21 @@ Route::get('/wargaPendatang/hapus-data-warga-pendatang/{id}', [wargaPendatangCon
 Route::get('/kesehatan', [KesehatanController::class, 'index'])->name('kesehatan');
 Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.store");
 Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
+
+// pendidikan
+Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
+Route::get('/pendidikan3', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+
+// bantuan
+Route::get('/bencana', [BencanaController::class, 'index'])->name('bencana');
+Route::get('/bencana3', [BencanaController::class, 'create'])->name('logout');
+Route::get('/bencana2', [BencanaController::class, 'store'])->name("bencana");
+
+// sosial
+Route::get('/sosial', [SosialController::class, 'index'])->name('sosial');
+Route::get('/sosial3', [SosialController::class, 'create'])->name('logout');
+Route::get('/sosial2', [SosialController::class, 'store'])->name("sosial");
+
+// Download
+Route::get('/download-csv', [wargaAsliController::class, 'downloadCSV'])->name('download_csv');
