@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [PendudukController::class, 'index'])->name('home');
+Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
 Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
 Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
