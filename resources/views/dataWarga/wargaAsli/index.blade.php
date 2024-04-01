@@ -49,17 +49,28 @@
                                 <th>NIK</th>
                                 <th>Nama</th>
                                 <th>Alamat</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($penduduk as $p)
-                                <tr class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
+                                <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->NIK }}</td>
                                     <td>{{ $p->nama }}</td>
 
                                     <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
+
+                                    <td>
+                                        @if ($p->status_penghuni === 'meninggal')
+                                            <span class="badge bg-danger">Meninggal</span>
+                                        @elseif ($p->status_penghuni === 'tetap')
+                                            <span class="badge bg-success">Tetap</span>
+                                        @elseif ($p->status_penghuni === 'kos')
+                                            <span class="badge bg-warning text-dark">Kos</span>
+                                        @endif
+                                    </td>
 
                                     <td>
                                         <a href="{{ route('wargaAsli.edit', $p->id) }}"

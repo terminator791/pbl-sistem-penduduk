@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [PendudukController::class, 'index'])->name('home');
+Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);

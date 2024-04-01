@@ -15,7 +15,7 @@
                 <li class="submenu-item {{ Request::is('wargaAsli') ? 'active' : '' }}">
                     <a href="{{ route('wargaAsli') }}" class="submenu-link">Warga Asli</a>
                 </li>
-                <li class="submenu-item {{ Request::is('bencana') ? 'active' : '' }}">
+                <li class="submenu-item {{ Request::is('wargaPendatang') ? 'active' : '' }}">
                     <a href="{{ route('wargaPendatang') }}" class="submenu-link">Warga Pendatang</a>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item {{ Request::is('#') ? 'active' : '' }} ">
+        <li class="sidebar-item {{ Request::is('dataKos') ? 'active' : '' }} ">
             <a href="{{ route('dataKos') }}" class='sidebar-link'>
                 <i class="bi bi-house-fill"></i>
                 <span>Data Kos</span>
