@@ -61,6 +61,7 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
+                                    <th>Tgl Terdampak</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -69,7 +70,9 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
-                                    <td>{{ $p->penduduk->alamat }}</td>
+                            <td>{{ $p->penduduk->nama_jalan }} , RT {{ $p->penduduk->id_rt }} , RW {{ $p->penduduk->id_rw }}</td>
+                            <td>{{ $p->tanggal_terdampak }}</td>
+                                  
                                     <td>
                                         <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>

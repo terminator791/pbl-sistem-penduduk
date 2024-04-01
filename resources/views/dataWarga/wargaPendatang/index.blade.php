@@ -55,7 +55,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $p->NIK }}</td>
                             <td>{{ $p->nama }}</td>
-                            <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
+                            <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
                             <td>
                                 <!-- Tombol Toggle Edit -->
                                 <a href="{{ route('wargaPendatang.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
