@@ -40,31 +40,31 @@
         <div class="card-body">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="sd" data-bs-toggle="tab" href="{{route('pendidikan')}}?pendidikan=sd" role="tab"
-                       aria-controls="home" aria-selected="true">Tamat SD/Sederajat</a>
+                    <a class="nav-link active" id="sd" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=1 #sd" role="tab"
+                       aria-controls="sd" aria-selected="false" >Tamat SD/Sederajat</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="smp" data-bs-toggle="tab" href="#smp" role="tab"
+                    <a class="nav-link" id="smp" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=2 #smp" role="tab"
                        aria-controls="profile" aria-selected="false">Tamat SMP/Sederajat</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="sma" data-bs-toggle="tab" href="#sma" role="tab"
+                    <a class="nav-link" id="sma" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=3 #sma" role="tab"
                        aria-controls="contact" aria-selected="false">Tamat SMA/Sederajat</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="d3" data-bs-toggle="tab" href="#d3" role="tab"
+                    <a class="nav-link" id="d3" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=4 #d3" role="tab"
                        aria-controls="contact" aria-selected="false">Tamat D3</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="s1" data-bs-toggle="tab" href="#s1" role="tab"
+                    <a class="nav-link" id="s1" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=5 #s1" role="tab"
                        aria-controls="contact" aria-selected="false">Tamat S1/D4</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="s2" data-bs-toggle="tab" href="#s2" role="tab"
+                    <a class="nav-link" id="s2" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=2 #s2" role="tab"
                        aria-controls="contact" aria-selected="false">Tamat S2</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="s3" data-bs-toggle="tab" href="#s3" role="tab"
+                    <a class="nav-link" id="s3" data-bs-toggle="tab" href="{{route('edu')}}?tingkat=7 #s3" role="tab"
                        aria-controls="contact" aria-selected="false">Tamat S3</a>
                 </li>
             </ul>

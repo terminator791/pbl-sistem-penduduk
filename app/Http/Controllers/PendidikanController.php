@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class PendidikanController extends Controller
 {
    public function index(Request $request){
-       $pendidikan = $request->input('pendidikan');
+       $pendidikan = $request->input('tingkat');
        $penduduk = penduduk::where('id_pendidikan',$pendidikan)->get();
        return view('pendidikan.index', compact('penduduk'));
    }
