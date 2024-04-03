@@ -3,7 +3,7 @@
         <li class="sidebar-item {{ Request::is('home') ? 'active' : '' }}">
             <a href="{{ route('home') }}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
-                <span>Dasbor</span>
+                <span>Beranda</span>
             </a>
         </li>
         <li class="sidebar-item has-sub {{ Request::is('wargaAsli', 'wargaPendatang') ? 'active' : '' }}">
@@ -20,7 +20,7 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item  has-sub {{ Request::is('#') ? 'active' : '' }}">
+        <li class="sidebar-item  has-sub {{ Request::is('kesehatan', 'pendidikan', 'sosial', 'bencana') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>
                 <i class="bi bi-journal-richtext"></i>
                 <span>Data Umum</span>

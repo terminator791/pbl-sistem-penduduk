@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
+Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);
 Route::post('/tambah_warga', [PendudukController::class, 'store'])->name("penduduk");
