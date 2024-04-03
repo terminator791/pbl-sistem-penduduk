@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('rt', function (Blueprint $table) {
             $table->id();
             $table->string('nama_rt');
+            $table->unsignedBigInteger('id_rw')->nullable();
             $table->timestamps();
         });
     }

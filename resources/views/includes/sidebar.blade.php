@@ -3,7 +3,7 @@
         <li class="sidebar-item {{ Request::is('home') ? 'active' : '' }}">
             <a href="{{ route('home') }}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
-                <span>Dasbor</span>
+                <span>Beranda</span>
             </a>
         </li>
         <li class="sidebar-item has-sub {{ Request::is('wargaAsli', 'wargaPendatang') ? 'active' : '' }}">
@@ -15,49 +15,33 @@
                 <li class="submenu-item {{ Request::is('wargaAsli') ? 'active' : '' }}">
                     <a href="{{ route('wargaAsli') }}" class="submenu-link">Warga Asli</a>
                 </li>
-                <li class="submenu-item {{ Request::is('bencana') ? 'active' : '' }}">
+                <li class="submenu-item {{ Request::is('wargaPendatang') ? 'active' : '' }}">
                     <a href="{{ route('wargaPendatang') }}" class="submenu-link">Warga Pendatang</a>
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item  has-sub {{ Request::is('#') ? 'active' : '' }}">
+        <li class="sidebar-item  has-sub {{ Request::is('kesehatan', 'pendidikan', 'sosial', 'bencana') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>
                 <i class="bi bi-journal-richtext"></i>
                 <span>Data Umum</span>
             </a>
             <ul class="submenu ">
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Kesehatan</a>
+                <li class="submenu-item {{ Request::is('kesehatan') ? 'active' : '' }} ">
+                    <a href="kesehatan" class="submenu-link">Kesehatan</a>
                 </li>
                 <li class="submenu-item {{ Request::is('pendidikan') ? 'active' : '' }} ">
-                    <a href="{{route('edu')}}" class="submenu-link">Pendidikan</a>
+                    <a href="pendidikan" class="submenu-link">Pendidikan</a>
+
                 </li>
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Sosial</a>
+                <li class="submenu-item {{ Request::is('sosial') ? 'active' : '' }} ">
+                    <a href="sosial" class="submenu-link">Sosial</a>
                 </li>
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Bencana</a>
+                <li class="submenu-item {{ Request::is('bencana') ? 'active' : '' }} ">
+                    <a href="bencana" class="submenu-link">Bencana</a>
                 </li>
             </ul>
         </li>
-        {{-- <li class="sidebar-item has-sub {{ Request::is('ekonomi', 'bencana', 'kamtibmas') ? 'active' : '' }}">
-            <a href="#" class="sidebar-link">
-                <i class="bi bi-pentagon-fill"></i>
-                <span>Kewilayahan</span>
-            </a>
-            <ul class="submenu">
-                <li class="submenu-item {{ Request::is('ekonomi') ? 'active' : '' }}">
-                    <a href="{{ route('ekonomi') }}" class="submenu-link">Ekonomi</a>
-                </li>
-                <li class="submenu-item {{ Request::is('bencana') ? 'active' : '' }}">
-                    <a href="{{ route('bencana') }}" class="submenu-link">Bencana</a>
-                </li>
-                <li class="submenu-item {{ Request::is('kamtibmas') ? 'active' : '' }}">
-                    <a href="{{ route('kamtibmas') }}" class="submenu-link">Kamtibmas</a>
-                </li>
-            </ul>
-        </li> --}}
-        <li class="sidebar-item {{ Request::is('#') ? 'active' : '' }} ">
+        <li class="sidebar-item {{ Request::is('dataKos') ? 'active' : '' }} ">
             <a href="{{ route('dataKos') }}" class='sidebar-link'>
                 <i class="bi bi-house-fill"></i>
                 <span>Data Kos</span>

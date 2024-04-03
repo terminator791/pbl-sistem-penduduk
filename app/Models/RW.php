@@ -16,4 +16,8 @@ class RW extends Model
     public function penduduk(){
         return $this->hasMany(penduduk::class, 'id_rw')->withTimestamps();
 }
+
+public function RT(){
+    return $this->hasMany(RT::class, 'id_rw');
+}
 }

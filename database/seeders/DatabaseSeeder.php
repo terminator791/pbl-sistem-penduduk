@@ -327,27 +327,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        RT::create([
-            'nama_rt' => '01',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '02',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '03',
-           
-        ],);
-        RT::create([
-            'nama_rt' => '04',
-            
-        ],);
-        RT::create([
-            'nama_rt' => '05',
-            
-        ],);
-
 
         RW::create([
             'nama_rw' => '01',
@@ -365,6 +344,36 @@ class DatabaseSeeder extends Seeder
            
         ],);
 
+
+        RT::create([
+            'nama_rt' => '01',
+            'id_rw' => '1',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '02',
+            'id_rw' => '1',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '03',
+            'id_rw' => '2',
+           
+        ],);
+        RT::create([
+            'nama_rt' => '04',
+            'id_rw' => '2',
+            
+        ],);
+        RT::create([
+            'nama_rt' => '05',
+            'id_rw' => '3',
+            
+        ],);
+
+
+
+
         jenis_penyakit::create([
             'nama_penyakit' => 'HIV/AIDS'
         ],);
@@ -375,7 +384,7 @@ class DatabaseSeeder extends Seeder
             'nama_penyakit' => 'Stunting'
         ],);
         jenis_penyakit::create([
-            'nama_penyakit' => 'Demam Berdarah'
+            'nama_penyakit' => 'Demam_Berdarah'
         ],);
         jenis_penyakit::create([
             'nama_penyakit' => 'Kanker'
@@ -394,17 +403,35 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 1,
             'id_status_perkawinan' => 1,
             'id_rt' => 1,
+            'id_rw' => 1,
             'id_keluarga' => 1,
             'status_penghuni' => 'meninggal',
             'nama_jalan' => 'Jl Galang Sewu No. 1',
             'email' => 'iqbalbagus@mail.com',
+            'no_hp' => '0895423630500',
+
+        ],);
+        penduduk::create([
+            'NIK' => '3317120041796',
+            'nama' => "Sandra",
+            'jenis_kelamin' => 'wanita',
+            'tempat_lahir' => 'Pematang Siantar',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'katolik',
+            'id_pendidikan' => 3,
+            'id_pekerjaan' => 5,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 2,
+            'id_rw' => 1,
+            'id_keluarga' => 2,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl Galang Sewu No. 30',
+            'email' => 'sandra@mail.com',
             'no_hp' => '0895423630600',
 
         ],);
-        
-
         penduduk::create([
-            'NIK' => '3317120041796',
+            'NIK' => '3317120041797',
             'nama' => "Rifqi haezul",
             'jenis_kelamin' => 'pria',
             'tempat_lahir' => 'Rembang',
@@ -413,9 +440,10 @@ class DatabaseSeeder extends Seeder
             'id_pendidikan' => 4,
             'id_pekerjaan' => 2,
             'id_status_perkawinan' => 2,
-            'id_rt' => 2,
+            'id_rt' => 4,
+            'id_rw' => 2,
             'id_keluarga' => 2,
-            'status_penghuni' => 'tetap',
+            'status_penghuni' => 'kos',
             'nama_jalan' => 'Jl nirwana sari no 30',
             'email' => 'rifqi.haezul@mail.com',
             'no_hp' => '0895423630600',
@@ -431,6 +459,41 @@ class DatabaseSeeder extends Seeder
             'id_penyakit' => '4',
             'NIK_penduduk' => '3317120041795',
             'tanggal_terdampak' => $tanggal_lahir,
+        ],);
+
+
+        kos::create([
+            'id_rt' => 1,
+            'pemilik_kos' => 'iqbal bagus',
+            'nama_kos' => 'Baskoro 69',
+            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'jumlah_penghuni' => 8,
+            'no_hp_pemilik' => '0895423630500',
+            'email_pemilik' => 'iqbal@mail.com',
+            'status' => true,
+            
+        ],);
+
+        kos::create([
+            'id_rt' => 2,
+            'pemilik_kos' => 'iqbal bagus',
+            'nama_kos' => 'Baskoro 70',
+            'alamat_kos' => 'Jalan Galang Sewu No. 1',
+            'jumlah_penghuni' => 11,
+            'no_hp_pemilik' => '0895423630500',
+            'email_pemilik' => 'iqbal@mail.com',
+            'status' => false,
+        ],);
+
+        kos::create([
+            'id_rt' => '5',
+            'pemilik_kos' => 'Rifqi',
+            'nama_kos' => 'Norma House',
+            'alamat_kos' => 'Jalan Nirwana Sari No. 30',
+            'jumlah_penghuni' => 19,
+            'no_hp_pemilik' => '08213131231',
+            'email_pemilik' => 'rifqi@mail.com',
+            'status' => true,
         ],);
         
     }

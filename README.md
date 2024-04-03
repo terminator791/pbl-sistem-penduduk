@@ -2,11 +2,14 @@
 
  ### **PBL Project**
 
- <p align="center">
-  <img src="https://img.shields.io/github/stars/terminator791/pbl-project-sistem-kependudukan">
-  <img src="https://img.shields.io/github/forks/terminator791/pbl-project-sistem-kependudukan">
-  <img src="https://img.shields.io/github/last-commit/terminator791/pbl-project-sistem-kependudukan?label=Last%20commit">
+<p align="center">
+  <img src="https://img.shields.io/github/stars/terminator791/pbl-sistem-penduduk">
+  <img src="https://img.shields.io/github/forks/terminator791/pbl-sistem-penduduk">
+  <img src="https://img.shields.io/github/last-commit/terminator791/pbl-sistem-penduduk?label=Last%20commit">
 </p>
+
+
+
 
 
 
