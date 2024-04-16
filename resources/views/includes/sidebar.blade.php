@@ -35,8 +35,8 @@
                 <li class="submenu-item {{ Request::is('sosial') ? 'active' : '' }} ">
                     <a href="sosial" class="submenu-link">Sosial</a>
                 </li>
-                <li class="submenu-item {{ Request::is('bencana') ? 'active' : '' }} ">
-                    <a href="bencana" class="submenu-link">Bencana</a>
+                <li class="submenu-item {{ Request::is('kejadian') ? 'active' : '' }} ">
+                    <a href="kejadian" class="submenu-link">Bencana</a>
                 </li>
             </ul>
         </li>

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\jenis_kejadian;
 use App\Models\jenis_penyakit;
 use App\Models\keluarga;
 use App\Models\kesehatan;
@@ -388,6 +390,27 @@ class DatabaseSeeder extends Seeder
         ],);
         jenis_penyakit::create([
             'nama_penyakit' => 'Kanker'
+        ],);
+
+
+        
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Banjir'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Tanah_Longsor'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Gempa_Bumi'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Gunung_Meletus'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Tsunami'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Lain-lain'
         ],);
 
         
