@@ -43,23 +43,19 @@ class BantuanController extends Controller
     }
 
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $request->validate([
-            'NIK_penduduk' => 'required|exists:penduduk,NIK',
-            'id_bantuan' => 'required|exists:bantuan,id' // assuming bantuans is the table name
-        ]);
+        // Find the penduduk by ID
+        $penduduk = Penduduk::findOrFail($id);
+        
+        // Set the id_bantuan to null
+        $penduduk->id_bantuan = null;
+        $penduduk->save();
 
-        // Find the penduduk by NIK
-        $penduduk = Penduduk::where('NIK', $request->NIK_penduduk)->first();
-        if ($penduduk) {
-            $penduduk->id_bantuan = set(null);
-            $penduduk->save();  // Pastikan baris ini ada dan dieksekusi
-        }
-
-
+        // Redirect back with a success message
         return redirect()->route('bantuan')->with('success', 'Status bantuan berhasil dihapus!');
     }
+    
     public function print(bantuan $bantuan)
     {
         // Ambil data kejadian berdasarkan kategori jenis_kejadian
