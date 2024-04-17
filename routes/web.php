@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
+Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);
 Route::post('/tambah_warga', [PendudukController::class, 'store'])->name("penduduk");
@@ -88,6 +91,7 @@ Route::get('/wargaAsli', [wargaAsliController::class, 'index'])->name('wargaAsli
 Route::get('/wargaAsli/edit-data-warga-asli/{id}', [wargaAsliController::class, 'edit'])->name('wargaAsli.edit');
 Route::post('/wargaAsli/update-data-warga-asli/{id}', [wargaAsliController::class, 'update'])->name('wargaAsli.update');
 Route::get('/wargaAsli/hapus-data-warga-asli/{id}', [wargaAsliController::class, 'delete'])->name('wargaAsli.delete');
+Route::get('/wargaAsli/print', [wargaAsliController::class, 'print'])->name('wargaAsli.print');
 
 // Data Warga Pendatang
 Route::get('/wargaPendatang/tambah-warga-pendatang', [wargaPendatangController::class, 'create'])->name('wargaPendatang.create');
@@ -96,12 +100,15 @@ Route::get('/wargaPendatang', [wargaPendatangController::class, 'index'])->name(
 Route::get('/wargaPendatang/edit-data-warga-pendatang/{id}', [wargaPendatangController::class, 'edit'])->name('wargaPendatang.edit');
 Route::post('/wargaPendatang/update-data-warga-pendatang/{id}', [wargaPendatangController::class, 'update'])->name('wargaPendatang.update');
 Route::get('/wargaPendatang/hapus-data-warga-pendatang/{id}', [wargaPendatangController::class, 'delete'])->name('wargaPendatang.delete');
+Route::get('/wargaPendatang/print', [WargaPendatangController::class, 'print'])->name('wargaPendatang.print');
 
 
 // Kesehatan
 Route::get('/kesehatan', [KesehatanController::class, 'index'])->name('kesehatan');
 Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.store");
 Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
+Route::get('/kesehatan/{penyakit}/print', [KesehatanController::class, 'print'])->name('kesehatan.print');
+
 
 // pendidikan
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
@@ -118,5 +125,3 @@ Route::get('/sosial', [SosialController::class, 'index'])->name('sosial');
 Route::get('/sosial3', [SosialController::class, 'create'])->name('logout');
 Route::get('/sosial2', [SosialController::class, 'store'])->name("sosial");
 
-// Download
-Route::get('/download-csv', [wargaAsliController::class, 'downloadCSV'])->name('download_csv');

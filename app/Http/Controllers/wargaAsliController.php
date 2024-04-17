@@ -127,4 +127,13 @@ class wargaAsliController extends Controller
         $penduduk->delete();
         return redirect()->route('wargaAsli')->with('success', "$penduduk->nama berhasil dihapus");
     }
+
+    //print
+    public function print()
+    {
+        $penduduk = penduduk::with(['pekerjaan'])
+        ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
+        ->get();
+        return view('dataWarga.wargaAsli.print', compact('penduduk'));
+    }
 }
