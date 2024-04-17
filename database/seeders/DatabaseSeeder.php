@@ -12,7 +12,7 @@ use App\Models\kos;
 use App\Models\pekerjaan;
 use App\Models\pendidikan;
 use App\Models\penduduk;
-use App\Models\penjabatan_RT;
+use App\Models\bantuan;
 use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
@@ -390,6 +390,44 @@ class DatabaseSeeder extends Seeder
         ],);
         jenis_penyakit::create([
             'nama_penyakit' => 'Kanker'
+        ],);
+
+        
+        bantuan::create([
+            'jenis_bantuan' => 'Prakerja'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'PKH'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Miskin'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BPNT'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BSU'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Yatim_Piatu'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Disabilitas'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BLT'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Yatim'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Piatu'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'PBI/JKN'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BPNT/PKM'
         ],);
 
 
