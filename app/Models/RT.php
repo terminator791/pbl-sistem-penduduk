@@ -21,6 +21,10 @@ class RT extends Model
         return $this->belongsToMany(penduduk::class, 'penjabatan_rt', 'id_rt', 'NIK_ketua_rt')->withTimestamps();
     }
 
+    public function RW(){
+        return $this->belongsTo(RW::class, 'id');
+    }
+
     public function penjabatan_rt(){
         return $this->hasMany(penjabatan_RT::class, 'id_rt')->withTimestamps();
     }

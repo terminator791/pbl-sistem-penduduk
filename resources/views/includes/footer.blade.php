@@ -4,7 +4,7 @@
             <p>2023 &copy; Mazer</p>
         </div>
         <div class="float-end">
-            <p>Lapor Pak RT ~ Proyek PBL</p>
+            <p>Lapor Pak RT ~ Sistem Kependudukan</p>
         </div>
     </div>
 </footer>

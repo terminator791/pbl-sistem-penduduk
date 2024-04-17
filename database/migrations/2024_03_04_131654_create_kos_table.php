@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('jumlah_penghuni');
             $table->string('no_hp_pemilik')->nullable();
             $table->string('email_pemilik')->nullable();
+            $table->boolean('status');
             $table->timestamps();
         });
     }
