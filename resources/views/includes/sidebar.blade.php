@@ -32,11 +32,11 @@
                 <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
                     <a href="#" class="submenu-link">Pendidikan</a>
                 </li>
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Sosial</a>
+                <li class="submenu-item {{ Request::is('bantuan') ? 'active' : '' }} ">
+                    <a href="bantuan" class="submenu-link">Sosial</a>
                 </li>
-                <li class="submenu-item {{ Request::is('#') ? 'active' : '' }} ">
-                    <a href="#" class="submenu-link">Bencana</a>
+                <li class="submenu-item {{ Request::is('kejadian') ? 'active' : '' }} ">
+                    <a href="kejadian" class="submenu-link">Bencana</a>
                 </li>
             </ul>
         </li>
@@ -75,9 +75,7 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar</span>
             </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
-                @csrf
-            </form>
+            
         </li>
     </ul>
 </div>

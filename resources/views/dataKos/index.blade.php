@@ -51,12 +51,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($data_kos as $kos)
+                        @foreach($data_kos as $kos)
                             <tr>
                                 <td>1</td>
                                 <td style="text-align: center;">{{ $kos->nama_kos }}</td>
                                 <td style="text-align: center;">{{ $kos->pemilik_kos }}</td>
-                                <td style="text-align: center;">{{ $kos->jumlah_penghuni }}</td>
+                                <td style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td> <!-- Tampilkan jumlah penghuni yang sesuai -->
                                 <td style="text-align: center;">{{ $kos->alamat_kos }}</td>
                                 <td style="text-align: center;">
                                     @if($kos->status)
@@ -70,8 +70,6 @@
                                     <a href="{{ route('dataKos.edit', $kos->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                         <i class="bi bi-pencil-fill text-white"></i>
                                     </a>
-
-                                        
                                     <!-- Tombol Hapus -->
                                     <a href="{{ route('dataKos.delete', $kos->id) }}" class="btn btn-sm btn-danger toggle-delete"
                                         data-toggle="modal">
@@ -79,7 +77,8 @@
                                     </a>
                                 </td>
                             </tr>
-                            @endforeach
+                        @endforeach
+
                     </table>
                 </div>
             </div>

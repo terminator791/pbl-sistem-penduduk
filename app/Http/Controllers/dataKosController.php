@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\detail_pendatang;
 use App\Models\kos;
 use App\Models\RT;
 use Illuminate\Http\Request;
@@ -18,11 +19,17 @@ class dataKosController extends Controller
 
     // Read
     public function index(Request $request)
-    {
-        $menu = $request->query('menu', 'data_warga');
-        $data_kos = kos::all();
-        return view('dataKos.index', compact('menu', 'data_kos'));
+{
+    $menu = $request->query('menu', 'data_warga');
+    $data_kos = kos::all();
+    $jumlah_penghuni = []; // array untuk menyimpan jumlah penghuni untuk setiap kos
+    foreach ($data_kos as $kos) {
+        // Hitung jumlah penghuni untuk setiap kos
+        $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
     }
+    return view('dataKos.index', compact('menu', 'data_kos', 'jumlah_penghuni'));
+}
+
 
     public function store(Request $request)
     {

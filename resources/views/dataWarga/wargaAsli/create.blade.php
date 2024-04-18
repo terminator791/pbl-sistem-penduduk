@@ -247,7 +247,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="button" onclick="tambah_warga()" class="btn btn-primary me-1 mb-1">Submit</button>
                                             <button type="reset"
                                                 class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
@@ -265,28 +265,33 @@
 @endsection
 
 @section('scripts')
-    <script>
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     var birthdateInput = document.getElementById("birthdate");
-        //     birthdateInput.addEventListener("change", function() {
-        //         var selectedDate = new Date(birthdateInput.value);
-        //         var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
-        //             selectedDate.getFullYear();
-        //         birthdateInput.value = formattedDate;
-        //     });
-        // });
+<script>
+    function tambah_warga() {
+        // Mendapatkan referensi ke elemen formulir
+        const form = document.querySelector('.form');
 
-        document.addEventListener("DOMContentLoaded", function() {
-            var resetButton = document.querySelector('button[type="reset"]');
-            resetButton.addEventListener('click', function() {
-                resetForm();
-                window.location.href = "{{ route('wargaAsli.create') }}";
-            });
+        // Membuat objek FormData dari formulir
+        const formData = new FormData(form);
+
+        // Mengirimkan permintaan POST ke API menggunakan fetch API
+        fetch("{{ route('wargaAsli.store') }}", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('API Post gagal');
+            }
+            // Jika sukses, lakukan redirect atau tindakan lainnya
+            alert('Data berhasil ditambahkan');
+            // Redirect ke halaman lain, jika perlu
+            window.location.href = "{{ route('wargaAsli') }}";
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Terjadi kesalahan saat mengirim data.');
         });
+    }
+</script>
 
-        function resetForm() {
-            var form = document.querySelector('form');
-            form.reset();
-        }
-    </script>
 @endsection

@@ -1,0 +1,367 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"WARGA API",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"http://localhost:8000"}
+    ],
+    "paths": {
+        "/api/v1/wargaAsli/store-warga-asli" : {
+            "post":{
+              "description": "Create new warga",
+              "requestBody":{
+                "description": "Create new warga",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "type": "object",
+                      "properties": {
+                        "NIK": {"type": "string"},
+                        "nama": {"type": "string"},
+                        "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                        "tempat_lahir": {"type": "string"},
+                        "tanggal_lahir": {"type": "string", "format": "date"},
+                        "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                        "id_pendidikan": {"type": "integer"},
+                        "id_pekerjaan": {"type": "integer"},
+                        "id_status_perkawinan": {"type": "integer"},
+                        "id_rt": {"type": "integer"},
+                        "id_rw": {"type": "integer"},
+                        "id_bantuan": {"type": "integer"},
+                        "id_keluarga": {"type": "integer"},
+                        "nama_jalan": {"type": "string"},
+                        "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                        "tanggal_peristiwa": {"type": "string", "format": "date"},
+                        "foto_ktp": {"type": "string", "format": "binary"},
+                        "no_hp": {"type": "string"},
+                        "email": {"type": "string"}
+                      },
+                      "required": ["NIK", "nama", "jenis_kelamin", "tempat_lahir", "tanggal_lahir", "agama", "id_pekerjaan", "nama_jalan", "status_penghuni", "no_hp", "email"]
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201":{
+                  "description": "Berhasil Menambahkan Warga",
+                  "content": {
+                    "application/json":{
+                      "schema":{
+                        "type": "object",
+                        "properties": {
+                          "data":{
+                            "type": "object",
+                            "properties": {
+                              "id":{
+                                "type": "number"
+                              },
+                              "NIK": {"type": "string"},
+                              "nama": {"type": "string"},
+                              "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                              "tempat_lahir": {"type": "string"},
+                              "tanggal_lahir": {"type": "string", "format": "date"},
+                              "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                              "id_pendidikan": {"type": "integer"},
+                              "id_pekerjaan": {"type": "integer"},
+                              "id_status_perkawinan": {"type": "integer"},
+                              "id_rt": {"type": "integer"},
+                              "id_rw": {"type": "integer"},
+                              "id_bantuan": {"type": "integer"},
+                              "id_keluarga": {"type": "integer"},
+                              "nama_jalan": {"type": "string"},
+                              "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                              "tanggal_peristiwa": {"type": "string", "format": "date"},
+                              "foto_ktp": {"type": "string", "format": "binary"},
+                              "no_hp": {"type": "string"},
+                              "email": {"type": "string"}
+                            }
+
+                          },
+                          "errors":{
+                            "type": "object"
+
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "get": {
+              "description": "Get semua warga",
+              "responses": {
+                "200":{
+                  "description": "Berhasil Menampilkan Warga",
+                  "content": {
+                    "application/json":{
+                      "schema":{
+                        "type": "object",
+                        "properties": {
+                          "data":{
+                            "type": "object",
+                            "properties": {
+                              "id":{
+                                "type": "number"
+                              },
+                              "NIK": {"type": "string"},
+                              "nama": {"type": "string"},
+                              "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                              "tempat_lahir": {"type": "string"},
+                              "tanggal_lahir": {"type": "string", "format": "date"},
+                              "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                              "id_pendidikan": {"type": "integer"},
+                              "id_pekerjaan": {"type": "integer"},
+                              "id_status_perkawinan": {"type": "integer"},
+                              "id_rt": {"type": "integer"},
+                              "id_rw": {"type": "integer"},
+                              "id_bantuan": {"type": "integer"},
+                              "id_keluarga": {"type": "integer"},
+                              "nama_jalan": {"type": "string"},
+                              "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                              "tanggal_peristiwa": {"type": "string", "format": "date"},
+                              "foto_ktp": {"type": "string", "format": "binary"},
+                              "no_hp": {"type": "string"},
+                              "email": {"type": "string"}
+                            }
+                          },
+                          "errors":{
+                            "type": "object"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        },
+        "/api/v1/wargaAsli" :{
+          "get": {
+            "description": "Get semua warga",
+            "responses": {
+              "200":{
+                "description": "Berhasil Menampilkan Warga",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "type": "object",
+                      "properties": {
+                        "data":{
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type": "number"
+                            },
+                            "NIK": {"type": "string"},
+                            "nama": {"type": "string"},
+                            "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                            "tempat_lahir": {"type": "string"},
+                            "tanggal_lahir": {"type": "string", "format": "date"},
+                            "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                            "id_pendidikan": {"type": "integer"},
+                            "id_pekerjaan": {"type": "integer"},
+                            "id_status_perkawinan": {"type": "integer"},
+                            "id_rt": {"type": "integer"},
+                            "id_rw": {"type": "integer"},
+                            "id_bantuan": {"type": "integer"},
+                            "id_keluarga": {"type": "integer"},
+                            "nama_jalan": {"type": "string"},
+                            "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                            "tanggal_peristiwa": {"type": "string", "format": "date"},
+                            "foto_ktp": {"type": "string", "format": "binary"},
+                            "no_hp": {"type": "string"},
+                            "email": {"type": "string"}
+                          }
+                        },
+                        "errors":{
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "/api/warga/{id}" :{
+          "put": {
+            "description": "Update warga",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path"
+              }
+            ],
+            "requestBody":{
+              "description": "Update warga",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "NIK": {"type": "string"},
+                      "nama": {"type": "string"},
+                      "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                      "tempat_lahir": {"type": "string"},
+                      "tanggal_lahir": {"type": "string", "format": "date"},
+                      "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                      "id_pendidikan": {"type": "integer"},
+                      "id_pekerjaan": {"type": "integer"},
+                      "id_status_perkawinan": {"type": "integer"},
+                      "id_rt": {"type": "integer"},
+                      "id_rw": {"type": "integer"},
+                      "id_bantuan": {"type": "integer"},
+                      "id_keluarga": {"type": "integer"},
+                      "nama_jalan": {"type": "string"},
+                      "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                      "tanggal_peristiwa": {"type": "string", "format": "date"},
+                      "foto_ktp": {"type": "string", "format": "binary"},
+                      "no_hp": {"type": "string"},
+                      "email": {"type": "string"}
+                    },
+                    "required": ["NIK", "nama", "jenis_kelamin", "tempat_lahir", "tanggal_lahir", "agama", "id_pekerjaan", "nama_jalan", "status_penghuni", "no_hp", "email"]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200":{
+                "description": "Berhasil Update Warga",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "type": "object",
+                      "properties": {
+                        "data":{
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type": "number"
+                            },
+                            "NIK": {"type": "string"},
+                            "nama": {"type": "string"},
+                            "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                            "tempat_lahir": {"type": "string"},
+                            "tanggal_lahir": {"type": "string", "format": "date"},
+                            "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                            "id_pendidikan": {"type": "integer"},
+                            "id_pekerjaan": {"type": "integer"},
+                            "id_status_perkawinan": {"type": "integer"},
+                            "id_rt": {"type": "integer"},
+                            "id_rw": {"type": "integer"},
+                            "id_bantuan": {"type": "integer"},
+                            "id_keluarga": {"type": "integer"},
+                            "nama_jalan": {"type": "string"},
+                            "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                            "tanggal_peristiwa": {"type": "string", "format": "date"},
+                            "foto_ktp": {"type": "string", "format": "binary"},
+                            "no_hp": {"type": "string"},
+                            "email": {"type": "string"}
+                          }
+
+                        },
+                        "errors":{
+                          "type": "object"
+
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "get": {
+            "description": "Get warga",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path"
+              }
+            ],
+            "responses": {
+              "200":{
+                "description": "Berhasil Menampilkan Warga",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "type": "object",
+                      "properties": {
+                        "data":{
+                          "type": "object",
+                          "properties": {
+                            "id":{
+                              "type": "number"
+                            },
+                            "NIK": {"type": "string"},
+                            "nama": {"type": "string"},
+                            "jenis_kelamin": {"type": "string", "enum": ["pria", "wanita"]},
+                            "tempat_lahir": {"type": "string"},
+                            "tanggal_lahir": {"type": "string", "format": "date"},
+                            "agama": {"type": "string", "enum": ["islam", "kristen", "hindhu", "Budha", "konghucu", "katolik"]},
+                            "id_pendidikan": {"type": "integer"},
+                            "id_pekerjaan": {"type": "integer"},
+                            "id_status_perkawinan": {"type": "integer"},
+                            "id_rt": {"type": "integer"},
+                            "id_rw": {"type": "integer"},
+                            "id_bantuan": {"type": "integer"},
+                            "id_keluarga": {"type": "integer"},
+                            "nama_jalan": {"type": "string"},
+                            "status_penghuni": {"type": "string", "enum": ["kos", "kontrak", "tetap", "pindah", "meninggal"]},
+                            "tanggal_peristiwa": {"type": "string", "format": "date"},
+                            "foto_ktp": {"type": "string", "format": "binary"},
+                            "no_hp": {"type": "string"},
+                            "email": {"type": "string"}
+                          }
+
+                        },
+                        "errors":{
+                          "type": "object"
+
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "delete": {
+            "description": "Remove warga",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path"
+                
+              }
+            ],
+            "responses": {
+              "200":{
+                "description": "Berhasil Delete Warga",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "type": "object",
+                      "properties": {
+                        "data":{
+                          "type": "boolean"
+                        },
+                        "errors":{
+                          "type": "object"
+
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    }
+  }
