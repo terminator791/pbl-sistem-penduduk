@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\bantuan;
+use App\Models\jenis_bantuan;
 use App\Models\jenis_penyakit;
 use App\Models\kesehatan;
 use App\Models\penduduk;
@@ -14,36 +15,35 @@ class SosialController extends Controller
     {
         //
         $list_penduduk = penduduk::all();
-        $kesehatan = kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
-        $list_penyakit = jenis_penyakit::all();
+        $bantuan = bantuan::with(['penduduk', 'jenis_bantuan'])->get();
+        $list_bantuan = jenis_bantuan::all();
 
-        return view('kesehatan.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
+        return view('social.index', compact('bantuan', 'list_bantuan', 'list_penduduk'));
     }
 
     public function create()
     {
         $list_penduduk = penduduk::all();
-        $list_penyakit = jenis_penyakit::all();
-        return view('kesehatan.tambah', compact('list_penyakit', 'list_penduduk'));
+        $list_bantuan = jenis_bantuan::all();
+        return view('social.tambah', compact('list_bantuan', 'list_penduduk'));
     }
 
     public function store(Request $request)
     {
-        $kesehatan = new kesehatan();
-        $kesehatan->NIK_penduduk = $request->input('NIK_penduduk');
-        $kesehatan->tanggal_terdampak = $request->input('tanggal_terdampak');
-        $kesehatan->id_penyakit = $request->input('id_penyakit');
+        $bantuan = new bantuan();
+        $bantuan->NIK_penduduk = $request->input('NIK_penduduk');
+        $bantuan->id_bantuan = $request->input('id_bantuan');
 
-        $kesehatan->save();
+        $bantuan->save();
 
-        return redirect()->route('kesehatan')->with('success', 'Kesehatan added successfully!');
+        return redirect()->route('sosial')->with('success', 'Bantuan added successfully!');
     }
 
     public function delete(Request $request, $id)
     {
-        //
-        $kesehatan = kesehatan::findOrFail($id);
-        $kesehatan->delete();
-        return redirect()->route('kesehatan')->with('success', 'Kesehatan Deleted successfully!');
+        $bantuan = bantuan::findOrFail($id);
+        
+        $bantuan->delete();
+        return redirect()->route('Bantuan')->with('success', 'Bantuan Deleted successfully!');
     }
 }

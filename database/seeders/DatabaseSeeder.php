@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\bantuan;
+use App\Models\detail_pendatang;
+use App\Models\jenis_kejadian;
 use App\Models\jenis_penyakit;
 use App\Models\keluarga;
 use App\Models\kesehatan;
@@ -327,6 +330,66 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+        
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Banjir'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Tanah_Longsor'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Gempa_Bumi'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Gunung_Meletus'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Tsunami'
+        ],);
+        jenis_kejadian::create([
+            'jenis_kejadian' => 'Lain-lain'
+        ],);
+
+        bantuan::create([
+            'jenis_bantuan' => 'Prakerja'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'PKH'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Miskin'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BPNT'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BSU'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Yatim_Piatu'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Disabilitas'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BLT'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Yatim'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'Piatu'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'PBI/JKN'
+        ],);
+        bantuan::create([
+            'jenis_bantuan' => 'BPNT/PKM'
+        ],);
+
+
+
+
 
         RW::create([
             'nama_rw' => '01',
@@ -438,7 +501,7 @@ class DatabaseSeeder extends Seeder
             'tanggal_lahir' => $tanggal_lahir,
             'agama' => 'islam',
             'id_pendidikan' => 4,
-            'id_pekerjaan' => 2,
+            'id_pekerjaan' => 13,
             'id_status_perkawinan' => 2,
             'id_rt' => 4,
             'id_rw' => 2,
@@ -448,6 +511,347 @@ class DatabaseSeeder extends Seeder
             'email' => 'rifqi.haezul@mail.com',
             'no_hp' => '0895423630600',
 
+        ],);
+        penduduk::create([
+            'NIK' => '3317120041798',
+            'nama' => "Dandy",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 13,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 5,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl mulawarman',
+            'email' => 'dandy@mail.com',
+            'no_hp' => '089582476573',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041799',
+            'nama' => "Arip",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Sragen',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 12,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 4,
+            'id_rw' => 3,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'kos',
+            'nama_jalan' => 'Jl gondang',
+            'email' => 'arip@mail.com',
+            'no_hp' => '089529377482',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041800',
+            'nama' => "Ryvanio",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 8,
+            'id_status_perkawinan' => 1,
+            'id_rt' => 2,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl sampangan',
+            'email' => 'ripans@mail.com',
+            'no_hp' => '089552439685',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041801',
+            'nama' => "Farhan",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 9,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 1,
+            'id_rw' => 3,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl cipto',
+            'email' => 'farhan@mail.com',
+            'no_hp' => '089598764567',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041802',
+            'nama' => "Gavrilla",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 4,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 5,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl majapahit',
+            'email' => 'gavrill@mail.com',
+            'no_hp' => '089509878971',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041803',
+            'nama' => "Arya",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Meteseh',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 9,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 2,
+            'id_rw' => 3,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl pahlawan',
+            'email' => 'aryacihuy@mail.com',
+            'no_hp' => '089543527589',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041804',
+            'nama' => "yasir",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => '',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 8,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 3,
+            'id_rw' => 2,
+            'id_keluarga' => 1,
+            'status_penghuni' => 'kos',
+            'nama_jalan' => 'Jl antasari',
+            'email' => 'yasir@mail.com',
+            'no_hp' => '089553649163',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041805',
+            'nama' => "Diva",
+            'jenis_kelamin' => 'wanita',
+            'tempat_lahir' => 'Malang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'kristen',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 5,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 2,
+            'id_rw' => 2,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'kos',
+            'nama_jalan' => 'Jl suhat',
+            'email' => 'diva@mail.com',
+            'no_hp' => '089574659283',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041806',
+            'nama' => "Haezul",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 1,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 5,
+            'id_rw' => 3,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl veteran',
+            'email' => 'haezul@mail.com',
+            'no_hp' => '089575920984',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041807',
+            'nama' => "Della",
+            'jenis_kelamin' => 'wanita',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 17,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 4,
+            'id_rw' => 2,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl dukuhturi',
+            'email' => 'della@mail.com',
+            'no_hp' => '089563728573',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041808',
+            'nama' => "Bila",
+            'jenis_kelamin' => 'wanita',
+            'tempat_lahir' => 'Rembang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 1,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 1,
+            'id_rw' => 3,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'kos',
+            'nama_jalan' => 'Jl wisma',
+            'email' => 'bila@mail.com',
+            'no_hp' => '089562749786',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041809',
+            'nama' => "Harkas",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 21,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 5,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl gajahmada',
+            'email' => 'harkas@mail.com',
+            'no_hp' => '089576859372',
+        ],);
+
+                penduduk::create([
+            'NIK' => '3317120041810',
+            'nama' => "Rayhan",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'katolik',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 1,
+            'id_status_perkawinan' => 1,
+            'id_rt' => 3,
+            'id_rw' => 2,
+            'id_keluarga' => 1,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl pemuda',
+            'email' => 'rayhan@mail.com',
+            'no_hp' => '089562538697',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041811',
+            'nama' => "Abil",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 3,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 4,
+            'id_rw' => 2,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl antari',
+            'email' => 'abil@mail.com',
+            'no_hp' => '089596855243',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041812',
+            'nama' => "Rahmat",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 24,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 5,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl diponegoro',
+            'email' => 'rahmat@mail.com',
+            'no_hp' => '089565748675',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041813',
+            'nama' => "Jeedan",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 15,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 4,
+            'id_rw' => 1,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl veteran',
+            'email' => 'jeedan@mail.com',
+            'no_hp' => '089553427586',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041814',
+            'nama' => "Hasan",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => 'Semarang',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'hindhu',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 10,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 2,
+            'id_rw' => 2,
+            'id_keluarga' => 3,
+            'status_penghuni' => 'tetap',
+            'nama_jalan' => 'Jl diponegoro',
+            'email' => 'hasan@mail.com',
+            'no_hp' => '089582476527',
+        ],);
+
+        penduduk::create([
+            'NIK' => '3317120041815',
+            'nama' => "Dandy",
+            'jenis_kelamin' => 'pria',
+            'tempat_lahir' => '',
+            'tanggal_lahir' => $tanggal_lahir,
+            'agama' => 'islam',
+            'id_pendidikan' => 4,
+            'id_pekerjaan' => 4,
+            'id_status_perkawinan' => 2,
+            'id_rt' => 3,
+            'id_rw' => 2,
+            'id_keluarga' => 1,
+            'status_penghuni' => 'kos',
+            'nama_jalan' => 'Jl mulawarman',
+            'email' => 'dandy@mail.com',
+            'no_hp' => '089582476573',
         ],);
 
         kesehatan::create([
@@ -494,6 +898,27 @@ class DatabaseSeeder extends Seeder
             'no_hp_pemilik' => '08213131231',
             'email_pemilik' => 'rifqi@mail.com',
             'status' => true,
+        ],);
+
+        detail_pendatang::create([
+            'NIK' => '3317120041795',
+            'id_kos' => 1,
+            'tanggal_masuk' => $tanggal_lahir,
+            'tanggal_keluar' => $tanggal_lahir,
+        ],);
+
+        detail_pendatang::create([
+            'NIK' => '3317120041796',
+            'id_kos' => 1,
+            'tanggal_masuk' => $tanggal_lahir,
+            'tanggal_keluar' => $tanggal_lahir,
+        ],);
+
+        detail_pendatang::create([
+            'NIK' => '3317120041797',
+            'id_kos' => 2,
+            'tanggal_masuk' => $tanggal_lahir,
+            'tanggal_keluar' => $tanggal_lahir,
         ],);
         
     }

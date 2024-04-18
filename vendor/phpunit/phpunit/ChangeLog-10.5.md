@@ -2,6 +2,33 @@
 
 All notable changes of the PHPUnit 10.5 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [10.5.18] - 2024-04-14
+
+### Deprecated
+
+* [#5812](https://github.com/sebastianbergmann/phpunit/pull/5812): Support for string array keys in data sets returned by data provider methods that do not match the parameter names of the test method(s) that use(s) them
+
+### Fixed
+
+* [#5795](https://github.com/sebastianbergmann/phpunit/issues/5795): Using `@testWith` annotation may generate `PHP Warning:  Uninitialized string offset 0`
+
+## [10.5.17] - 2024-04-05
+
+### Changed
+
+* The namespaces of dependencies are now prefixed with `PHPUnitPHAR` instead of just `PHPUnit` for the PHAR distribution of PHPUnit
+
+## [10.5.16] - 2024-03-28
+
+### Changed
+
+* [#5766](https://github.com/sebastianbergmann/phpunit/pull/5766): Do not use a shell in `proc_open()` if not really needed
+* [#5772](https://github.com/sebastianbergmann/phpunit/pull/5772): Cleanup process handling after dropping temp-file handling
+
+### Fixed
+
+* [#5570](https://github.com/sebastianbergmann/phpunit/pull/5570): Windows does not support exclusive locks on stdout
+
 ## [10.5.15] - 2024-03-22
 
 ### Fixed
@@ -166,6 +193,9 @@ All notable changes of the PHPUnit 10.5 release series are documented in this fi
 
 * [#5563](https://github.com/sebastianbergmann/phpunit/issues/5563): `createMockForIntersectionOfInterfaces()` does not automatically register mock object for expectation verification
 
+[10.5.18]: https://github.com/sebastianbergmann/phpunit/compare/10.5.17...10.5.18
+[10.5.17]: https://github.com/sebastianbergmann/phpunit/compare/10.5.16...10.5.17
+[10.5.16]: https://github.com/sebastianbergmann/phpunit/compare/10.5.15...10.5.16
 [10.5.15]: https://github.com/sebastianbergmann/phpunit/compare/10.5.14...10.5.15
 [10.5.14]: https://github.com/sebastianbergmann/phpunit/compare/10.5.13...10.5.14
 [10.5.13]: https://github.com/sebastianbergmann/phpunit/compare/10.5.12...10.5.13
