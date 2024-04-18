@@ -10,8 +10,13 @@ class BantuanController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $list_bantuan = bantuan::all();
         $list_penduduk = penduduk::all(); // Make sure this line exists
+=======
+        $list_bantuan = Bantuan::all();
+        $list_penduduk = Penduduk::all(); // Make sure this line exists
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
         return view('bantuan.index', compact('list_bantuan', 'list_penduduk'));
     }

@@ -69,6 +69,7 @@ public function showAllWarga()
         $list_perkawinan = perkawinan::all();
         $list_RT = RT::with(['RW'])->get();
         $list_keluarga = keluarga::all();
+        $list_RW = RW::all();
         return view('dataWarga.wargaAsli.create', compact(
             'list_pendidikan',
             'list_pekerjaan',
@@ -131,15 +132,9 @@ public function showAllWarga()
         
         $penduduk->save();
 
-        return response()->json(['message' => 'API Post Success'],200);
-        } catch (\Exception $e){
-            return response()->json([
-                'message' => 'API Post gagal',
-                
-            ],400);
-        }
+        // Redirect kembali ke halaman 'wargaAsli'
+        return redirect()->route('warga_json')->with('success', 'Penduduk added successfully!');
     }
-
 
     // Update
     public function edit($id)
@@ -226,7 +221,7 @@ public function showAllWarga()
 
         $penduduk->update();
 
-        return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil diedit');
+        return redirect()->route('wargaAsli')->with('success', "$penduduk->nama berhasil diedit");
     }
 
 
@@ -235,6 +230,15 @@ public function showAllWarga()
     {
         $penduduk = penduduk::findOrFail($id);
         $penduduk->delete();
-        return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil dihapus');
+        return redirect()->route('wargaAsli')->with('success', "$penduduk->nama berhasil dihapus");
+    }
+
+    //print
+    public function print()
+    {
+        $penduduk = penduduk::with(['pekerjaan'])
+        ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
+        ->get();
+        return view('dataWarga.wargaAsli.print', compact('penduduk'));
     }
 }

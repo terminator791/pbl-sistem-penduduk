@@ -6,6 +6,8 @@ use App\Http\Controllers\KejadianController;
 use App\Http\Controllers\kesehatan;
 use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\PendidikanController;
+use App\Http\Controllers\KejadianController;
+use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\wargaAsliController;
 use App\Http\Controllers\wargaPendatangController;
@@ -15,11 +17,16 @@ use App\Models\pendidikan;
 use App\Models\penduduk;
 use App\Models\penjabatan_RT;
 use App\Models\RT;
+use App\Models\bantuan;
 use Illuminate\Support\Facades\Route;
 
 
 
+<<<<<<< HEAD
 Route::get('/', [PendudukController::class, 'index'])->name('default');
+=======
+Route::get('/home', [PendudukController::class, 'index'])->name('home');
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
 Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
@@ -90,8 +97,11 @@ Route::get('/wargaAsli/edit-data-warga-asli/{id}', [wargaAsliController::class, 
 Route::post('/wargaAsli/update-data-warga-asli/{id}', [wargaAsliController::class, 'update'])->name('wargaAsli.update');
 Route::get('/wargaAsli/hapus-data-warga-asli/{id}', [wargaAsliController::class, 'delete'])->name('wargaAsli.delete');
 Route::get('/wargaAsli/print', [wargaAsliController::class, 'print'])->name('wargaAsli.print');
+<<<<<<< HEAD
 Route::get('/wargaAsli/getAllWarga', [wargaAsliController::class, 'showAllWarga'])->name('wargaAsli.getAllWarga');
 
+=======
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
 // Data Warga Pendatang
 Route::get('/wargaPendatang/tambah-warga-pendatang', [wargaPendatangController::class, 'create'])->name('wargaPendatang.create');
@@ -101,7 +111,10 @@ Route::get('/wargaPendatang/edit-data-warga-pendatang/{id}', [wargaPendatangCont
 Route::post('/wargaPendatang/update-data-warga-pendatang/{id}', [wargaPendatangController::class, 'update'])->name('wargaPendatang.update');
 Route::get('/wargaPendatang/hapus-data-warga-pendatang/{id}', [wargaPendatangController::class, 'delete'])->name('wargaPendatang.delete');
 Route::get('/wargaPendatang/print', [WargaPendatangController::class, 'print'])->name('wargaPendatang.print');
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
 
 // Kesehatan
@@ -110,6 +123,7 @@ Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])
 Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
 Route::get('/kesehatan/{penyakit}/print', [KesehatanController::class, 'print'])->name('kesehatan.print');
 
+<<<<<<< HEAD
 
 // pendidikan
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
@@ -118,6 +132,8 @@ Route::post('/pendidikan/store-pendidikan/{id}', [PendidikanController::class, '
 Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'delete'])->name('pendidikan.delete');
 
 
+=======
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 // kejadian
 Route::get('/kejadian', [KejadianController::class, 'index'])->name('kejadian');
 Route::post('/kejadian/store-kejadian', [KejadianController::class, 'store'])->name("kejadian.store");
@@ -127,6 +143,13 @@ Route::get('/kejadian', [KejadianController::class, 'index'])->name("kejadian");
 Route::get('/daftar_kejadian', [KejadianController::class, 'create']);
 Route::post('/tambah_kejadian', [KejadianController::class, 'store'])->name("kejadian.add");
 
+<<<<<<< HEAD
+=======
+// pendidikan
+Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
+Route::get('/pendidikan3', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
 // Bantuan
 Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');

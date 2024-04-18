@@ -70,7 +70,11 @@
                 @include('includes.sidebar')
             </div>
         </div>
+<<<<<<< HEAD
         <div id="main" style= "background-color: #D5E3F0;">
+=======
+        <div id="main" style="background-color: #D5E3F0;">
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
 
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">

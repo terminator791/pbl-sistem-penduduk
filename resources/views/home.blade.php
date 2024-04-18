@@ -13,6 +13,7 @@
                         <div class="card-body px-4 py-12-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
+<<<<<<< HEAD
                                 <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
                                     <div class="stats-icon purple mb-2">
                                         <i class="bi-people-fill"></i>
@@ -21,6 +22,14 @@
                                     <div class="mr-2">
                                         <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
                                             <h6 class="text-muted font-semibold" style="margin: 0 auto;"> Data Warga</h6>
+=======
+                                    <div class="stats-icon purple mb-2">
+                                        <i class="bi-people-fill"></i>
+                                    </div>
+                                    <div class="mr-2">
+                                        <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
+                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;">Data Warga</h6>
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
                                         </a>
                                     </div>
                                 </div>
@@ -30,6 +39,7 @@
                 </div>
                 <div class="col-12 col-lg-6 col-md-12"> 
                     <div class="card"> 
+<<<<<<< HEAD
                         <div class="card-body px-4 py-12-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center"> 
@@ -41,6 +51,17 @@
                                     <div class="mr-2"> 
                                         <a href="{{ route('kesehatan') }}" class="text-decoration-none">
                                             <h6 class="text-muted font-semibold" style="margin: 0 auto;"> Data Umum</h6>
+=======
+                        <div class="card-body px-4 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center"> 
+                                    <div class="stats-icon blue mb-2">
+                                        <i class="bi-journal-richtext"></i>
+                                    </div>
+                                    <div class="mr-2"> 
+                                        <a href="{{ route('kesehatan') }}" class="text-decoration-none">
+                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;">Data Umum</h6>
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
                                         </a>
                                     </div>
                                 </div>
@@ -53,6 +74,7 @@
                         <div class="card-body px-4 py-12-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
+<<<<<<< HEAD
                                 <a href="{{ route('dataKos') }}" class="text-decoration-none">
                                     <div class="stats-icon green mb-2">
                                         <i class="bi-house-fill"></i>
@@ -64,6 +86,16 @@
                                         </a>
                                     </div>
                                     
+=======
+                                    <div class="stats-icon green mb-2">
+                                        <i class="bi-house-fill"></i>
+                                    </div>
+                                    <div class="mr-2">
+                                        <a href="{{ route('dataKos') }}" class="text-decoration-none">
+                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;">Data Kos</h6>
+                                        </a>
+                                    </div>
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
                                 </div>
                             </div>
                             
@@ -75,11 +107,19 @@
                         <div class="card-body px-4 py-12-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
+<<<<<<< HEAD
                                     <div class="stats-icon red mb-2 mr-4"> 
                                         <i class="bi-person-fill"></i>
                                     </div>
                                     <div>
                                         <h6 class="text-muted font-semibold ">    Profil</h6>
+=======
+                                    <div class="stats-icon red mb-2 mr-2"> 
+                                        <i class="bi-person-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-muted font-semibold">Profil</h6>
+>>>>>>> cd51e9395601dcfe5cf8d4a4ee67ef333c57786f
                                     </div>
                                 </div>
                             </div>
