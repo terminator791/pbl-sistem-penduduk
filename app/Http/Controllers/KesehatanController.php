@@ -16,7 +16,7 @@ class KesehatanController extends Controller
         $list_penduduk = penduduk::all();
         $kesehatan = kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
         $list_penyakit = jenis_penyakit::all();
-        
+
         return view('kesehatan.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
     }
 
@@ -28,7 +28,7 @@ class KesehatanController extends Controller
         //
         $list_penduduk = penduduk::all();
         $list_penyakit = jenis_penyakit::all();
-        return view('kesehatan.tambah', compact( 'list_penyakit','list_penduduk'));
+        return view('kesehatan.tambah', compact('list_penyakit', 'list_penduduk'));
     }
 
     /**
@@ -59,5 +59,14 @@ class KesehatanController extends Controller
         return redirect()->route('kesehatan')->with('success', 'Kesehatan Deleted successfully!');
     }
 
+    //print
+    //print
+    public function print(jenis_penyakit $penyakit)
+    {
+        // Ambil data kesehatan berdasarkan kategori penyakit
+        $kesehatan = kesehatan::where('id_penyakit', $penyakit->id)->with('penduduk')->get();
 
+        // Kembalikan view print dengan data kesehatan
+        return view('kesehatan.print', compact('kesehatan', 'penyakit'));
+    }
 }
