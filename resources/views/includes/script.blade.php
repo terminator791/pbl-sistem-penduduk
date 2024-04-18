@@ -20,3 +20,7 @@
 {{-- Need: SweetAlert --}}
 <script src="{{ asset('dist/assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>>
 <script src="{{ asset('dist/assets/static/js/pages/sweetalert2.js') }}"></script>>
+
+{{-- Need: Choices --}}
+<script src="{{ asset('dist/assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+<script src="{{ asset('dist/assets/static/js/pages/form-element-select.js') }}"></script>
