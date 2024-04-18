@@ -31,7 +31,6 @@
                 </li>
                 <li class="submenu-item {{ Request::is('pendidikan') ? 'active' : '' }} ">
                     <a href="pendidikan" class="submenu-link">Pendidikan</a>
-
                 </li>
                 <li class="submenu-item {{ Request::is('sosial') ? 'active' : '' }} ">
                     <a href="sosial" class="submenu-link">Sosial</a>
