@@ -4,18 +4,14 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Kesehatan</h3>
-            <p class="text-subtitle text-muted">
-                Rekap data Kesehatan
-            </p>
+            <h3>Data Sosial</h3>
+            <p class="text-subtitle text-muted">Rekap data Sosial</p>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Data Kesehatan
-                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Data Sosial</li>
                 </ol>
             </nav>
         </div>
@@ -23,58 +19,51 @@
 </div>
 @endsection
 
-
 @section('title', 'Data Warga')
 
 @section('content')
 <ul class="nav nav-pills mb-2">
-    @foreach($list_penyakit as $penyakit)
+    @foreach($list_bantuan as $bantuan)
     <li class="nav-item">
-        <a class="nav-link @if($loop->first) active @endif" id="{{ $penyakit->nama_penyakit }}-tab" data-bs-toggle="tab" href="#{{ $penyakit->nama_penyakit }}" role="tab" aria-controls="{{ $penyakit->nama_penyakit }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $penyakit->id }}">
+        <a class="nav-link @if($loop->first) active @endif" id="{{ $bantuan->jenis_bantuan }}-tab" data-bs-toggle="tab" href="#{{ $bantuan->jenis_bantuan }}" role="tab" aria-controls="{{ $bantuan->jenis_bantuan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-bantuan-id="{{ $bantuan->id }}">
             <i data-feather="user" class="font-medium-3 me-50"></i>
-            <span class="fw-@if($loop->first)bold @endif">{{ $penyakit->nama_penyakit }}</span>
+            <span class="fw-bold">{{ $bantuan->jenis_bantuan }}</span>
         </a>
     </li>
     @endforeach
 </ul>
 
 <div class="tab-content">
-    @foreach($list_penyakit as $penyakit)
-    <div class="tab-pane fade @if($loop->first) show active @endif" id="{{ $penyakit->nama_penyakit }}" role="tabpanel" aria-labelledby="{{ $penyakit->nama_penyakit }}-tab">
+    @foreach($list_bantuan as $bantuan)
+    <div class="tab-pane fade @if($loop->first) show active @endif" id="{{ $bantuan->jenis_bantuan }}" role="tabpanel" aria-labelledby="{{ $bantuan->jenis_bantuan }}-tab">
         <section class="section">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">
-                        Rekap Data - {{ $penyakit->nama_penyakit }}
-                    </h5>
-                    <a href="{{ route('kesehatan.print', $penyakit) }}" class="btn btn-primary btn-sm">
+                    <h5 class="card-title mb-0">Rekap Data - {{ $bantuan->jenis_bantuan }}</h5>
+                    <a href="{{ route('bantuan.print', $bantuan) }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-print"></i>
-                        Cetak - {{ $penyakit->nama_penyakit }}
+                        Cetak - {{ $bantuan->jenis_bantuan }}
                     </a>
-
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover" id="table_{{ $penyakit->nama_penyakit }}">
+                        <table class="table table-hover" id="table_{{ $bantuan->jenis_bantuan }}">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
-                                    <th>Tgl Terdampak</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($penyakit->kesehatan as $p)
+                                @foreach($bantuan->penduduk as $p)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $p->penduduk->nama }}</td>
-                                    <td>{{ $p->penduduk->nama_jalan }} , RT {{ $p->penduduk->id_rt }} , RW {{ $p->penduduk->id_rw }}</td>
-                                    <td>{{ $p->tanggal_terdampak }}</td>
-
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
                                     <td>
-                                        <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
+                                        <a href="{{ route('bantuan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     </td>
@@ -97,15 +86,15 @@
     </button>
 </div>
 
-<!-- Modal Tambah Data Kesehatan -->
+<!-- Modal Tambah Data -->
 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data Kesehatan</h5>
+                <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data Sosial</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{ route('kesehatan.store') }}">
+            <form method="POST" action="{{ route('bantuan.store') }}">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -117,49 +106,35 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_terdampak" class="form-label">Tanggal Terdampak:</label>
-                        <input type="date" class="form-control" id="tanggal_terdampak" name="tanggal_terdampak">
+                        <label for="id_bantuan" class="form-label">Jenis Bantuan :</label>
+                        <select name="id_bantuan" id="id_bantuan" class="form-select"></select>
                     </div>
-                    <div class="mb-3">
-                        <label for="id_penyakit" class="form-label">Penyakit :</label>
-                        <select name="id_penyakit" id="id_penyakit" class="form-select">
-                        </select>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Tambah Penduduk</button>
+                    <button type="submit" class="btn btn-primary">Tambah Status Sosial</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script>
-    // Script jQuery
     $(document).ready(function() {
-        // Inisialisasi nilai penyakit pada load halaman pertama kali
-        var initialPenyakit = $('.nav-link.active').data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
-        var namaPenyakit = $('.nav-link.active').text().trim();
-        $('#id_penyakit').html('<option value="' + initialPenyakit + '" selected>' + namaPenyakit + '</option>');
+        // Update the drop-down for the initially selected tab
+        updateDropdown($('.nav-link.active').data('bantuan-id'));
 
         $('.nav-link').on('click', function() {
-            $('.nav-link span').removeClass('fw-bold');
-            $(this).find('span').addClass('fw-bold');
-
-            // Memperbarui pilihan pada dropdown "Penyakit"
-            var penyakitId = $(this).data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
-            var namaPenyakit = $(this).text().trim();
-            $('#id_penyakit').html('<option value="' + penyakitId + '" selected>' + namaPenyakit + '</option>');
+            var bantuanId = $(this).data('bantuan-id');
+            updateDropdown(bantuanId);
         });
 
-        $('.print-button').on('click', function() {
-            window.print();
-        });
+        function updateDropdown(bantuanId) {
+            var selectedBantuan = $('.nav-link[data-bantuan-id="' + bantuanId + '"]').text().trim();
+            $('#id_bantuan').html('<option value="' + bantuanId + '">' + selectedBantuan + '</option>');
+        }
     });
 </script>
 @endsection
