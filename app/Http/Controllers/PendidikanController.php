@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\pendidikan;
-use App\Models\jenis_penyakit;
-use App\Models\kesehatan;
 use App\Models\penduduk;
 use Illuminate\Http\Request;
 
@@ -45,4 +43,5 @@ class PendidikanController extends Controller
         $kesehatan->delete();
         return redirect()->route('pendidikan')->with('success', 'Kesehatan Deleted successfully!');
     }
+
 }
