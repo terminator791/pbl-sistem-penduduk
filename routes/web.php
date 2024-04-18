@@ -4,8 +4,8 @@ use App\Http\Controllers\dataKosController;
 use App\Http\Controllers\kesehatan;
 use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\PendidikanController;
-use App\Http\Controllers\BencanaController;
-use App\Http\Controllers\SosialController;
+use App\Http\Controllers\KejadianController;
+use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\wargaAsliController;
 use App\Http\Controllers\wargaPendatangController;
@@ -15,16 +15,15 @@ use App\Models\pendidikan;
 use App\Models\penduduk;
 use App\Models\penjabatan_RT;
 use App\Models\RT;
+use App\Models\bantuan;
 use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/home', [PendudukController::class, 'index'])->name('home');
 
-Route::get('/', [PendudukController::class, 'index'])->name('home');
-//route untuk Penddikan
-Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('edu');
-Route::get('/tambah_pendidkan', [PendidikanController::class, 'create'])->name('logout');
-Route::get('/tambah_pendidikan/save', [PendidikanController::class, 'store'])->name("pendidikan.add");
+Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
 
 //Tambah Penduduk/Warga tetap
 Route::get('/data_warga', [PendudukController::class, 'create']);
@@ -111,19 +110,27 @@ Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])
 Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
 Route::get('/kesehatan/{penyakit}/print', [KesehatanController::class, 'print'])->name('kesehatan.print');
 
+// kejadian
+Route::get('/kejadian', [KejadianController::class, 'index'])->name('kejadian');
+Route::post('/kejadian/store-kejadian', [KejadianController::class, 'store'])->name("kejadian.store");
+Route::get('/kejadian/hapus-kejadian/{id}', [KejadianController::class, 'delete'])->name('kejadian.delete');
+Route::get('/kejadian/{jenis_kejadian}/print', [KejadianController::class, 'print'])->name('kejadian.print');
+Route::get('/kejadian', [KejadianController::class, 'index'])->name("kejadian");
+Route::get('/daftar_kejadian', [KejadianController::class, 'create']);
+Route::post('/tambah_kejadian', [KejadianController::class, 'store'])->name("kejadian.add");
 
 // pendidikan
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
 Route::get('/pendidikan3', [PendidikanController::class, 'create'])->name('logout');
 Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
 
-// bantuan
-Route::get('/bencana', [BencanaController::class, 'index'])->name('bencana');
-Route::get('/bencana3', [BencanaController::class, 'create'])->name('logout');
-Route::get('/bencana2', [BencanaController::class, 'store'])->name("bencana");
-
-// sosial
-Route::get('/sosial', [SosialController::class, 'index'])->name('sosial');
-Route::get('/sosial3', [SosialController::class, 'create'])->name('logout');
-Route::get('/sosial2', [SosialController::class, 'store'])->name("sosial");
+// Bantuan
+Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
+Route::get('/bantuan', 'BantuanController@index')->name('bantuan.index');
+Route::post('/bantuan/store-bantuan', [BantuanController::class, 'store'])->name("bantuan.store");
+Route::get('/bantuan/hapus-bantuan/{id}', [BantuanController::class, 'delete'])->name('bantuan.delete');
+Route::get('/bantuan/{bantuan}/print', [BantuanController::class, 'print'])->name('bantuan.print');
+Route::get('/bantuan', [BantuanController::class, 'index'])->name("bantuan");
+Route::get('/daftar_bantuan', [BantuanController::class, 'create']);
+Route::post('/tambah_bantuan', [BantuanController::class, 'store'])->name("bantuan.add");
 

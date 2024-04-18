@@ -9,7 +9,7 @@
         </select>
     </div>
     <div>
-        <label for="tanggal_terdampak">Tanggal Lahir:</label>
+        <label for="tanggal_terdampak">Tanggal Terdampak:</label>
         <input type="date" name="tanggal_terdampak" id="tanggal_terdampak">
     </div>
     <div>

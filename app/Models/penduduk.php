@@ -28,8 +28,9 @@ class penduduk extends Model
         return $this->belongsTo(pekerjaan::class, 'id');
     }
 
-    public function bantuan(){
-        return $this->belongsTo(bantuan::class, 'id');
+    public function bantuan()
+    {
+        return $this->belongsTo(bantuan::class, 'id_bantuan');
     }
 
     public function rw(){
