@@ -45,7 +45,7 @@
                                 <th>No</th>
                                 <th>NIK</th>
                                 <th>Nama</th>
-                                <th>Alamat</th>
+                                <th>Kos</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -56,7 +56,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->NIK }}</td>
                                     <td>{{ $p->nama }}</td>
-                                    <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td> {{-- GANTI GET NAMA KOS --}}
                                     <td>
                                         @if ($p->status_penghuni == 'meninggal')
                                             <span class="badge bg-danger">Meninggal</span>

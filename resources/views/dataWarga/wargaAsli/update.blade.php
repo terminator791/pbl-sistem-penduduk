@@ -53,7 +53,7 @@
                                             <label for="jenis_kelamin" class="form-label"><strong>Jenis
                                                     Kelamin</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
+                                                <select class="choices form-select" id="jenis_kelamin" name="jenis_kelamin">
                                                     <option disabled>Pilih Jenis Kelamin</option>
                                                     <option value="pria"
                                                         {{ $penduduk->jenis_kelamin == 'pria' ? 'selected' : '' }}>Laki-laki
@@ -78,7 +78,7 @@
                                         <div class="form-group mandatory">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="agama" name="agama">
+                                                <select class="choices form-select" id="agama" name="agama">
                                                     <option disabled selected>Pilih Agama</option>
                                                     <option value="islam"
                                                         {{ $penduduk->agama == 'islam' ? 'selected' : '' }}>Islam</option>
@@ -115,10 +115,10 @@
                                             <label for="id_pendidikan"
                                                 class="form-label"><strong>Pendidikan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
+                                                <select class="choices form-select" id="id_pendidikan" name="id_pendidikan">
                                                     <option disabled selected>Pilih Pendidikan</option>
                                                     @foreach ($list_pendidikan as $pendidikan)
-                                                        <option value="{{ $pendidikan->id }}"
+                                                        <option value="{{ $pendidikan->jenis_pendidikan }}"
                                                             {{ $penduduk->id_pendidikan == $pendidikan->id ? 'selected' : '' }}>
                                                             {{ $pendidikan->jenis_pendidikan }}
                                                         </option>
@@ -142,10 +142,11 @@
                                             <label for="id_pekerjaan"
                                                 class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="choices form-select" id="id_pekerjaan"
+                                                    name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
-                                                        <option value="{{ $pekerjaan->id }}"
+                                                        <option value="{{ $pekerjaan->jenis_pekerjaan }}"
                                                             {{ $penduduk->id_pekerjaan == $pekerjaan->id ? 'selected' : '' }}>
                                                             {{ $pekerjaan->jenis_pekerjaan }}</option>
                                                         <!-- Use actual database values -->
@@ -160,10 +161,10 @@
                                             <label for="id_keluarga" class="form-label"><strong>Status Hubungan
                                                     Keluarga</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_keluarga" name="id_keluarga">
+                                                <select class="choices form-select" id="id_keluarga" name="id_keluarga">
                                                     <option disabled selected>Pilih Hubungan Keluarga</option>
                                                     @foreach ($list_keluarga as $keluarga)
-                                                        <option value="{{ $keluarga->id }}"
+                                                        <option value="{{ $keluarga->status_keluarga }}"
                                                             {{ $penduduk->id_keluarga == $keluarga->id ? 'selected' : '' }}>
                                                             {{ $keluarga->status_keluarga }}</option>
                                                         <!-- Use actual database values -->
@@ -178,11 +179,11 @@
                                             <label for="id_status_perkawinan" class="form-label"><strong>Status
                                                     Perkawinan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_status_perkawinan"
+                                                <select class="choices form-select" id="id_status_perkawinan"
                                                     name="id_status_perkawinan">
                                                     <option disabled selected>Pilih Status Perkawinan</option>
                                                     @foreach ($list_perkawinan as $perkawinan)
-                                                        <option value="{{ $perkawinan->id }}"
+                                                        <option value="{{ $perkawinan->status_perkawinan }}"
                                                             {{ $penduduk->id_status_perkawinan == $perkawinan->id ? 'selected' : '' }}>
                                                             {{ $perkawinan->status_perkawinan }}</option>
                                                         <!-- Use actual database values -->
@@ -197,7 +198,8 @@
                                             <label for="status_penghuni" class="form-label"><strong>Status
                                                     Tinggal</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                <select class="choices form-select" id="status_penghuni"
+                                                    name="status_penghuni">
                                                     <option disabled selected>Pilih Status Tinggal</option>
 
                                                     <option value="tetap"
@@ -297,16 +299,6 @@
 
 @section('scripts')
     <script>
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     var birthdateInput = document.getElementById("birthdate");
-        //     birthdateInput.addEventListener("change", function() {
-        //         var selectedDate = new Date(birthdateInput.value);
-        //         var formattedDate = selectedDate.getDate() + "/" + (selectedDate.getMonth() + 1) + "/" +
-        //             selectedDate.getFullYear();
-        //         birthdateInput.value = formattedDate;
-        //     });
-        // });
-
         document.addEventListener("DOMContentLoaded", function() {
             var resetButton = document.querySelector('button[type="reset"]');
             resetButton.addEventListener('click', function() {

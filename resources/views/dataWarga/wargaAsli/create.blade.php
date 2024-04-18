@@ -26,7 +26,7 @@
 
 @section('content')
     {{-- Start Table --}}
-    {{-- <section id="multiple-column-form">
+    <section id="multiple-column-form">
         <div class="row match-height">
             <div class="col-12">
                 <div class="card">
@@ -53,7 +53,7 @@
                                             <label for="jenis_kelamin" class="form-label"><strong>Jenis
                                                     Kelamin</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
+                                                <select class="choices form-select" name="jenis_kelamin" id="jenis_kelamin">
                                                     <option disabled selected>Pilih Jenis Kelamin</option>
                                                     <option value="wanita">Perempuan</option>
                                                     <option value="pria">Laki-laki</option>
@@ -74,7 +74,7 @@
                                         <div class="form-group mandatory">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="agama" name="agama">
+                                                <select class="choices form-select" id="agama" name="agama">
                                                     <option disabled selected>Pilih Agama</option>
                                                     <option value="islam">Islam</option>
                                                     <option value="katolik">Katholik</option>
@@ -102,10 +102,10 @@
                                             <label for="id_pendidikan"
                                                 class="form-label"><strong>Pendidikan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
+                                                <select class="choices form-select" id="id_pendidikan" name="id_pendidikan">
                                                     <option disabled selected>Pilih Pendidikan</option>
                                                     @foreach ($list_pendidikan as $pendidikan)
-                                                        <option value="{{ $pendidikan->id }}">
+                                                        <option value="{{ $pendidikan->jenis_pendidikan }}">
                                                             {{ $pendidikan->jenis_pendidikan }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
@@ -125,13 +125,13 @@
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="id_pekerjaan"
-                                                class="form-label"><strong>Pekerjaan</strong></label>
+                                            <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="choices form-select" id="id_pekerjaan"
+                                                    name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
-                                                        <option value="{{ $pekerjaan->id }}">
+                                                        <option value="{{ $pekerjaan->jenis_pekerjaan }}">
                                                             {{ $pekerjaan->jenis_pekerjaan }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
@@ -145,10 +145,10 @@
                                             <label for="id_keluarga" class="form-label"><strong>Status Hubungan
                                                     Keluarga</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_keluarga" name="id_keluarga">
+                                                <select class="choices form-select" id="id_keluarga" name="id_keluarga">
                                                     <option disabled selected>Pilih Hubungan Keluarga</option>
                                                     @foreach ($list_keluarga as $keluarga)
-                                                        <option value="{{ $keluarga->id }}">
+                                                        <option value="{{ $keluarga->status_keluarga }}">
                                                             {{ $keluarga->status_keluarga }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
@@ -162,11 +162,11 @@
                                             <label for="id_status_perkawinan" class="form-label"><strong>Status
                                                     Perkawinan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_status_perkawinan"
+                                                <select class="choices form-select" id="id_status_perkawinan"
                                                     name="id_status_perkawinan">
                                                     <option disabled selected>Pilih Status Perkawinan</option>
                                                     @foreach ($list_perkawinan as $perkawinan)
-                                                        <option value="{{ $perkawinan->id }}">
+                                                        <option value="{{ $perkawinan->status_perkawinan }}">
                                                             {{ $perkawinan->status_perkawinan }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
@@ -180,7 +180,8 @@
                                             <label for="status_penghuni" class="form-label"><strong>Status
                                                     Tinggal</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                <select class="choices form-select" id="status_penghuni"
+                                                    name="status_penghuni">
                                                     <option disabled selected>Pilih Status Tinggal</option>
                                                     <option value="tetap">Tetap</option>
                                                     <option value="pindah">Pindah</option>
@@ -260,78 +261,20 @@
                 </div>
             </div>
         </div>
-    </section> --}}
-
-    <section id="form-and-scrolling-components">
-        <div class="row">
-            <div class="col-md-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <h4 class="card-title">Modal with Login Form</h4>
-                                <p> Created Simple Login Form.</p>
-
-                                <!--login form Modal -->
-                                <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
-                                    aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Login Form </h4>
-                                                <button type="button" class="close" data-bs-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <i data-feather="x"></i>
-                                                </button>
-                                            </div>
-                                            <form action="#">
-                                                <div class="modal-body">
-                                                    <label for="email">Email: </label>
-                                                    <div class="form-group">
-                                                        <input id="email" type="text" placeholder="Email Address"
-                                                            class="form-control">
-                                                    </div>
-                                                    <label for="password">Password: </label>
-                                                    <div class="form-group">
-                                                        <input id="password" type="password" placeholder="Password"
-                                                            class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Close</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary ms-1"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">login</span>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
+
     {{-- End Table --}}
 @endsection
 
 @section('scripts')
     <script>
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     var resetButton = document.querySelector('button[type="reset"]');
-        //     resetButton.addEventListener('click', function() {
-        //         resetForm();
-        //         window.location.href = "{{ route('wargaAsli.create') }}";
-        //     });
-        // });
+        document.addEventListener("DOMContentLoaded", function() {
+            var resetButton = document.querySelector('button[type="reset"]');
+            resetButton.addEventListener('click', function() {
+                resetForm();
+                window.location.href = "{{ route('wargaAsli.create') }}";
+            });
+        });
 
         function resetForm() {
             var form = document.querySelector('form');

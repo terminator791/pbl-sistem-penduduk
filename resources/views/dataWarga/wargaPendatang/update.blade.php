@@ -39,23 +39,24 @@
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="first-name-column" class="form-label">NIK</label>
-                                            <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="NIK" name="fname-column" data-parsley-required="true" />
+                                            <label for="NIK" class="form-label">NIK</label>
+                                            <input type="text" id="NIK" class="form-control" placeholder="NIK"
+                                                name="NIK" data-parsley-required="true" value="{{ $penduduk->NIK }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="last-name-column" class="form-label">Nama</label>
-                                            <input type="text" id="last-name-column" class="form-control"
-                                                placeholder="Nama" name="lname-column" data-parsley-required="true" />
+                                            <label for="nama" class="form-label">Nama</label>
+                                            <input type="text" id="nama" class="form-control" placeholder="Nama"
+                                                name="nama" data-parsley-required="true" value="{{ $penduduk->nama }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Alamat Kos</label>
-                                            <input type="text" id="country-floating" class="form-control"
-                                                name="country-floating" placeholder="Alamat" data-parsley-required="true" />
+                                            <label for="nama_kos" class="form-label">Kos</label>
+                                            <input type="text" id="nama_kos" class="form-control" name="nama_kos"
+                                                placeholder="Nama Kos" data-parsley-required="true"
+                                                value="{{ $penduduk->nama_jalan }}" /> {{-- gANTI GET NAMA KOS --}}
                                         </div>
                                     </div>
                                     <div class="row">
