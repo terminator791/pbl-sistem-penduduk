@@ -18,5 +18,9 @@
 Moh Iqbal Bagus P H
 Hussain Tamam Gucci
 Mirza Syahir N R
-Masukin sendiri
+Arya Damar Sindharu
+Nafiis Abyan
+Rucirasatti
+Selvi Alma
+Maulana Albaihaqi
 ```

@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         keluarga::create([
             'status_keluarga' => 'anak'
         ],);
-        
+
 
 
         perkawinan::create([
@@ -333,44 +333,44 @@ class DatabaseSeeder extends Seeder
         RW::create([
             'nama_rw' => '01',
             'ketua_rw' => 'Rifqi'
-           
+
         ],);
         RW::create([
             'nama_rw' => '02',
             'ketua_rw' => 'Iqbal'
-           
+
         ],);
         RW::create([
             'nama_rw' => '03',
             'ketua_rw' => 'Husein'
-           
+
         ],);
 
 
         RT::create([
             'nama_rt' => '01',
             'id_rw' => '1',
-            
+
         ],);
         RT::create([
             'nama_rt' => '02',
             'id_rw' => '1',
-            
+
         ],);
         RT::create([
             'nama_rt' => '03',
             'id_rw' => '2',
-           
+
         ],);
         RT::create([
             'nama_rt' => '04',
             'id_rw' => '2',
-            
+
         ],);
         RT::create([
             'nama_rt' => '05',
             'id_rw' => '3',
-            
+
         ],);
 
 
@@ -392,7 +392,7 @@ class DatabaseSeeder extends Seeder
             'nama_penyakit' => 'Kanker'
         ],);
 
-        
+
         bantuan::create([
             'jenis_bantuan' => 'Prakerja'
         ],);
@@ -431,7 +431,7 @@ class DatabaseSeeder extends Seeder
         ],);
 
 
-        
+
         jenis_kejadian::create([
             'jenis_kejadian' => 'Banjir'
         ],);
@@ -451,7 +451,7 @@ class DatabaseSeeder extends Seeder
             'jenis_kejadian' => 'Lain-lain'
         ],);
 
-        
+
 
         penduduk::create([
             'NIK' => '3317120041795',
@@ -532,7 +532,7 @@ class DatabaseSeeder extends Seeder
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
             'status' => true,
-            
+
         ],);
 
         kos::create([
@@ -556,6 +556,6 @@ class DatabaseSeeder extends Seeder
             'email_pemilik' => 'rifqi@mail.com',
             'status' => true,
         ],);
-        
+
     }
 }
