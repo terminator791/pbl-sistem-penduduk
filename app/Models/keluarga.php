@@ -14,6 +14,6 @@ class keluarga extends Model
     protected $fillable = ['status_keluarga'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'id_keluarga')->withTimestamps();
+        return $this->hasMany(penduduk::class, 'id_keluarga');
     }
 }

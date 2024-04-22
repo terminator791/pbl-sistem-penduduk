@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\File; // Import Facade File
 class PendudukController extends Controller
 {
     public function index(Request $request)
-{
-    $menu = $request->query('menu', 'data_warga');
-    $penduduk = penduduk::with(['pekerjaan'])->get();
-    
-    return view('warga.index', compact('menu', 'penduduk'));
-}
+    {
+        $menu = $request->query('menu', 'data_warga');
+        $penduduk = penduduk::with(['pekerjaan'])->get();
 
-public function create()
+        return view('home', compact('menu', 'penduduk'));
+    }
+
+    public function create()
     {
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
@@ -30,12 +30,17 @@ public function create()
         $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
-        return view('warga.add', compact('list_pendidikan', 'list_pekerjaan', 
-                                         'list_perkawinan', 'list_RT', 
-                                         'list_RW', 'list_keluarga' ));
+        return view('warga.add', compact(
+            'list_pendidikan',
+            'list_pekerjaan',
+            'list_perkawinan',
+            'list_RT',
+            'list_RW',
+            'list_keluarga'
+        ));
     }
 
-    
+
 
     public function store(Request $request)
     {
@@ -60,9 +65,6 @@ public function create()
 
         $penduduk->save();
 
-        return redirect()->route('dashboard')->with('success', 'Penduduk added successfully!');
+        return redirect()->route('dashboard')->with('success', 'Penduduk berhasil ditambahkan!');
     }
-
-
-
 }

@@ -13,7 +13,9 @@ class bantuan extends Model
 
     protected $fillable = ['jenis_bantuan'];
 
-    public function penduduk(){
-        return $this->hasMany(penduduk::class, 'bantuan')->withTimestamps();
+    // Relasi ke Penduduk
+    public function penduduk()
+    {
+        return $this->hasMany(penduduk::class, 'id_bantuan');
     }
 }

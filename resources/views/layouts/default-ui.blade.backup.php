@@ -4,24 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Dashboard - Sistem Kependudukan</title>
 
-    <?php echo $__env->make('includes.style', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    @include('includes.style')
 
 </head>
 
 <body>
-    <script src="<?php echo e(asset('dist/assets/static/js/initTheme.js')); ?>"></script>
+    <script src="{{ asset('dist/assets/static/js/initTheme.js') }}"></script>
     <div id="app">
         <div id="sidebar">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <span>Proyek PBL</span>
+                            <span>Sistem Data Penduduk</span>
                         </div>
 
-                        
+                        {{-- dark mode --}}
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20"
@@ -53,7 +53,7 @@
                             </svg>
                         </div>
 
-                        
+                        {{-- hide toggle sidebar --}}
                         <div class="sidebar-toggler  x">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i
                                     class="bi bi-x bi-middle"></i></a>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                @include('includes.sidebar')
 
             </div>
         </div>
@@ -73,24 +73,23 @@
                 </a>
             </header>
 
-            
+            {{-- tittle header --}}
             <div class="page-heading">
-                <?php echo $__env->yieldContent('heading'); ?>
+                @yield('heading')
             </div>
 
             <div class="page-content">
-                <?php echo $__env->yieldContent('content'); ?>
+                @yield('content')
             </div>
 
-            <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            @include('includes.footer')
 
         </div>
     </div>
 
-    <?php echo $__env->make('includes.script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->yieldContent('scripts'); ?>
+    @include('includes.script')
+    @yield('scripts')
 
 </body>
 
 </html>
-<?php /**PATH C:\Users\rudeus\Laravel\pbl-project-sistem-kependudukan\resources\views/layouts/default-ui.blade.php ENDPATH**/ ?>

@@ -14,10 +14,10 @@ class kejadian extends Model
     protected $guarded = ['id'];
 
     public function penduduk(){
-        return $this->belongsTo(penduduk::class, 'NIK_penduduk')->withTimestamps();
+        return $this->belongsTo(penduduk::class, 'NIK_penduduk','NIK');
     }
 
     public function jenis_kejadian(){
-        return $this->belongsTo(jenis_kejadian::class, 'jenis_kejadian')->withTimestamps();
+        return $this->belongsTo(jenis_kejadian::class, 'jenis_kejadian');
     }
 }

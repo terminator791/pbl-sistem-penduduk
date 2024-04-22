@@ -16,3 +16,7 @@
 <script src="{{ asset('dist/assets/extensions/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('dist/assets/extensions/parsleyjs/parsley.min.js') }}"></script>
 <script src="{{ asset('dist/assets/static/js/pages/parsley.js') }}"></script>
+
+{{-- Need: SweetAlert --}}
+<script src="{{ asset('dist/assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>>
+<script src="{{ asset('dist/assets/static/js/pages/sweetalert2.js') }}"></script>>

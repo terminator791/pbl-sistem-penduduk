@@ -14,10 +14,11 @@ class jenis_kejadian extends Model
     protected $guarded = ['id'];
 
     public function penduduk(){
-        return $this->belongsToMany(penduduk::class, 'kejadian', 'jenis_kejadian', 'NIK_penduduk')->withTimestamps();
+        return $this->belongsToMany(penduduk::class, 'kejadian', 'jenis_kejadian', 'NIK_penduduk');
     }
 
     public function kejadian(){
-        return $this->hasMany(kejadian::class, 'jenis_kejadian')->withTimestamps();
+        return $this->hasMany(kejadian::class, 'jenis_kejadian');
     }
+
 }
