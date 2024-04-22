@@ -9,6 +9,8 @@ use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\wargaAsliController;
 use App\Http\Controllers\wargaPendatangController;
+use App\Http\Controllers\ProfileController;
+
 use App\Models\keluarga;
 use App\Models\kos;
 use App\Models\pendidikan;
@@ -19,10 +21,17 @@ use App\Models\bantuan;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/home', [PendudukController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/pendidikan', [PendidikanController::class, 'create'])->name('logout');
+require __DIR__.'/auth.php';
+
+Route::get('/pendidikan', [PendidikanController::class, 'create']);
 Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
 
 //Tambah Penduduk/Warga tetap
@@ -121,7 +130,7 @@ Route::post('/tambah_kejadian', [KejadianController::class, 'store'])->name("kej
 
 // pendidikan
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
-Route::get('/pendidikan3', [PendidikanController::class, 'create'])->name('logout');
+Route::get('/pendidikan3', [PendidikanController::class, 'create']);
 Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
 
 // Bantuan
@@ -134,32 +143,6 @@ Route::get('/bantuan', [BantuanController::class, 'index'])->name("bantuan");
 Route::get('/daftar_bantuan', [BantuanController::class, 'create']);
 Route::post('/tambah_bantuan', [BantuanController::class, 'store'])->name("bantuan.add");
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
