@@ -10,6 +10,7 @@ use App\Models\pendidikan;
 use App\Models\penduduk;
 use App\Models\penjabatan_RT;
 use App\Models\RT;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 // nanti ini dihapus aja
 
@@ -117,3 +118,9 @@ Route::get('/wargaPendatang/tambah-warga-pendatang', [App\Http\Controllers\warga
 Route::get('/wargaPendatang', [App\Http\Controllers\wargaPendatangController::class, 'index'])->name('wargaPendatang');
 Route::get('/wargaPendatang/edit-data-warga-pendatang', [App\Http\Controllers\wargaPendatangController::class, 'update'])->name('wargaPendatang.update');
 Route::get('/wargaPendatang/hapus-data-warga-pendatang', [App\Http\Controllers\wargaPendatangController::class, 'delete'])->name('wargaPendatang.delete');
+
+//Data Profil
+Route::get('/login', [App\Http\Controllers\AuthloginController::class, 'index'])->name('login');
+
+//profile
+Route::get('/profile', [App\Http\Controllers\profileController::class, 'index'])->name('profile');
