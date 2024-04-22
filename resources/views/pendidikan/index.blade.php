@@ -137,6 +137,22 @@
 <script>
     // Script jQuery
     $(document).ready(function() {
+        // Fungsi untuk menyimpan id jenis pendidikan ke local storage
+    function saveActiveJenisPendidikanId(jenisPendidikanId) {
+        localStorage.setItem('activeJenisPendidikanId', jenisPendidikanId);
+    }
+
+    // Fungsi untuk mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
+    function getSavedActiveJenisPendidikanId() {
+        return localStorage.getItem('activeJenisPendidikanId');
+    }
+
+    // Inisialisasi tab aktif
+    var activeJenisPendidikanId = getSavedActiveJenisPendidikanId(); // Mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
+    if (activeJenisPendidikanId) {
+        $('.nav-link[data-penyakit-id="' + activeJenisPendidikanId + '"]').tab('show'); // Menampilkan tab dengan id jenis pendidikan terakhir yang diakses
+    }
+
         // Inisialisasi nilai penyakit pada load halaman pertama kali
         var initialPenyakit = $('.nav-link.active').data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
         var namaPenyakit = $('.nav-link.active').text().trim();
@@ -150,6 +166,9 @@
             var penyakitId = $(this).data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
             var namaPenyakit = $(this).text().trim();
             $('#id_pendidikan').html('<option value="' + penyakitId + '" selected>' + namaPenyakit + '</option>');
+
+            var jenisPendidikanId = $(this).data('penyakit-id');
+        saveActiveJenisPendidikanId(jenisPendidikanId); // Menyimpan id jenis pendidikan ke local storage setiap kali tab diubah
         });
 
         $('#NIK_penduduk').on('change', function() {

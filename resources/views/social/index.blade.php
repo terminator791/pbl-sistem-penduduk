@@ -146,9 +146,24 @@
 <script>
     // Script jQuery
     $(document).ready(function() {
-        // Inisialisasi nilai penyakit pada load halaman pertama kali
-        console.log(initialBantuan);
-        console.log(namaBantuan);
+
+        var activeJenisBantuanId = getSavedActiveJenisBantuanId();
+
+    if (activeJenisBantuanId) {
+        $('.nav-link[data-jenis_bantuan-id="' + activeJenisBantuanId + '"]').tab('show');
+    }
+
+    function saveActiveJenisBantuanId(jenisBantuanId) {
+        localStorage.setItem('activeJenisBantuanId', jenisBantuanId);
+        var url = new URL(window.location.href);
+        url.searchParams.set('jenis_bantuan_id', jenisBantuanId);
+        window.history.pushState({}, '', url);
+    }
+
+    function getSavedActiveJenisBantuanId() {
+        return localStorage.getItem('activeJenisBantuanId');
+    }
+
         var initialBantuan = $('.nav-link.active').data('bantuan-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
         var namaBantuan = $('.nav-link.active').text().trim();
         $('#id_bantuan').html('<option value="' + initialBantuan + '">' + namaBantuan + '</option>');
@@ -159,9 +174,11 @@
             // Memperbarui pilihan pada dropdown "Penyakit"
             var bantuanId = $(this).data('jenis_bantuan-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
             var namaBantuan = $(this).text().trim();
-            console.log(bantuanId);
-            console.log(namaBantuan);
+            
             $('#id_bantuan').html('<option value="' + bantuanId + '">' + namaBantuan + '</option>');
+
+            var jenisBantuanId = $(this).data('jenis_bantuan-id');
+            saveActiveJenisBantuanId(jenisBantuanId);
         });
 
         $('.print-button').on('click', function() {

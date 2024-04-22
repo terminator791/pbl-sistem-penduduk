@@ -46,32 +46,12 @@
                             <th>NIK</th>
                             <th>Nama</th>
                             <th>Alamat</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    @foreach($penduduk as $p)
+                    
                     <tbody>
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->NIK }}</td>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
-                            <td>
-                                <!-- Tombol Toggle Edit -->
-                                <a href="{{ route('wargaPendatang.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
-                                    <i class="bi bi-pencil-fill text-white"></i>
-                                </a>
-
-
-                                <!-- Tombol Hapus -->
-                                <a href="{{ route('wargaPendatang.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
-                                    <i class="bi bi-trash-fill"></i>
-                                </a>
-                            </td>
-
-                        </tr>
-                        @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -94,4 +74,95 @@
 
 @section('scripts')
 {{-- --}}
+
+{{-- JavaScript untuk memuat data warga dari backend --}}
+<script>
+window.onload = function() {
+    fetchAllData();
+}
+
+function fetchAllData() {
+    fetch('{{ route('wargaPendatang.fetchAll') }}')
+        .then(response => response.json())
+        .then(data => {
+            // Ambil tabel
+            const tableBody = document.querySelector("#table3 tbody");
+            
+            // Bersihkan tabel
+            tableBody.innerHTML = '';
+
+            // Perulangan untuk setiap data warga
+            data.forEach((penduduk, index) => {
+                // Menentukan warna badge berdasarkan status penghuni
+                let badgeColor;
+                if (penduduk.status_penghuni === 'kos') {
+                    badgeColor = 'primary';
+                } else if (penduduk.status_penghuni === 'kontrak') {
+                    badgeColor = 'success';
+                }
+                
+                // Buat baris baru untuk setiap data warga
+                const newRow = `
+                    <tr class="${penduduk.status_penghuni == 'meninggal' ? 'fade-row' : ''}">
+                        <td>${index + 1}</td>
+                        <td>${penduduk.NIK}</td>
+                        <td>${penduduk.nama}</td>
+                        <td>${penduduk.nama_jalan} , RT: ${penduduk.id_rt} , RW: ${penduduk.id_rw}</td>
+                        <td>
+                            <span class="badge bg-${badgeColor}">${penduduk.status_penghuni}</span>
+                        </td>
+                        <td>
+                            <a href="{{ route('wargaPendatang.edit', '') }}/${penduduk.id}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
+                                <i class="bi bi-pencil-fill text-white"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(${penduduk.id})">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-primary toggle-detail" data-toggle="modal">
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                `;
+                
+                // Masukkan baris baru ke dalam tabel
+                tableBody.innerHTML += newRow; 
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+    // Fungsi untuk konfirmasi hapus
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Konfirmasi Hapus',
+            text: "Apakah Anda yakin ingin menghapus data ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke route delete dengan id yang sesuai
+                window.location.href = "{{ url('/wargaPendatang/hapus-data-warga-asli') }}/" + id;
+            }
+        });
+    }
+</script>
+
+@if (session('success'))
+<script>
+    Swal.fire({
+        title: 'Sukses!',
+        text: '{{ session('success') }}',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000
+    });
+</script>
+@endif
 @endsection

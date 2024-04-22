@@ -55,6 +55,7 @@
                         {{-- Data Warga akan dimasukkan di sini --}}
                     </tbody>
                 </table>
+                
             </div>
         </div>
 
@@ -78,8 +79,6 @@
 @section('scripts')
 {{-- JavaScript untuk memuat data warga dari backend --}}
 <script>
-    // Ambil data dari backend saat halaman dimuat
-    // Ambil data dari backend saat halaman dimuat
 window.onload = function() {
     fetchAllData();
 }
@@ -132,7 +131,7 @@ function fetchAllData() {
                 `;
                 
                 // Masukkan baris baru ke dalam tabel
-                tableBody.innerHTML += newRow;
+                tableBody.innerHTML += newRow; 
             });
         })
         .catch(error => console.error('Error:', error));

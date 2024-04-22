@@ -32,7 +32,7 @@
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $penyakit->nama_penyakit }}-tab" data-bs-toggle="tab" href="#{{ $penyakit->nama_penyakit }}" role="tab" aria-controls="{{ $penyakit->nama_penyakit }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $penyakit->id }}">
             <i data-feather="user" class="font-medium-3 me-50"></i>
-            <span class="fw-@if($loop->first)bold @endif">{{ $penyakit->nama_penyakit }}</span>
+            <span>{{ $penyakit->nama_penyakit }}</span>
         </a>
     </li>
     @endforeach
@@ -142,6 +142,22 @@
 <script>
     // Script jQuery
     $(document).ready(function() {
+        // Fungsi untuk menyimpan id penyakit ke local storage
+        function saveActivePenyakitId(penyakitId) {
+            localStorage.setItem('activePenyakitId', penyakitId);
+        }
+
+        // Fungsi untuk mendapatkan id penyakit terakhir yang diakses dari local storage
+        function getSavedActivePenyakitId() {
+            return localStorage.getItem('activePenyakitId');
+        }
+
+        // Inisialisasi tab aktif
+        var activePenyakitId = getSavedActivePenyakitId(); // Mendapatkan id penyakit terakhir yang diakses dari local storage
+        if (activePenyakitId) {
+            $('.nav-link[data-penyakit-id="' + activePenyakitId + '"]').tab('show'); // Menampilkan tab dengan id penyakit terakhir yang diakses
+        }
+
         // Inisialisasi nilai penyakit pada load halaman pertama kali
         var initialPenyakit = $('.nav-link.active').data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
         var namaPenyakit = $('.nav-link.active').text().trim();
@@ -155,6 +171,7 @@
             var penyakitId = $(this).data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
             var namaPenyakit = $(this).text().trim();
             $('#id_penyakit').html('<option value="' + penyakitId + '" selected>' + namaPenyakit + '</option>');
+            saveActivePenyakitId(penyakitId);
         });
 
         $('.print-button').on('click', function() {

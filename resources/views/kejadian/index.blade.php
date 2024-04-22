@@ -152,6 +152,22 @@
 <script>
     // Script jQuery
     $(document).ready(function() {
+        // Fungsi untuk menyimpan id jenis kejadian ke local storage
+    function saveActiveJenisKejadianId(jenisKejadianId) {
+        localStorage.setItem('activeJenisKejadianId', jenisKejadianId);
+    }
+
+    // Fungsi untuk mendapatkan id jenis kejadian terakhir yang diakses dari local storage
+    function getSavedActiveJenisKejadianId() {
+        return localStorage.getItem('activeJenisKejadianId');
+    }
+
+    // Inisialisasi tab aktif
+    var activeJenisKejadianId = getSavedActiveJenisKejadianId(); // Mendapatkan id jenis kejadian terakhir yang diakses dari local storage
+    if (activeJenisKejadianId) {
+        $('.nav-link[data-jenis_kejadian-id="' + activeJenisKejadianId + '"]').tab('show'); // Menampilkan tab dengan id jenis kejadian terakhir yang diakses
+    }
+
         // Inisialisasi nilai jenis_kejadian pada load halaman pertama kali
         var initialjenis_kejadian = $('.nav-link.active').data('jenis_kejadian-id'); // Mengambil data jenis_kejadian-id dari elemen nav-link aktif
         var namajenis_kejadian = $('.nav-link.active').text().trim();
@@ -165,6 +181,8 @@
             var jenis_kejadianId = $(this).data('jenis_kejadian-id'); // Mengambil data jenis_kejadian-id dari elemen nav-link yang di-klik
             var namajenis_kejadian = $(this).text().trim();
             $('#id_jenis_kejadian').html('<option value="' + jenis_kejadianId + '" selected>' + namajenis_kejadian + '</option>');
+            var jenisKejadianId = $(this).data('jenis_kejadian-id');
+        saveActiveJenisKejadianId(jenisKejadianId); // Menyimpan id jenis kejadian ke local storage setiap kali tab diubah
         });
 
         $('.print-button').on('click', function() {

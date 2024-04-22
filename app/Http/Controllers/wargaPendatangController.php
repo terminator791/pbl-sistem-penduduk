@@ -10,6 +10,7 @@ use App\Models\penduduk;
 use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
+use Illuminate\Support\Facades\Http;
 
 
 class wargaPendatangController extends Controller
@@ -24,6 +25,22 @@ class wargaPendatangController extends Controller
 
         return view('dataWarga.wargaPendatang.index', compact('menu', 'penduduk'));
     }
+
+    public function fetchAll()
+{
+    $response = Http::withHeaders([
+        'Authorization' => '197b827e-bb8b-468c-944a-7932d2ad544f',
+    ])->get('http://localhost:9000/v1/wargaAsli');
+
+    $data = $response->json();
+
+    // Filter data sesuai kondisi yang diinginkan
+    $filteredData = collect($data)->filter(function ($item) {
+        return in_array($item['status_penghuni'], ['kos', 'kontrak']);
+    })->values()->all();
+
+    return $filteredData;
+}
 
 
     public function Create()

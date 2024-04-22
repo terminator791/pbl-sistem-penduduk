@@ -35,8 +35,8 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST"
-                                action="{{ route('wargaAsli.update', ['id' => $penduduk->id]) }}" data-parsley-validate>
+                            <form class="form" method="POST" 
+                                action="{{ route('wargaAsli.update', ['id' => $penduduk->id]) }}"  data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <!-- Kolom 1 -->
@@ -272,8 +272,15 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="foto_ktp" class="form-label"><strong>File KTP</strong></label>
-                                            <input type="file" id="foto_ktp" name="foto_ktp"
-                                                class="basic-filepond form-control">
+                                            <input type="file" id="foto_ktp" name="foto_ktp" class="basic-filepond form-control">
+                                        </div>
+                                        <div>
+                                            <label for="current_foto_ktp" class="form-label"><strong>Foto KTP saat ini:</strong></label><br>
+                                            @if ($penduduk->foto_ktp)
+                                                <img src="{{ asset('storage/' . $penduduk->foto_ktp) }}" alt="Foto KTP">
+                                            @else
+                                                <span>Tidak ada foto KTP tersimpan.</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="row">

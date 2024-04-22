@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('nama_jalan');
             $table->enum('status_penghuni', ['kos', 'kontrak', 'tetap', 'pindah', 'meninggal']);
             $table->date('tanggal_peristiwa')->nullable();
-            $table->binary('foto_ktp')->nullable();
+            $table->string('foto_ktp')->nullable(); // Ubah tipe data kolom foto_ktp
             $table->string('no_hp');
             $table->string('email');
             $table->timestamps();

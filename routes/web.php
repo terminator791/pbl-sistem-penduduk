@@ -35,47 +35,6 @@ Route::get('/daftar_kesehatan', [KesehatanController::class, 'create']);
 Route::post('/tambah_kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.add");
 
 
-Route::get('/warga-json', function () {
-
-    $penduduks = penduduk::all();
-    $data = [];
-
-    foreach ($penduduks as $penduduk) {
-        $data[] = [
-            'NIK ' => $penduduk->NIK,
-            'jenis_kelamin' => $penduduk->jenis_kelamin,
-            'nama' => $penduduk->nama,
-            'tanggal_lahir' => $penduduk->tanggal_lahir,
-            'agama' => $penduduk->agama,
-            'id_pendidikan' => $penduduk->id_pendidikan,
-            'tempat_lahir' => $penduduk->tempat_lahir,
-            'id_rt' => $penduduk->id_rt,
-            'id_rw' => $penduduk->id_rw,
-            'id_pekerjaan' => $penduduk->id_pekerjaan,
-            'id_status_perkawinan' => $penduduk->id_status_perkawinan,
-            'nama_jalan' => $penduduk->nama_jalan,
-            'id_keluarga' => $penduduk->id_keluarga,
-            'status_penghuni' => $penduduk->status_penghuni,
-            'no_hp' => $penduduk->no_hp,
-            'email' => $penduduk->email,
-
-
-        ];
-    }
-
-    // membuat array dengan kunci "data" dan kumpulan data karyawan di dalamnya
-    $json_data = ['data' => $data];
-
-    $json_data = json_encode($json_data, JSON_PRETTY_PRINT);
-
-    $file_path = resource_path('data/table-datatable.json');
-
-    File::put($file_path, $json_data);
-
-    return redirect()->route('wargaAsli')->with('success', 'Penduduk added successfully!');
-})->name('warga_json');
-
-
 
 
 Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
@@ -99,6 +58,7 @@ Route::get('/wargaAsli/getAllWarga', [wargaAsliController::class, 'showAllWarga'
 Route::get('/wargaPendatang/tambah-warga-pendatang', [wargaPendatangController::class, 'create'])->name('wargaPendatang.create');
 Route::post('/wargaPendatang/store-warga-pendatang', [wargaPendatangController::class, 'store'])->name("wargaPendatang.store");
 Route::get('/wargaPendatang', [wargaPendatangController::class, 'index'])->name('wargaPendatang');
+Route::get('/wargaPendatang/fetchAll', [wargaPendatangController::class, 'fetchAll'])->name('wargaPendatang.fetchAll');
 Route::get('/wargaPendatang/edit-data-warga-pendatang/{id}', [wargaPendatangController::class, 'edit'])->name('wargaPendatang.edit');
 Route::post('/wargaPendatang/update-data-warga-pendatang/{id}', [wargaPendatangController::class, 'update'])->name('wargaPendatang.update');
 Route::get('/wargaPendatang/hapus-data-warga-pendatang/{id}', [wargaPendatangController::class, 'delete'])->name('wargaPendatang.delete');
