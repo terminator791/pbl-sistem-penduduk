@@ -28,12 +28,16 @@ Route::middleware('auth')->group(function () {
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos
-    Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
-    Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
     Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
-    Route::get('/dataKos/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
-    Route::post('/dataKos/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
-    Route::get('/dataKos/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
+    Route::middleware('RT')->group(function (){
+        Route::middleware('Kos')->group(function () {
+            Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
+            Route::get('/dataKos/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+            Route::post('/dataKos/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
+        });
+        Route::get('/dataKos/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
+        Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
+    });
 
 // Data Warga Asli
     Route::middleware('RT')->group(function (){
