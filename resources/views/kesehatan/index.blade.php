@@ -72,12 +72,13 @@
                                     <td>{{ $p->penduduk->nama }}</td>
                                     <td>{{ $p->penduduk->nama_jalan }} , RT {{ $p->penduduk->id_rt }} , RW {{ $p->penduduk->id_rw }}</td>
                                     <td>{{ $p->tanggal_terdampak }}</td>
-
+                                    @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
                                     <td>
                                         <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -89,7 +90,7 @@
     </div>
     @endforeach
 </div>
-
+@if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
@@ -135,6 +136,7 @@
         </div>
     </div>
 </div>
+@endif
 
 @endsection
 

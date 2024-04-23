@@ -65,19 +65,21 @@
                                         <span class="badge bg-danger">Non Aktif</span>
                                     @endif
                                 </td>
+                                @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' || Auth::user()->level == 'pemilik_kos')
                                 <td>
                                     <!-- Tombol Toggle Edit -->
                                     <a href="{{ route('dataKos.edit', $kos->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                         <i class="bi bi-pencil-fill text-white"></i>
                                     </a>
 
-                                        
+
                                     <!-- Tombol Hapus -->
                                     <a href="{{ route('dataKos.delete', $kos->id) }}" class="btn btn-sm btn-danger toggle-delete"
                                         data-toggle="modal">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                     </table>
@@ -87,7 +89,7 @@
 
     </section>
     {{-- End Table --}}
-
+    @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' || Auth::user()->level == 'pemilik_kos')
     <!-- Floating Toggle -->
     <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
         <a href="{{ route('dataKos.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data"
@@ -95,11 +97,11 @@
             <i class="bi bi-plus-lg"></i>
         </a>
     </div>
-
+    @endif
     <!-- End Floating Toggle -->
 @endsection
 
 @section('scripts')
     {{--  --}}
-    
+
 @endsection

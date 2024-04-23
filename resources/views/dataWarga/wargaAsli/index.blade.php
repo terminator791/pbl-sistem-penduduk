@@ -58,8 +58,8 @@
                             <td>{{ $p->nama }}</td>
 
                             <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
-
                             <td>
+                                @if(Auth::check() && Auth::user()->level == 'admin'  &&  Auth::user()->level == 'RT' )
                                 <!-- Tombol Toggle Edit -->
                                 <a href="{{ route('wargaAsli.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                     <i class="bi bi-pencil-fill text-white"></i>
@@ -69,7 +69,7 @@
                                 <a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete({{ $p->id }})">
                                     <i class="bi bi-trash-fill"></i>
                                 </a>
-
+                                @endif
                                 <!-- Tombol Toggle Detail -->
                                 <a href="#" class="btn btn-sm btn-primary toggle-detail" data-toggle="modal">
                                     <i class="bi bi-eye-fill"></i>
@@ -86,14 +86,14 @@
 
 </section>
 {{-- End Table --}}
-
+@if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <a href="{{ route('wargaAsli.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal" data-target="#tambahDataModal">
         <i class="bi bi-plus-lg"></i>
     </a>
 </div>
-
+@endif
 <!-- End Floating Toggle -->
 
 <style>
