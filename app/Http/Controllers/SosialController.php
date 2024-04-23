@@ -17,7 +17,7 @@ class SosialController extends Controller
         $kesehatan = kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
         $list_penyakit = jenis_penyakit::all();
 
-        return view('kesehatan.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
+        return view('.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
     }
 
     public function create()

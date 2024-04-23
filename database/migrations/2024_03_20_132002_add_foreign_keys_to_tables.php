@@ -53,6 +53,7 @@ return new class extends Migration
             $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
             $table->foreign('id_penyakit')->references('id')->on('jenis_penyakit');
         });
+        
 
     }
 
