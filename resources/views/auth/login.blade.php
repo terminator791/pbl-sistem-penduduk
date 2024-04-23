@@ -23,7 +23,7 @@
 
                         <!-- Email Address -->
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" name="username" placeholder="Username">
+                            <input type="text" class="form-control form-control-xl" name="NIK_penduduk" placeholder="Nomor Induk Kependudukan (NIK)">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
