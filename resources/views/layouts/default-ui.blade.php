@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Sistem Data Penduduk</title>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     @include('includes.style')
 
 </head>
@@ -70,7 +72,16 @@
                 @include('includes.sidebar')
             </div>
         </div>
-        <div id="main" style="background-color: #D5E3F0;">
+        <div id="main" class="background-light">
+            <style>
+                .background-light {
+                    background-color: #D5E3F0; /* Warna biru muda untuk light mode */
+                }
+
+                .background-dark {
+                    background-color: purple-violet; /* Warna purple-violet untuk dark mode */
+                }
+            </style>
 
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
@@ -95,6 +106,24 @@
     {{-- include script --}}
     @include('includes.script')
     @yield('scripts')
+
+    <script>
+    const toggleDarkMode = document.getElementById('toggle-dark');
+    const mainContent = document.getElementById('main');
+
+    toggleDarkMode.addEventListener('change', function () {
+        if (toggleDarkMode.checked) {
+            // Mode gelap aktif
+            mainContent.classList.remove('background-light');
+            mainContent.classList.add('background-dark');
+        } else {
+            // Mode terang aktif
+            mainContent.classList.remove('background-dark');
+            mainContent.classList.add('background-light');
+        }
+    });
+    </script>
+
 
 </body>
 

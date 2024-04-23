@@ -31,7 +31,7 @@
     @foreach($list_penyakit as $penyakit)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $penyakit->nama_penyakit }}-tab" data-bs-toggle="tab" href="#{{ $penyakit->nama_penyakit }}" role="tab" aria-controls="{{ $penyakit->nama_penyakit }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $penyakit->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-heart-pulse" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $penyakit->nama_penyakit }}</span>
         </a>
     </li>
