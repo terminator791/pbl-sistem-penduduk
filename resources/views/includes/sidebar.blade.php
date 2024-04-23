@@ -46,8 +46,8 @@
                 <span>Data Kos</span>
             </a>
         </li>
-        <li class="sidebar-item {{ Request::is('#') ? 'active' : '' }} ">
-            <a href="#" class='sidebar-link'>
+        <li class="sidebar-item {{ Request::is('profile') ? 'active' : '' }} ">
+            <a href="{{ route('profile') }}" class='sidebar-link'>
                 <i class="bi bi-person-fill"></i>
                 <span>Profil</span>
             </a>

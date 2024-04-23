@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/tambah-pengurus', [ProfileController::class, 'create'])->name('profile.create');
+
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -154,6 +157,7 @@ Route::get('/warga-json', function () {
     return redirect()->route('wargaAsli')->with('success', 'Penduduk added successfully!');
 })->name('warga_json');
 
+//profile
 
 
 
