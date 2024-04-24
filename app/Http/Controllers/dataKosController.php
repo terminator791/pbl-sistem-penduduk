@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\detail_pendatang;
 use App\Models\kos;
+use App\Models\penduduk;
 use App\Models\RT;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,35 @@ class dataKosController extends Controller
         $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
     }
     return view('dataKos.index', compact('menu', 'data_kos', 'jumlah_penghuni'));
+}
+
+public function penghuni($id)
+{
+    // Ambil data kos berdasarkan ID
+    $kos = Kos::find($id);
+    
+    // Ambil data penduduk berdasarkan id_kos yang diberikan
+    $penghuni = detail_pendatang::where('id_kos', $id)->with('penduduk')->get();
+
+    // Return view dengan data yang dibutuhkan
+    return view('dataKos.penghuniKos', compact('kos', 'penghuni'));
+}
+
+
+
+public function updatePenghuni(Request $request, $id)
+{
+    $data_kos = kos::where('id', $id)->first();
+    $data_kos->id_rt = $request->input('id_rt');
+    $data_kos->pemilik_kos = $request->input('pemilik_kos');
+    $data_kos->nama_kos = $request->input('nama_kos');
+    $data_kos->alamat_kos = $request->input('alamat_kos');
+    $data_kos->jumlah_penghuni = $request->input('jumlah_penghuni');
+    $data_kos->no_hp_pemilik = $request->input('no_hp_pemilik');
+    $data_kos->email_pemilik = $request->input('email_pemilik');
+    $data_kos->update();
+
+    return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
 }
 
 
@@ -69,6 +99,14 @@ class dataKosController extends Controller
 
         return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
     }
+    public function print()
+    {
+        // Mengambil semua data kos
+        $data_kos = kos::all();
+        
+        // Kembalikan view print dengan data kos
+        return view('dataKos.print', compact('data_kos'));
+    }
 
     // Delete
     public function delete($id)
@@ -77,4 +115,6 @@ class dataKosController extends Controller
         $data_kos->delete();
         return redirect()->route('dataKos')->with('success', 'Penduduk Deleted successfully!');
     }
+
+    
 }

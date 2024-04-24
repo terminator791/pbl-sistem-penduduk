@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST" 
+                            <form class="form" method="POST"
                                 action="{{ route('wargaAsli.update', ['id' => $penduduk->id]) }}"  data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -78,7 +78,7 @@
                                         <div class="form-group mandatory">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="agama" name="agama">
+                                                <select class="form-select select2" id="agama" name="agama">
                                                     <option disabled selected>Pilih Agama</option>
                                                     <option value="islam"
                                                         {{ $penduduk->agama == 'islam' ? 'selected' : '' }}>Islam</option>
@@ -325,5 +325,9 @@
             var form = document.querySelector('form');
             form.reset();
         }
+
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
     </script>
 @endsection

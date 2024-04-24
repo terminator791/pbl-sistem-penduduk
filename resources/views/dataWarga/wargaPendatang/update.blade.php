@@ -213,10 +213,27 @@
                                     <!-- Kolom 12 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="nama_jalan" class="form-label"><strong>Nama Jalan</strong></label>
-                                            <input type="text" id="nama_jalan" class="form-control"
-                                                placeholder="Alamat Rumah" name="nama_jalan" data-parsley-required="true"
-                                                value="{{ $penduduk->nama_jalan }}" />
+                                            <label for="last-name-column" class="form-label">Nama Kos/Kontrak</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_kos" name="id_kos">
+                                                    <option disabled selected>Nama Kos/Kontrak</option>
+                                                        @foreach ($list_kos as $kos)
+                                                        <option value="{{ $kos->id }}" @if($detail_pendatang->kos->id == $kos->id) selected @endif>{{ $kos->nama_kos }}</option>
+                                                        @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="country-floating" class="form-label">Tanggal Masuk</label>
+                                            <input type="date" id="tanggal_masuk" class="form-control" name="tanggal_masuk" value="{{ $detail_pendatang->tanggal_masuk }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="country-floating" class="form-label">Tanggal Keluar</label>
+                                            <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar" value="{{ $detail_pendatang->tanggal_keluar }}">
                                         </div>
                                     </div>
                                     <!-- Kolom 13 -->

@@ -17,6 +17,7 @@
                         Data Kejadian
                     </li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -31,7 +32,7 @@
     @foreach($list_jenis_kejadian as $jenis_kejadian)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $jenis_kejadian->jenis_kejadian }}-tab" data-bs-toggle="tab" href="#{{ $jenis_kejadian->jenis_kejadian }}" role="tab" aria-controls="{{ $jenis_kejadian->jenis_kejadian }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-jenis_kejadian-id="{{ $jenis_kejadian->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-bolt fa-lg" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $jenis_kejadian->jenis_kejadian }}</span>
         </a>
     </li>
@@ -63,7 +64,9 @@
                                     <th>Tempat</th>
                                     <th>Deskripsi</th>
                                     <th>Pelapor</th>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,12 +77,13 @@
                                     <td>{{ $p->tempat_kejadian }}</td>
                                     <td>{{ $p->deskripsi_kejadian }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
-
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <td>
                                         <a href="{{ route('kejadian.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -91,7 +95,7 @@
     </div>
     @endforeach
 </div>
-
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
@@ -145,7 +149,7 @@
         </div>
     </div>
 </div>
-
+@endif
 @endsection
 
 @section('scripts')

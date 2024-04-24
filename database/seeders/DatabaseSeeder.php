@@ -18,6 +18,7 @@ use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
 use App\Models\User;
+use App\Models\UserAPI;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -32,6 +33,8 @@ class DatabaseSeeder extends Seeder
 
         $tanggal_lahir = Carbon::createFromFormat('Y-m-d', '2004-06-15');
 
+
+
         keluarga::create([
             'status_keluarga' => 'kepala keluarga'
         ],);
@@ -43,7 +46,7 @@ class DatabaseSeeder extends Seeder
         keluarga::create([
             'status_keluarga' => 'anak'
         ],);
-        
+
 
 
         perkawinan::create([
@@ -330,7 +333,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        
+
         jenis_kejadian::create([
             'jenis_kejadian' => 'Banjir'
         ],);
@@ -394,44 +397,44 @@ class DatabaseSeeder extends Seeder
         RW::create([
             'nama_rw' => '01',
             'ketua_rw' => 'Rifqi'
-           
+
         ],);
         RW::create([
             'nama_rw' => '02',
             'ketua_rw' => 'Iqbal'
-           
+
         ],);
         RW::create([
             'nama_rw' => '03',
             'ketua_rw' => 'Husein'
-           
+
         ],);
 
 
         RT::create([
             'nama_rt' => '01',
             'id_rw' => '1',
-            
+
         ],);
         RT::create([
             'nama_rt' => '02',
             'id_rw' => '1',
-            
+
         ],);
         RT::create([
             'nama_rt' => '03',
             'id_rw' => '2',
-           
+
         ],);
         RT::create([
             'nama_rt' => '04',
             'id_rw' => '2',
-            
+
         ],);
         RT::create([
             'nama_rt' => '05',
             'id_rw' => '3',
-            
+
         ],);
 
 
@@ -453,7 +456,7 @@ class DatabaseSeeder extends Seeder
             'nama_penyakit' => 'Kanker'
         ],);
 
-        
+
 
         penduduk::create([
             'NIK' => '3317120041795',
@@ -875,7 +878,7 @@ class DatabaseSeeder extends Seeder
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
             'status' => true,
-            
+
         ],);
 
         kos::create([
@@ -920,6 +923,34 @@ class DatabaseSeeder extends Seeder
             'tanggal_masuk' => $tanggal_lahir,
             'tanggal_keluar' => $tanggal_lahir,
         ],);
-        
+
+        User::create([
+            'username' => 'iqbal',
+            'NIK_penduduk' => '3317120041795',
+            'password' => 'iqbal',
+            'level' => 'admin',
+        ],);
+
+        User::create([
+            'username' => 'bagus',
+            'NIK_penduduk' => '3317120041796',
+            'password' => 'iqbal',
+            'level' => 'RW',
+        ],);
+
+        User::create([
+            'username' => 'prasetyo',
+            'NIK_penduduk' => '3317120041797',
+            'password' => 'iqbal',
+            'level' => 'RT',
+        ],);
+
+        User::create([
+            'username' => 'hutomo',
+            'NIK_penduduk' => '3317120041798',
+            'password' => 'iqbal',
+            'level' => 'pemilik_kos',
+        ],);
+
     }
 }

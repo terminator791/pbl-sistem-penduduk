@@ -14,7 +14,7 @@ class RT extends Model
     protected $fillable = ['nama_rt', 'id_penjabatan'];
 
     public function kos(){
-        return $this->hasMany(kos::class, 'id_rt')->withTimestamps();
+        return $this->hasMany(kos::class, 'id_rt');
     }
 
     public function penduduk(){
@@ -26,6 +26,6 @@ class RT extends Model
     }
 
     public function penjabatan_rt(){
-        return $this->hasMany(penjabatan_RT::class, 'id_rt')->withTimestamps();
+        return $this->hasMany(penjabatan_RT::class, 'id_rt');
     }
 }

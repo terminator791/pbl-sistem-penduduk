@@ -13,10 +13,10 @@ class penjabatan_RT extends Model
     protected $fillable = ['id_penjabatan', 'NIK_ketua_rt', 'tanggal_dilantik', 'tanggal_diberhentikan', 'id_rt']; 
 
     public function penduduk(){
-        return $this->belongsTo(penduduk::class, 'NIK_ketua_rt')->withTimestamps();
+        return $this->belongsTo(penduduk::class, 'NIK_ketua_rt');
     }
 
     public function rt(){
-        return $this->belongsTo(RT::class, 'id_penjabatan')->withTimestamps();
+        return $this->belongsTo(RT::class, 'id_penjabatan');
     }
 }

@@ -18,6 +18,7 @@
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Warga Pendatang</li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -47,10 +48,12 @@
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Status</th>
+                            @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                             <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                     </tbody>
                 </table>
@@ -61,7 +64,7 @@
 
 </section>
 {{-- End Table --}}
-
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <a href="{{ route('wargaPendatang.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal" data-target="#tambahDataModal">
@@ -69,7 +72,24 @@
     </a>
 </div>
 
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Detail Warga</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"  id="modalContent">
+                    <!-- Konten modal -->
+                    <!-- Anda dapat menambahkan konten modal di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- End Floating Toggle -->
+@endif
 @endsection
 
 @section('scripts')
@@ -87,7 +107,7 @@ function fetchAllData() {
         .then(data => {
             // Ambil tabel
             const tableBody = document.querySelector("#table3 tbody");
-            
+
             // Bersihkan tabel
             tableBody.innerHTML = '';
 
@@ -100,7 +120,7 @@ function fetchAllData() {
                 } else if (penduduk.status_penghuni === 'kontrak') {
                     badgeColor = 'success';
                 }
-                
+
                 // Buat baris baru untuk setiap data warga
                 const newRow = `
                     <tr class="${penduduk.status_penghuni == 'meninggal' ? 'fade-row' : ''}">
@@ -111,6 +131,7 @@ function fetchAllData() {
                         <td>
                             <span class="badge bg-${badgeColor}">${penduduk.status_penghuni}</span>
                         </td>
+                        @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                         <td>
                             <a href="{{ route('wargaPendatang.edit', '') }}/${penduduk.id}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                 <i class="bi bi-pencil-fill text-white"></i>
@@ -118,20 +139,53 @@ function fetchAllData() {
                             <a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(${penduduk.id})">
                                 <i class="bi bi-trash-fill"></i>
                             </a>
-                            <a href="#" class="btn btn-sm btn-primary toggle-detail" data-toggle="modal">
+                            <a class="btn btn-sm btn-primary toggle-detail" onclick="showWargaDetail(${penduduk.id})" data-id="${penduduk.id}">
                                 <i class="bi bi-eye-fill"></i>
                             </a>
                         </td>
-                        
+                        @endif
                     </tr>
                 `;
-                
                 // Masukkan baris baru ke dalam tabel
-                tableBody.innerHTML += newRow; 
+                tableBody.innerHTML += newRow;
             });
         })
         .catch(error => console.error('Error:', error));
 }
+
+
+    // Perbarui event listener untuk tombol "toggle-detail"
+    document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('toggle-detail')) {
+                const wargaId = event.target.getAttribute('data-id'); // Ambil ID warga yang diklik
+                showWargaDetail(wargaId); // Panggil fungsi untuk menampilkan detail warga
+                $('#detailModal').modal('show'); // Tampilkan modal
+            }
+        });
+
+        function showWargaDetail(id) {
+            fetch(`/api/v1/wargaAsli/fetchOne/${id}`)  // Menggunakan URL endpoint langsung, tanpa menggunakan Blade templating
+                .then(response => response.json())
+                .then(warga => {
+                    // Mengisi konten modal dengan informasi warga
+                    const modalBody = document.getElementById('modalContent');
+                    modalBody.innerHTML = `
+                <p>Nama: ${warga.nama}</p>
+                <p>NIK: ${warga.NIK}</p>
+                <p>Alamat: ${warga.nama_jalan}, RT: ${warga.id_rt}, RW: ${warga.id_rw}</p>
+                <p>Status: ${warga.status_penghuni}</p>
+                <p>Agama: ${warga.agama}</p>
+                <p>No Hp: ${warga.no_hp}</p>
+                <p>Email: ${warga.email}</p>
+                <div style="text-align: center;">
+                    <label for="current_foto_ktp" class="form-label"><strong>Foto KTP saat ini:</strong></label><br>
+                    ${warga.foto_ktp ? `<img src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
+                </div>
+            `;
+                    $('#detailModal').modal('show'); // Tampilkan modal setelah mendapatkan data warga
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
 
     // Fungsi untuk konfirmasi hapus

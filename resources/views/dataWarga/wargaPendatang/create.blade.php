@@ -155,17 +155,35 @@
                                                     <option disabled selected>Pilih Status Tinggal</option>
                                                     <option value="kos">Kos</option>
                                                     <option value="kontrak">Kontrak</option>
-                                                    <option value="meninggal">Meninggal</option>
+                
                                                 </select>
                                             </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="first-name-column" class="form-label">Nama Jalan</label>
-                                            <input type="text" id="nama_jalan" class="form-control"
-                                                placeholder="Alamat Rumah" name="nama_jalan"
-                                                data-parsley-required="true" />
+                                            <label for="last-name-column" class="form-label">Nama Kos/Kontrak</label>
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="id_kos" name="id_kos">
+                                                    <option disabled selected>Nama Kos/Kontrak</option>
+                                                        @foreach ($list_kos as $kos)
+                                                    
+                                                            <option value="{{ $kos->id }}">{{ $kos->nama_kos }}</option> <!-- Use actual database values -->
+                                                        @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="country-floating" class="form-label">Tanggal Masuk</label>
+                                            <input type="date" id="tanggal_masuk" class="form-control" name="tanggal_masuk">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="country-floating" class="form-label">Tanggal Keluar</label>
+                                            <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">

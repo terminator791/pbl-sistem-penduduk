@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('NIK_penduduk');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->enum('level', ['admin', 'RW', 'RT', 'pemilik_kos']);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

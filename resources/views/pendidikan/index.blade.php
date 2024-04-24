@@ -17,6 +17,7 @@
                         Data Pendidikan
                     </li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -29,7 +30,7 @@
     @foreach($pendidikan as $pendidik)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $pendidik->jenis_pendidikan }}-tab" data-bs-toggle="tab" href="#{{ $pendidik->jenis_pendidikan }}" role="tab" aria-controls="{{ $pendidik->jenis_pendidikan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $pendidik->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-user-graduate fa-lg" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $pendidik->jenis_pendidikan }}</span>
         </a>
     </li>
@@ -59,21 +60,25 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
-                           
+
     @foreach($pendidik->penduduk as $p)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $p->nama }}</td>
             <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+            @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
             <td>
                 <a href="{{ route('pendidikan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                     <i class="bi bi-trash-fill"></i>
                 </a>
             </td>
+            @endif
         </tr>
     @endforeach
 
@@ -87,6 +92,7 @@
     </div>
     @endforeach
 </div>
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
 
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
@@ -129,7 +135,7 @@
         </div>
     </div>
 </div>
-
+@endif
 
 @endsection
 
@@ -183,4 +189,5 @@
         });
     });
 </script>
+
 @endsection

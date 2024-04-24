@@ -1,165 +1,117 @@
 @extends('layouts.default-ui')
 
 @section('heading')
-    <h3>Beranda</h3>
+    <h3 class="text-center">Selamat Datang di Dasbor Tegalsari RW 13</h3>
+    <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
 @endsection
 
 @section('content')
-    <section class="row">
-        <div class="col-12 col-lg-12">
-            <div class="row">
-                <div class="col-12 col-lg-6 col-md-12"> 
-                    <div class="card">
-                        <div class="card-body px-4 py-12-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
-                                <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="bi-people-fill"></i>
-                                    </div>
-                                </a>
-                                    <div class="mr-2">
-                                        <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
-                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;"> Data Warga</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-12"> 
-                    <div class="card"> 
-                        <div class="card-body px-4 py-12-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center"> 
-                                <a href="{{ route('kesehatan') }}" class="text-decoration-none">
-                                    <div class="stats-icon blue mb-2">
-                                        <i class="bi-journal-richtext"></i>
-                                    </div>
-                                    </a>
-                                    <div class="mr-2"> 
-                                        <a href="{{ route('kesehatan') }}" class="text-decoration-none">
-                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;"> Data Umum</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-12">
-                    <div class="card">
-                        <div class="card-body px-4 py-12-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
-                                <a href="{{ route('dataKos') }}" class="text-decoration-none">
-                                    <div class="stats-icon green mb-2">
-                                        <i class="bi-house-fill"></i>
-                                    </div>
-                                </a>
-                                    <div class="mr-2">
-                                        <a href="{{ route('dataKos') }}" class="text-decoration-none">
-                                            <h6 class="text-muted font-semibold" style="margin: 0 auto;"> Data Kos</h6>
-                                        </a>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 col-md-12">
-                    <div class="card">
-                        <div class="card-body px-4 py-12-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start align-items-center">
-                                    <div class="stats-icon red mb-2 mr-4"> 
-                                        <i class="bi-person-fill"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="text-muted font-semibold ">    Profil</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <style>
+        /* Gradient Background */
+        body {
+            /* background: linear-gradient(to right, #3498db, #8a4baf); */
+        }
 
-            <!-- <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Profile Visit</h4>
+        /* Font Popping */
+        .card-title {
+            font-size: 1.2rem; /* Sesuaikan ukuran font judul */
+            transition: font-size 0.3s ease-in-out; /* Animasi ukuran font */
+        }
+
+        .card-title:hover {
+            font-size: 1.3rem; /* Ukuran font saat hover */
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 36px;
+            margin: 0 auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .icon-box:hover {
+            transform: scale(1.1);
+        }
+
+        .bg-purple { background-color: #8a4baf; }
+        .bg-blue { background-color: #3498db; }
+        .bg-green { background-color: #2ecc71; }
+        .bg-red { background-color: #e74c3c; }
+
+        .card {
+            border-radius: 20px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Additional Styling */
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-columns {
+            column-count: 2;
+        }
+    </style>
+
+    <section class="row justify-content-center">
+        <div class="col-lg-6 mb-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <a href="{{ route('wargaAsli') }}" class="text-decoration-none">
+                        <div class="icon-box bg-purple mb-4">
+                            <i class="bi-people-fill"></i>
                         </div>
-                        <div class="card-body">
-                            <div id="chart-profile-visit"></div>
-                        </div>
-                    </div>
+                        <h5 class="card-title text-muted mb-3">Data Warga</h5>
+                    </a>
+                    <p class="card-text">Temukan data mengenai warga di sini.</p>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-3">
-            <div class="card">
-                <div class="card-body py-4 px-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-xl">
-                            <img src="{{ asset('dist/assets/compiled/jpg/1.jpg') }}" alt="Face 1">
+        <div class="col-lg-6 mb-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <a href="{{ route('kesehatan') }}" class="text-decoration-none">
+                        <div class="icon-box bg-blue mb-4">
+                            <i class="bi-journal-richtext"></i>
                         </div>
-                        <div class="ms-3 name">
-                            <h5 class="font-bold">John Duck</h5>
-                            <h6 class="text-muted mb-0">@johnducky</h6>
-                        </div>
-                    </div>
+                        <h5 class="card-title text-muted mb-3">Data Umum</h5>
+                    </a>
+                    <p class="card-text">Lihat informasi umum terkini di sini.</p>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-header">
-                    <h4>Recent Messages</h4>
-                </div>
-                <div class="card-content pb-4">
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('dist/assets/compiled/jpg/4.jpg') }}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Hank Schrader</h5>
-                            <h6 class="text-muted mb-0">@johnducky</h6>
-                        </div>
-                    </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('dist/assets/compiled/jpg/5.jpg') }}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Dean Winchester</h5>
-                            <h6 class="text-muted mb-0">@imdean</h6>
-                        </div>
-                    </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('dist/assets/compiled/jpg/1.jpg') }}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">John Dodol</h5>
-                            <h6 class="text-muted mb-0">@dodoljohn</h6>
-                        </div>
-                    </div>
-                    <div class="px-4">
-                        <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start
-                            Conversation</button>
-                    </div>
-                </div>
-            </div> --}}
-            <div class="card">
-                <div class="card-header">
-                    <h4>Visitors Profile</h4>
-                </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card text-center shadow-lg">
                 <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
+                    <a href="{{ route('dataKos') }}" class="text-decoration-none">
+                        <div class="icon-box bg-green mb-4">
+                            <i class="bi-house-fill"></i>
+                        </div>
+                        <h5 class="card-title text-muted mb-3">Data Kos</h5>
+                    </a>
+                    <p class="card-text">Dapatkan informasi tentang data kos di sini.</p>
                 </div>
-            </div> -->
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-body">
+                    <div class="icon-box bg-red mb-4">
+                        <i class="bi-person-fill"></i>
+                    </div>
+                    <h5 class="card-title text-muted mb-3">Profil</h5>
+                    <p class="card-text">Lihat dan ubah profil Anda di sini.</p>
+                </div>
+            </div>
         </div>
     </section>
 @endsection

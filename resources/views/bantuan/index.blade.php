@@ -13,6 +13,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Data Sosial</li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -26,7 +27,7 @@
     @foreach($list_bantuan as $bantuan)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $bantuan->jenis_bantuan }}-tab" data-bs-toggle="tab" href="#{{ $bantuan->jenis_bantuan }}" role="tab" aria-controls="{{ $bantuan->jenis_bantuan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-bantuan-id="{{ $bantuan->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-user-group" class="font-medium-3 me-50"></i>
             <span class="fw-bold">{{ $bantuan->jenis_bantuan }}</span>
         </a>
     </li>
@@ -53,7 +54,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,11 +65,13 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->nama }}</td>
                                     <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <td>
                                         <a href="{{ route('bantuan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -78,6 +83,7 @@
     </div>
     @endforeach
 </div>
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
 
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
@@ -118,6 +124,7 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @section('scripts')

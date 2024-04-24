@@ -4,30 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistem Data Penduduk</title>
+    <title>Sistem Kependudukan</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     @include('includes.style')
 
 </head>
 
+<style type="text/css">
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background-color: #fff;
+    }
+    .preloader .loading {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        font: 14px arial;
+    }
+</style>
+
 <body>
+    {{-- Preloader --}}
+<div class="preloader">
+    <div class="loading">
+        <img src="{{ asset('storage/loading.gif') }}" width="100">
+        <p>Harap Tunggu</p>
+    </div>
+</div>
+
     <script src="{{ asset('dist/assets/static/js/initTheme.js') }}"></script>
     <div id="app">
         <div id="sidebar">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header position-relative">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="card bg-primary">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="logo">
-                                    <span style="color: white;">Sistem Data Penduduk</span>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="card bg-primary text-center">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center mt-2">
+                                <div class="logo ">
+                                    <h4 style="color: white; ">Sistem Kependudukan</h4>
+                                    <img src="{{ asset('storage/logo_putih.png') }}" style="width: 200px; height: auto;">
                                 </div>
-
-
-
-                                {{-- dark mode --}}
-                                <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    {{-- dark mode --}}
+                    <div class="theme-toggle d-flex gap-2 align-items-center justify-content-center mt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         aria-hidden="true" role="img" class="iconify iconify--system-uicons"
                                         width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
                                         <g fill="none" fill-rule="evenodd" stroke="white" stroke-linecap="round"
@@ -43,12 +70,11 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <div class="form-check form-switch fs-6">
-                                        <input class="form-check-input  me-0" type="checkbox" id="toggle-dark"
-                                            style="cursor: pointer">
-                                        <label class="form-check-label"></label>
-                                    </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
+                        <div class="form-check form-switch fs-6">
+                            <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
+                            <label class="form-check-label"></label>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg"
                                         xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                                         class="iconify iconify--mdi" width="20" height="20"
                                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
@@ -56,21 +82,30 @@
                                             d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3l3.19.09m3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95l2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31Z">
                                         </path>
                                     </svg>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- hide toggle sidebar --}}
-                        <div class="sidebar-toggler  x">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i
-                                    class="bi bi-x bi-middle"></i></a>
-                        </div>
                     </div>
                 </div>
-                {{-- include sidebar --}}
-                @include('includes.sidebar')
+            </div>
+            {{-- hide toggle sidebar --}}
+            <div class="sidebar-toggler  x">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
             </div>
         </div>
-        <div id="main" style= "background-color: #D5E3F0;">
+    </div>
+    {{-- include sidebar --}}
+    @include('includes.sidebar')
+</div>
+
+        </div>
+        <div id="main" class="background-light">
+            <style>
+                .background-light {
+                    background-color: #D5E3F0; /* Warna biru muda untuk light mode */
+                }
+
+                .background-dark {
+                    background-color: purple-violet; /* Warna purple-violet untuk dark mode */
+                }
+            </style>
 
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
@@ -96,7 +131,56 @@
     @include('includes.script')
     @yield('scripts')
 
+    <script>
+    const toggleDarkMode = document.getElementById('toggle-dark');
+    const mainContent = document.getElementById('main');
+
+    // Fungsi untuk mengatur mode berdasarkan preferensi yang disimpan
+    function setMode() {
+        const savedMode = localStorage.getItem('mode');
+        if (savedMode === 'dark') {
+            enableDarkMode();
+        } else {
+            enableLightMode();
+        }
+    }
+
+    // Fungsi untuk mengaktifkan mode gelap
+    function enableDarkMode() {
+        mainContent.classList.remove('background-light');
+        mainContent.classList.add('background-dark');
+        toggleDarkMode.checked = true;
+    }
+
+    // Fungsi untuk mengaktifkan mode terang
+    function enableLightMode() {
+        mainContent.classList.remove('background-dark');
+        mainContent.classList.add('background-light');
+        toggleDarkMode.checked = false;
+    }
+
+    // Memanggil fungsi untuk mengatur mode saat halaman dimuat
+    setMode();
+
+    // Mendengarkan perubahan pada toggle mode gelap
+    toggleDarkMode.addEventListener('change', function () {
+        if (toggleDarkMode.checked) {
+            enableDarkMode();
+            localStorage.setItem('mode', 'dark'); // Menyimpan preferensi mode
+        } else {
+            enableLightMode();
+            localStorage.setItem('mode', 'light'); // Menyimpan preferensi mode
+        }
+    });
+</script>
+
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function(){
+        $(".preloader").fadeOut();
+    })
+</script>
 

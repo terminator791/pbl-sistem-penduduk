@@ -18,5 +18,8 @@
 <script src="{{ asset('dist/assets/static/js/pages/parsley.js') }}"></script>
 
 {{-- Need: SweetAlert --}}
-<script src="{{ asset('dist/assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>>
-<script src="{{ asset('dist/assets/static/js/pages/sweetalert2.js') }}"></script>>
+<script src="{{ asset('dist/assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('dist/assets/static/js/pages/sweetalert2.js') }}"></script>
+
+<script src="{{ asset('dist/assets/extensions/select2-4.0.13/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('dist/assets/extensions/select2-4.0.13/dist/js/adminlte.min.js') }}"></script>

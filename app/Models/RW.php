@@ -14,7 +14,7 @@ class RW extends Model
     protected $guarded = ['id'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'id_rw')->withTimestamps();
+        return $this->hasMany(penduduk::class, 'id_rw', 'id');
 }
 
 public function RT(){
