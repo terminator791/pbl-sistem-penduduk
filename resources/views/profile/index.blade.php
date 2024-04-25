@@ -40,27 +40,27 @@
                                         <div class="form-group mandatory">
                                             <label for="first-name-column" class="form-label">NIK</label>
                                             <input type="text" id="NIK" class="form-control"
-                                                   placeholder="NIK" name="fname-column" data-parsley-required="true" />
+                                                   placeholder="NIK" value="3328120411030003" name="fname-column" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-12">
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Nama</label>
                                             <input type="text" id="Nama" class="form-control"
-                                                   placeholder="Nama" name="lname-column" data-parsley-required="true" />
+                                                   placeholder="Nama" value="Mirza Syahir Nur R" name="lname-column" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="country-floating" class="form-label">User Name</label>
                                             <input type="text" id="Username" class="form-control"
-                                                   name="country-floating" placeholder="User Name" data-parsley-required="true" />
+                                                   name="country-floating" placeholder="RT" value="RW_13" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT' ||  Auth::user()->level == 'RW')
                                         <div class="form-group mandatory">
-                                            <label for="tanggal-menjabat" class="form-label">Tanggal Mulai Menjabat</label>
+                                            <label for="tanggal-menjabat" class="form-label"  value="04/11/2000">Tanggal Mulai Menjabat</label>
                                             <input type="date" id="tanggal-menjabat" class="form-control"
                                                     name="tanggal-menjabat" class="form-control">
                                         </div>
@@ -71,13 +71,13 @@
                                             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                         <div class="form-group mandatory">
                                                 <label for="rt" class="form-label">RT</label>
-                                                <select class="form-control" id="level">
-                                                    @foreach()
-                                                    <option>--</option>
+                                                <select class="form-control" id="level" placeholder="01">
+                                                    <option>01</option>
+                                                    <option>02</option>
                                                     //ini diisi oleh daftar rt yang ada
-                                                    @endforeach
                                                 </select>      
                                             </div>
+                                            @endif
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group mandatory">

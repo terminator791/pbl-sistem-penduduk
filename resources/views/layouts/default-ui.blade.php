@@ -49,8 +49,8 @@
                         <div class="card bg-primary text-center">
                             <div class="card-body d-flex flex-column align-items-center justify-content-center mt-2">
                                 <div class="logo ">
-                                    <h4 style="color: white; ">Sistem Kependudukan</h4>
-                                    <img src="{{ asset('storage/logo_putih.png') }}" style="width: 200px; height: auto;">
+                                    <h5 style="color: white; ">Sistem Kependudukan</h5>
+                                    <img src="{{ asset('storage/logo_putih_mepet.png') }}" style="width: 200px; height: auto;">
                                 </div>
                     {{-- dark mode --}}
                     <div class="theme-toggle d-flex gap-2 align-items-center justify-content-center mt-2">

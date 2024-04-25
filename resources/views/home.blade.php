@@ -105,6 +105,7 @@
         <div class="col-lg-6 mb-4">
             <div class="card text-center shadow-lg">
                 <div class="card-body">
+                <a href="{{ route('profile') }}" class="text-decoration-none">
                     <div class="icon-box bg-red mb-4">
                         <i class="bi-person-fill"></i>
                     </div>

@@ -11,3 +11,5 @@
 <link rel="stylesheet" href="{{ asset('dist\assets\extensions\@fortawesome\fontawesome-free\css\all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('dist/assets/extensions/sweetalert2/sweetalert2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('dist/assets/extensions/select2-4.0.13/dist/css/select2.min.css') }}">
+
+<link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">

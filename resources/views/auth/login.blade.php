@@ -61,7 +61,7 @@
         </div>
         <div class="col-lg-7 d-none d-lg-block">
             <div id="auth-right">
-                <img src="{{ asset('dist/assets/static/images/logo_putih.png') }}" class="gambar-kanan" alt="logo">
+                <img src="{{ asset('storage/logo_polines.jpg') }}" class="gambar-kanan" alt="logo">
             </div>
         </div>
     </div>

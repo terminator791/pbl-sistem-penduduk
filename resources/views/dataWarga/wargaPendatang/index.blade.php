@@ -53,9 +53,6 @@
                             @endif
                         </tr>
                     </thead>
-
-                    <tbody>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -101,57 +98,39 @@ window.onload = function() {
     fetchAllData();
 }
 
-function fetchAllData() {
-    fetch('{{ route('wargaPendatang.fetchAll') }}')
-        .then(response => response.json())
-        .then(data => {
-            // Ambil tabel
-            const tableBody = document.querySelector("#table3 tbody");
-
-            // Bersihkan tabel
-            tableBody.innerHTML = '';
-
-            // Perulangan untuk setiap data warga
-            data.forEach((penduduk, index) => {
-                // Menentukan warna badge berdasarkan status penghuni
+$(document).ready(function () {
+    var i = 1; // Inisialisasi variabel i di sini
+    $('#table3').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/wargaPendatang/fetchAll",
+        columns: [
+            {data: 'i', name: 'i', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
+            }},
+            {data: 'NIK', name: 'NIK'},
+            {data: 'nama', name: 'nama'},
+            {data: 'nama_jalan', render: function(data, type, row) {
+                return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
+            }, name: 'nama_jalan'},
+            {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
                 let badgeColor;
-                if (penduduk.status_penghuni === 'kos') {
+                if (data === 'kos') {
                     badgeColor = 'primary';
-                } else if (penduduk.status_penghuni === 'kontrak') {
+                } else if (data === 'kontrak') {
                     badgeColor = 'success';
                 }
-
-                // Buat baris baru untuk setiap data warga
-                const newRow = `
-                    <tr class="${penduduk.status_penghuni == 'meninggal' ? 'fade-row' : ''}">
-                        <td>${index + 1}</td>
-                        <td>${penduduk.NIK}</td>
-                        <td>${penduduk.nama}</td>
-                        <td>${penduduk.nama_jalan} , RT: ${penduduk.id_rt} , RW: ${penduduk.id_rw}</td>
-                        <td>
-                            <span class="badge bg-${badgeColor}">${penduduk.status_penghuni}</span>
-                        </td>
-                        @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
-                        <td>
-                            <a href="{{ route('wargaPendatang.edit', '') }}/${penduduk.id}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
-                                <i class="bi bi-pencil-fill text-white"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(${penduduk.id})">
-                                <i class="bi bi-trash-fill"></i>
-                            </a>
-                            <a class="btn btn-sm btn-primary toggle-detail" onclick="showWargaDetail(${penduduk.id})" data-id="${penduduk.id}">
-                                <i class="bi bi-eye-fill"></i>
-                            </a>
-                        </td>
-                        @endif
-                    </tr>
-                `;
-                // Masukkan baris baru ke dalam tabel
-                tableBody.innerHTML += newRow;
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
+                return `<span class="badge bg-${badgeColor}">${data}</span>`;
+            }},
+            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                {data: 'action', name: 'action', orderable: false, searchable: false}
+            @endif
+        ],
+        "initComplete": function(settings, json) {
+            i = this.api().page.info().start; // Mengambil nomor halaman saat ini
+        }
+    });
+});
 
 
     // Perbarui event listener untuk tombol "toggle-detail"
@@ -170,16 +149,29 @@ function fetchAllData() {
                     // Mengisi konten modal dengan informasi warga
                     const modalBody = document.getElementById('modalContent');
                     modalBody.innerHTML = `
-                <p>Nama: ${warga.nama}</p>
-                <p>NIK: ${warga.NIK}</p>
-                <p>Alamat: ${warga.nama_jalan}, RT: ${warga.id_rt}, RW: ${warga.id_rw}</p>
-                <p>Status: ${warga.status_penghuni}</p>
-                <p>Agama: ${warga.agama}</p>
-                <p>No Hp: ${warga.no_hp}</p>
-                <p>Email: ${warga.email}</p>
-                <div style="text-align: center;">
-                    <label for="current_foto_ktp" class="form-label"><strong>Foto KTP saat ini:</strong></label><br>
-                    ${warga.foto_ktp ? `<img src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nama:</strong> ${warga.nama}</p>
+                            <p><strong>NIK:</strong> ${warga.NIK}</p>
+                            <p><strong>Alamat:</strong> ${warga.nama_jalan}, RT: ${warga.id_rt}, RW: ${warga.id_rw}</p>
+                            <p><strong>Status:</strong> ${warga.status_penghuni}</p>
+                            <p><strong>Pendidikan Terakhir:</strong> ${warga.id_pendidikan}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Agama:</strong> ${warga.agama}</p>
+                            <p><strong>Status Perkawinan:</strong> ${warga.id_status_perkawinan}</p>
+                            <p><strong>Pekerjaan:</strong> ${warga.id_pekerjaan}</p>
+                            <p><strong>No Hp:</strong> ${warga.no_hp}</p>
+                            <p><strong>Email:</strong> ${warga.email}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label for="current_foto_ktp" class="form-label"><strong>Foto KTP :</strong></label><br>
+                            ${warga.foto_ktp ? `<img src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP" style="max-width: 100%; max-height: 200px;">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
+                        </div>
+                    </div>
                 </div>
             `;
                     $('#detailModal').modal('show'); // Tampilkan modal setelah mendapatkan data warga

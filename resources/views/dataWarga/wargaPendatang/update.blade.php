@@ -218,7 +218,7 @@
                                                 <select class="form-select" id="id_kos" name="id_kos">
                                                     <option disabled selected>Nama Kos/Kontrak</option>
                                                         @foreach ($list_kos as $kos)
-                                                        <option value="{{ $kos->id }}" @if($detail_pendatang->kos->id == $kos->id) selected @endif>{{ $kos->nama_kos }}</option>
+                                                        <option value="{{ $kos->id }}" @if(isset($detail_pendatang) && $detail_pendatang->kos && $detail_pendatang->kos->id == $kos->id) selected @endif>{{ $kos->nama_kos }}</option>
                                                         @endforeach
                                                 </select>
                                             </fieldset>
@@ -227,13 +227,13 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="country-floating" class="form-label">Tanggal Masuk</label>
-                                            <input type="date" id="tanggal_masuk" class="form-control" name="tanggal_masuk" value="{{ $detail_pendatang->tanggal_masuk }}">
+                                            <input type="date" id="tanggal_masuk" class="form-control" name="tanggal_masuk" value="{{ $detail_pendatang ? $detail_pendatang->tanggal_masuk : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="country-floating" class="form-label">Tanggal Keluar</label>
-                                            <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar" value="{{ $detail_pendatang->tanggal_keluar }}">
+                                            <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar" value="{{ $detail_pendatang ? $detail_pendatang->tanggal_keluar : '' }}">
                                         </div>
                                     </div>
                                     <!-- Kolom 13 -->

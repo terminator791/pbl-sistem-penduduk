@@ -46,11 +46,19 @@
                 <span>Data Kos</span>
             </a>
         </li>
-        <li class="sidebar-item {{ Request::is('profile') ? 'active' : '' }} ">
+        <li class="sidebar-item has-sub {{ Request::is('profile') ? 'active' : '' }} ">
             <a href="{{route('profile')}}" class='sidebar-link'>
                 <i class="bi bi-person-fill"></i>
                 <span>Profil</span>
             </a>
+            <ul class="submenu" style="{{ Request::is('profile', 'wargaPendatang') ? 'display: block;' : '' }}">
+                <li class="submenu-item {{ Request::is('profile') ? 'active' : '' }}">
+                    <a href="{{ route('wargaAsli') }}" class="submenu-link">Profile</a>
+                </li>
+                <li class="submenu-item {{ Request::is('wargaPendatang') ? 'active' : '' }}">
+                    <a href="{{ route('wargaPendatang') }}" class="submenu-link">Warga Pendatang</a>
+                </li>
+            </ul>
         </li>
         <li class="sidebar-item  ">
             <a href="#" class='sidebar-link'

@@ -8,7 +8,7 @@
 
 {{-- Need: jQuery Table --}}
 <script src="{{ asset('dist/assets/extensions/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<!-- <script src="{{ asset('dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script> -->
 <script src="{{ asset('dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
 <script src="{{ asset('dist/assets/static/js/pages/datatables.js') }}"></script>
 
@@ -23,3 +23,6 @@
 
 <script src="{{ asset('dist/assets/extensions/select2-4.0.13/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('dist/assets/extensions/select2-4.0.13/dist/js/adminlte.min.js') }}"></script>
+
+<!-- <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script> -->
+<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
