@@ -6,14 +6,17 @@ use App\Models\jenis_kejadian;
 use App\Models\kejadian;
 use App\Models\penduduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KejadianController extends Controller
 {
     //
     public function index()
     {
-        //
-        $list_penduduk = penduduk::all();
+        $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
         $kejadian = kejadian::with(['penduduk', 'jenis_kejadian'])->get();
         $list_jenis_kejadian = jenis_kejadian::all();
 

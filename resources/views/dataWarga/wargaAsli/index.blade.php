@@ -16,7 +16,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Data Warga</li>
                         <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
                     </ol>
-                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
+                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT {{ $id_rt }}</p>
                 </nav>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    Rekap Data Warga Asli RT
+                    Rekap Data Warga Asli RT {{ $id_rt }}
                 </h5>
                 <a href="{{ route('wargaAsli.print') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-print"></i>
@@ -87,40 +87,43 @@
 @section('scripts')
     <script>
     $(document).ready(function () {
-    var i = 1; // Inisialisasi variabel i di sini
-    $('#table3').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "/wargaAsli-fetchAll",
-        columns: [
-            {data: 'i', name: 'i', render: function (data, type, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
-            }},
-            {data: 'NIK', name: 'NIK'},
-            {data: 'nama', name: 'nama'},
-            {data: 'nama_jalan', render: function(data, type, row) {
-                return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
-            }, name: 'nama_jalan'},
-            {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
-                let badgeColor;
-                if (data === 'meninggal') {
-                    badgeColor = 'danger';
-                } else if (data === 'tetap') {
-                    badgeColor = 'success';
-                } else if (data === 'pindah') {
-                    badgeColor = 'secondary';
-                }
-                return `<span class="badge bg-${badgeColor}">${data}</span>`;
-            }},
-            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
-                {data: 'action', name: 'action', orderable: false, searchable: false}
-            @endif
-        ],
-        "initComplete": function(settings, json) {
-            i = this.api().page.info().start; // Mengambil nomor halaman saat ini
-        }
+        var i = 1; // Inisialisasi variabel i di sini
+        var dataTable = $('#table3').DataTable({
+            processing: false,
+            serverSide: false, 
+            ajax: "/wargaAsli-fetchAll",
+            columns: [
+                {data: 'i', name: 'i', render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
+                }},
+                {data: 'NIK', name: 'NIK'},
+                {data: 'nama', name: 'nama'},
+                {data: 'nama_jalan', render: function(data, type, row) {
+                    return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
+                }, name: 'nama_jalan'},
+                {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
+                    let badgeColor;
+                    if (data === 'meninggal') {
+                        badgeColor = 'danger';
+                    } else if (data === 'tetap') {
+                        badgeColor = 'success';
+                    } else if (data === 'pindah') {
+                        badgeColor = 'secondary';
+                    }
+                    return `<span class="badge bg-${badgeColor}">${data}</span>`;
+                }},
+                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                @endif
+            ],
+            "initComplete": function(settings, json) {
+                i = this.api().page.info().start; // Mengambil nomor halaman saat ini
+            }
+            
+        });
+
     });
-});
+
 function showWargaDetail(id) {
     fetch(`/api/v1/wargaPendatang/fetchOne/${id}`)
         .then(response => response.json())

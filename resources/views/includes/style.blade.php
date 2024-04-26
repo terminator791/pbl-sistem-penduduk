@@ -13,3 +13,8 @@
 <link rel="stylesheet" href="{{ asset('dist/assets/extensions/select2-4.0.13/dist/css/select2.min.css') }}">
 
 <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+
+<link rel="stylesheet" href="{{ asset('dist/assets/extensions/choices.js/public/assets/styles/choices.css') }}">
+
+<!-- TOAST -->
+<link rel="stylesheet" href="{{ asset('dist/assets/extensions/toastify-js/src/toastify.css')}}">

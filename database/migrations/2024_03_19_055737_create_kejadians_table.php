@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('jenis_kejadian');
             $table->date('tanggal_kejadian');
             $table->string('tempat_kejadian');
-            $table->string('deskripsi_kejadian');
+            $table->string('foto_kejadian')->nullable();
+            $table->string('deskripsi_kejadian')->nullable();
             $table->timestamps();
         });
     }

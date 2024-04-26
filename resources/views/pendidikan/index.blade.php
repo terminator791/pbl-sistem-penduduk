@@ -60,32 +60,20 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
-                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
-                                    <th>Aksi</th>
-                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
-
-    @foreach($pendidik->penduduk as $p)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $p->nama }}</td>
-            <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
-            @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
-            <td>
-                <a href="{{ route('pendidikan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
-                    <i class="bi bi-trash-fill"></i>
-                </a>
-            </td>
-            @endif
-        </tr>
-    @endforeach
-
-
+                                @foreach($pendidik->penduduk->where('id_rt', $id_rt) as $p)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $p->nama }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
+                    {{ $pendidikan->links() }}
                 </div>
             </div>
         </section>
@@ -114,7 +102,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Penduduk :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->id }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -188,6 +176,10 @@
             window.print();
         });
     });
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
+        
 </script>
 
 @endsection

@@ -15,7 +15,7 @@
     <div class="row h-100">
         <div class="col-lg-5 col-12">
             <div id="auth-left">
-                <img src="{{ asset('dist/assets/static/images/logo_putih.png') }}" class="auth-logo" alt="logo">
+                <img src="{{ asset('storage/logo_hitam_mepet.png') }}" class="auth-logo" alt="logo">
                 <h1 class="auth-title">Silakan Login</h1>
 
                 <!-- Session Status -->
@@ -60,9 +60,9 @@
             </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right">
+            <!-- <div id="auth-right">
                 <img src="{{ asset('storage/logo_polines.jpg') }}" class="gambar-kanan" alt="logo">
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

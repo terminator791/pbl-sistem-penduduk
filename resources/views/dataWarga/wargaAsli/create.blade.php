@@ -127,7 +127,7 @@
                                         <div class="form-group mandatory">
                                             <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}">
@@ -247,7 +247,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="button" onclick="tambah_warga()" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="submit"  class="btn btn-primary me-1 mb-1">Submit</button>
                                             <button type="reset"
                                                 class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
@@ -266,32 +266,34 @@
 
 @section('scripts')
 <script>
-    function tambah_warga() {
-        // Mendapatkan referensi ke elemen formulir
-        const form = document.querySelector('.form');
+    // function tambah_warga() {
+    //     // Mendapatkan referensi ke elemen formulir
+    //     const form = document.querySelector('.form');
 
-        // Membuat objek FormData dari formulir
-        const formData = new FormData(form);
+    //     // Membuat objek FormData dari formulir
+    //     const formData = new FormData(form);
 
-        // Mengirimkan permintaan POST ke API menggunakan fetch API
-        fetch("{{ route('wargaAsli.store') }}", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('API Post gagal');
-            }
-            // Jika sukses, lakukan redirect atau tindakan lainnya
-            alert('Data berhasil ditambahkan');
-            // Redirect ke halaman lain, jika perlu
-            window.location.href = "{{ route('wargaAsli') }}";
-        })
-        .catch(error => {
-            console.error(error);
-            alert('Terjadi kesalahan saat mengirim data.');
+    //     // Mengirimkan permintaan POST ke API menggunakan fetch API
+    //     fetch("{{ route('wargaAsli.store') }}", {
+    //         method: "POST",
+    //         body: formData
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('API Post gagal');
+    //         }
+    //         // Redirect ke halaman lain, jika perlu
+    //         window.location.href = "{{ route('wargaAsli') }}";
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //         alert('Terjadi kesalahan saat mengirim data.');
+    //     });
+    // }
+
+    $(document).ready(function(){
+            $('.select2').select2();
         });
-    }
 </script>
 
 @endsection

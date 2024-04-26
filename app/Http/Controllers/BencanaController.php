@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 use App\Models\jenis_penyakit;
 use App\Models\kesehatan;
 use App\Models\penduduk;
+use Illuminate\Support\Facades\Auth;
 
 class BencanaController extends Controller
 {
     public function index()
     {
-        //
-        $list_penduduk = penduduk::all();
+        $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
         $kesehatan = kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
         $list_penyakit = jenis_penyakit::all();
 

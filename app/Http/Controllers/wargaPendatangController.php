@@ -20,13 +20,9 @@ class wargaPendatangController extends Controller
 {
     public function index(Request $request)
     {
-        $menu = $request->query('menu', 'data_warga');
-        $penduduk = penduduk::with(['pekerjaan'])
-            ->where('status_penghuni', 'kos')
-            ->orWhere('status_penghuni', 'kontrak')
-            ->get();
-
-        return view('dataWarga.wargaPendatang.index', compact('menu', 'penduduk'));
+        $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+        return view('dataWarga.wargaPendatang.index', compact('id_rt'));
     }
 
 //     public function fetchAll()
@@ -207,13 +203,23 @@ public function fetchOne($id)
         $penduduk->no_hp = $request->input('no_hp');
         $penduduk->email = $request->input('email');
 
-        $penduduk->update();
+        
 
         $detail_pendatang = detail_pendatang::where('NIK', $request->input('NIK'))->first();
+        if($detail_pendatang == null){
+            $detail_pendatang = new detail_pendatang();
+            $detail_pendatang->NIK = $request->input('NIK');
+            $detail_pendatang->id_kos = $request->input('id_kos');
+            $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
+            $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
+            $detail_pendatang->save();
+        }
         $detail_pendatang->NIK = $request->input('NIK');
         $detail_pendatang->id_kos = $request->input('id_kos');
         $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
         $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
+        
+        $penduduk->update();
         $detail_pendatang->update();
 
         return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');

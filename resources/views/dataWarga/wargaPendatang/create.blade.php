@@ -6,7 +6,7 @@
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Data Warga</h3>
                 <p class="text-subtitle text-muted">
-                    Rekap data warga asli
+                    Rekap data warga pendatang
                 </p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -16,7 +16,7 @@
                         <li class="breadcrumb-item active" aria-current="page">
                             Data Warga
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
+                        <li class="breadcrumb-item active" aria-current="page">Warga Pendatang</li>
                     </ol>
                 </nav>
             </div>
@@ -31,7 +31,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Tambah Data Warga Asli</h4>
+                        <h4 class="card-title">Tambah Data Warga Pendatang</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
@@ -111,7 +111,7 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Pekerjaan</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}">{{ $pekerjaan->jenis_pekerjaan }}</option> <!-- Use actual database values -->
@@ -268,5 +268,8 @@
             var form = document.querySelector('form');
             form.reset();
         }
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
     </script>
 @endsection

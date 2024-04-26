@@ -18,23 +18,12 @@ use DataTables;
 
 class wargaAsliController extends Controller
 {
-
     // Read
     public function index(Request $request)
 {
-    // 1. Ambil NIK pengguna yang saat ini login
     $NIK = Auth::user()->NIK_penduduk;
-
-    // 2. Temukan id_rt dari tabel penduduk berdasarkan NIK pengguna
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
-
-    // 3. Ambil data penduduk yang memiliki id_rt yang sesuai dan status_penghuni yang bukan 'kos' atau 'kontrak'
-    $penduduk_rt = penduduk::where('id_rt', $id_rt)
-                            ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
-                            ->get();
-
-    // Kirim data penduduk ke view
-    return view('dataWarga.wargaAsli.index', compact('penduduk_rt'));
+    return view('dataWarga.wargaAsli.index', compact('id_rt'));
 }
 
 
@@ -144,11 +133,10 @@ return DataTables::of($filteredData)
             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
         ])->post('http://localhost:9000/v1/wargaAsli', $request->all());
 
-        // Check response status code
-        if ($response->status() === 200) {
-            return response()->json(['message' => 'API Post Success'], 200);
+        if ($response->successful()) {
+            return redirect()->route('wargaAsli')->with('success', " berhasil ditambahkan");
         } else {
-            return response()->json(['message' => 'API Post Failed'], $response->status());
+            return back()->withErrors(['message' => 'Gagal menambah penduduk.']);
         }
     } catch (\Exception $e) {
         return response()->json(['message' => 'API Post Failed: ' . $e->getMessage()], 400);

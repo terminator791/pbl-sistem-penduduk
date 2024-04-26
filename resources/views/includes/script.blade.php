@@ -26,3 +26,11 @@
 
 <!-- <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script> -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+
+{{-- Need: Choices --}}
+<script src="{{ asset('dist/assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+<script src="{{ asset('dist/assets/static/js/pages/form-element-select.js') }}"></script>
+
+<!-- TOAST -->
+<script src="{{ asset('dist/assets/extensions/toastify-js/src/toastify.js')}}"></script>
+<script src="{{ asset('dist/assets/static/js/pages/toastify.js')}}"></script>

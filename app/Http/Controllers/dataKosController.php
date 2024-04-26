@@ -116,5 +116,12 @@ public function updatePenghuni(Request $request, $id)
         return redirect()->route('dataKos')->with('success', 'Penduduk Deleted successfully!');
     }
 
+    public function delete_penghuni($id)
+    {
+        $data_penghuni = detail_pendatang::findOrFail($id);
+        $data_penghuni->delete();
+        return redirect()->route('dataKos')->with('success', 'Deleted successfully!');
+    }
+
     
 }

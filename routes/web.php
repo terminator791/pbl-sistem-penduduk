@@ -25,7 +25,9 @@ Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'v
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::patch('/profile/tambah-pengurus', [ProfileController::class, 'create'])->name('profile.create');
+    Route::get('/profile/tambah-pengurus', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('/profile/store-pengurus', [ProfileController::class, 'store'])->name('profile.store');
+    Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos
     Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
@@ -38,14 +40,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
             Route::get('/dataKos/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
 Route::get('/dataKos/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
-Route::get('/dataKos/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete'])->name('dataKos.penghuniKos.delete');
+Route::get('/dataKos/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
 
 // Data Warga Asli
     Route::middleware(['LevelMiddleware'])->group(function (){
         //Middleware agar hanya Ketua RT yang berhak mengubah data warga asli
         Route::get('/wargaAsli/tambah-warga-asli', [wargaAsliController::class, 'create'])->name('wargaAsli.create');
-        Route::post('/wargaAsli/store-warga-asli', [wargaAsliController::class, 'store'])->name("wargaAsli.store");
+        Route::post('/wargaAsli/store-warga-asli', [wargaAsliController::class, 'simpan'])->name("wargaAsli.store");
         Route::get('/wargaAsli/edit-data-warga-asli/{id}', [wargaAsliController::class, 'edit'])->name('wargaAsli.edit');
         Route::post('/wargaAsli/update-data-warga-asli/{id}', [wargaAsliController::class, 'update'])->name('wargaAsli.update');
         Route::get('/wargaAsli/hapus-data-warga-asli/{id}', [wargaAsliController::class, 'delete'])->name('wargaAsli.delete');

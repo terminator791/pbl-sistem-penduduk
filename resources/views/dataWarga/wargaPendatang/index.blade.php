@@ -18,7 +18,7 @@
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Warga Pendatang</li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT {{ $id_rt }}</p>
             </nav>
         </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">
-                Rekap Data Warga Pendatang RT
+                Rekap Data Warga Pendatang RT {{ $id_rt }}
             </h5>
             <a href="{{ route('wargaPendatang.print') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-print"></i>
@@ -101,8 +101,8 @@ window.onload = function() {
 $(document).ready(function () {
     var i = 1; // Inisialisasi variabel i di sini
     $('#table3').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: false,
+        serverSide: false,
         ajax: "/wargaPendatang/fetchAll",
         columns: [
             {data: 'i', name: 'i', render: function (data, type, row, meta) {
@@ -130,7 +130,9 @@ $(document).ready(function () {
             i = this.api().page.info().start; // Mengambil nomor halaman saat ini
         }
     });
+    
 });
+
 
 
     // Perbarui event listener untuk tombol "toggle-detail"

@@ -27,16 +27,16 @@
             </a>
             <ul class="submenu" style="{{ Request::is('kesehatan', 'pendidikan', 'bantuan', 'kejadian') ? 'display: block;' : '' }}">
                 <li class="submenu-item {{ Request::is('kesehatan') ? 'active' : '' }} ">
-                    <a href="kesehatan" class="submenu-link">Kesehatan</a>
+                    <a href="{{ route('kesehatan') }}" class="submenu-link">Kesehatan</a>
                 </li>
                 <li class="submenu-item {{ Request::is('pendidikan') ? 'active' : '' }} ">
-                    <a href="pendidikan" class="submenu-link">Pendidikan</a>
+                    <a href="{{ route('pendidikan') }}" class="submenu-link">Pendidikan</a>
                 </li>
                 <li class="submenu-item {{ Request::is('bantuan') ? 'active' : '' }} ">
-                    <a href="bantuan" class="submenu-link">Sosial</a>
+                    <a href="{{ route('bantuan') }}" class="submenu-link">Sosial</a>
                 </li>
                 <li class="submenu-item {{ Request::is('kejadian') ? 'active' : '' }} ">
-                    <a href="kejadian" class="submenu-link">Bencana</a>
+                    <a href="{{ route('kejadian') }}" class="submenu-link">Bencana</a>
                 </li>
             </ul>
         </li>
@@ -53,10 +53,10 @@
             </a>
             <ul class="submenu" style="{{ Request::is('profile', 'wargaPendatang') ? 'display: block;' : '' }}">
                 <li class="submenu-item {{ Request::is('profile') ? 'active' : '' }}">
-                    <a href="{{ route('wargaAsli') }}" class="submenu-link">Profile</a>
+                    <a href="{{ route('profile') }}" class="submenu-link">Profile</a>
                 </li>
                 <li class="submenu-item {{ Request::is('wargaPendatang') ? 'active' : '' }}">
-                    <a href="{{ route('wargaPendatang') }}" class="submenu-link">Warga Pendatang</a>
+                    <a href="{{ route('profile.create') }}" class="submenu-link">Tambah User</a>
                 </li>
             </ul>
         </li>

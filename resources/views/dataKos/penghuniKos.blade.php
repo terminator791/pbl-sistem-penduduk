@@ -53,8 +53,9 @@
                         </thead>
                         <tbody>
                             @foreach ($penghuni as $p)
+                                
                                 <tr>
-                                    <td>{{  1 }}</td>
+                                    <td>{{  $loop->iteration }}</td>
                                     <td>{{ $p->NIK }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
                                     <td>{{ $p->penduduk->tempat_lahir }}</td>
@@ -62,10 +63,10 @@
                                     <td>{{ date('d F Y', strtotime($p->tanggal_keluar)) }}</td>
                                     <td>
                                         <!-- Tombol Toggle Edit -->
-                                        <a href="{{ route('dataKos.penghuniKos.edit', $kos->id) }}"
+                                        <!-- <a href="{{ route('dataKos.penghuniKos.edit', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
                                             <i class="bi bi-pencil-fill text-white"></i>
-                                        </a>
+                                        </a> -->
                                         <!-- Tombol Hapus -->
                                         <a href="{{ route('dataKos.penghuniKos.delete', $kos->id) }}"
                                             class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">

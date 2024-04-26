@@ -142,7 +142,7 @@
                                             <label for="id_pekerjaan"
                                                 class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}"
@@ -332,5 +332,9 @@
             var form = document.querySelector('form');
             form.reset();
         }
+
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
     </script>
 @endsection

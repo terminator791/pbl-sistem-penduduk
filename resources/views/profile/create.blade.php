@@ -30,74 +30,75 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Tambah Data Pengurus RT</h4>
+                        <h4 class="card-title">Tambah Pengurus</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST" action="{{ route('dataKos.store') }}" data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('profile.store') }}" data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-12 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="first-name-column" class="form-label">Nama Kos</label>
-                                            <input type="text" id="nama_kos" class="form-control"
-                                                   placeholder="Nama kos" name="nama_kos" data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="last-name-column" class="form-label">Pemilik</label>
-                                            <input type="text" id="pemilik_kos" class="form-control"
-                                                   placeholder="Pemilik" name="pemilik_kos" data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="city-column" class="form-label">Jumlah Penghuni</label>
-                                            <input type="text" id="jumlah_penghuni" class="form-control"
-                                                   placeholder="Jumlah penghuni" name="jumlah_penghuni" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Alamat Kos</label>
-                                            <input type="text" id="alamat_kos" class="form-control"
-                                                   name="alamat_kos" placeholder="Alamat kos"
-                                                   data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="rt-dropdown" class="form-label">RT</label>
-                                            <div class="d-flex">
-                                                <select id="id_rt" class="form-select me-2" name="id_rt"
-                                                        data-parsley-required="true">
-                                                    <option disabled selected>Pilih RT</option>
-                                                    @foreach ($list_RT as $RT)
-                                                        <option value="{{ $RT->id }}">{{ $RT->nama_rt }}</option> <!-- Use actual database values -->
+                                            <label for="nama" class="form-label">Nama :</label>
+                                                <select name="nama" id="nama" class="form-select choices">
+                                                    @foreach ($list_penduduk as $penduduk)
+                                                    <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="last-name-column" class="form-label">NIK</label>
+                                            <input type="text" id="NIK_penduduk" class="form-control"
+                                                   placeholder="NIK_penduduk" value="{{$penduduk->NIK}}" name="NIK_penduduk" data-parsley-required="true" readOnly/>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="city-column" class="form-label">No HP Pemilik</label>
-                                            <input type="text" id="no_hp_pemilik" class="form-control"
-                                                   placeholder="No HP Pemilik" name="no_hp_pemilik" />
+                                            <label for="country-floating" class="form-label">User Name</label>
+                                            <input type="text" id="username" class="form-control"
+                                                   name="username" placeholder="username"  data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
+                                        @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT' ||  Auth::user()->level == 'RW')
                                         <div class="form-group mandatory">
-                                            <label for="city-column" class="form-label">Email pemilik</label>
-                                            <input type="text" id="email_pemilik" class="form-control"
-                                                   placeholder="Email pemilik" name="email_pemilik"/>
+                                            <label for="tanggal_dilantik" class="form-label">Tanggal Mulai Menjabat</label>
+                                            <input type="date" id="tanggal_dilantik" class="form-control"
+                                                    name="tanggal_dilantik" class="form-control">
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
+                                            <div class="form-group mandatory">
+                                                    <label for="rt" class="form-label">RT</label>
+                                                    <input type="text" id="id_rt" class="form-control"
+                                                    placeholder="Nama" value="{{ $id_rt}}" name="id_rt" data-parsley-required="true" disabled/>
+                                            </div>
+                                                @endif
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="level" class="form-label">Jabatan</label>
+                                            <select id="level" class="form-control" name="level">
+                                                @if(Auth::user()->level == 'admin')
+                                                <option>RW</option>
+                                                @endif
+                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
+                                                <option>RT</option>
+                                                @endif
+                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                                                <option>pemilik_kos</option>
+                                                @endif
+                                            </select>
+                                        </div>
+
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
-                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                            <button type="submit"
+                                                class="btn btn-primary me-1 mb-1"><strong>Tambah</strong></button>
                                         </div>
                                     </div>
                             </form>
@@ -111,5 +112,11 @@
 @endsection
 
 @section('scripts')
-    {{--  --}}
+    <script>
+        document.getElementById('nama').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var nik = selectedOption.value; // Get the value of the selected option
+            document.getElementById('NIK_penduduk').value = nik; // Set the value of NIK input field
+        });
+    </script>
 @endsection

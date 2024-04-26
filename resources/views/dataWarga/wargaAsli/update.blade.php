@@ -78,7 +78,7 @@
                                         <div class="form-group mandatory">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select select2" id="agama" name="agama">
+                                                <select class="form-select" id="agama" name="agama">
                                                     <option disabled selected>Pilih Agama</option>
                                                     <option value="islam"
                                                         {{ $penduduk->agama == 'islam' ? 'selected' : '' }}>Islam</option>
@@ -139,16 +139,15 @@
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="id_pekerjaan"
-                                                class="form-label"><strong>Pekerjaan</strong></label>
+                                            <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}"
                                                             {{ $penduduk->id_pekerjaan == $pekerjaan->id ? 'selected' : '' }}>
-                                                            {{ $pekerjaan->jenis_pekerjaan }}</option>
-                                                        <!-- Use actual database values -->
+                                                            {{ $pekerjaan->jenis_pekerjaan }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </fieldset>
@@ -329,5 +328,6 @@
         $(document).ready(function(){
             $('.select2').select2();
         });
+        
     </script>
 @endsection

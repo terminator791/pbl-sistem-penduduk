@@ -66,16 +66,19 @@ class DatabaseSeeder extends Seeder
             'jenis_pendidikan' => 'SMA/SMK',
         ]);
         pendidikan::create([
-            'jenis_pendidikan' => 'Sarjana',
+            'jenis_pendidikan' => 'S1',
+        ]);
+        pendidikan::create([
+            'jenis_pendidikan' => 'S2',
+        ]);
+        pendidikan::create([
+            'jenis_pendidikan' => 'S3',
         ]);
 
         pekerjaan::create([
             'jenis_pekerjaan' => 'PNS',
         ]);
 
-        pekerjaan::create([
-            'jenis_pekerjaan' => 'kerja rodi',
-        ]);
         pekerjaan::create([
             'jenis_pekerjaan' => 'Mengurus Rumah Tangga',
         ]);

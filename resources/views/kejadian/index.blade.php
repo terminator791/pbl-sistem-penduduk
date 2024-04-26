@@ -134,7 +134,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Pelapor :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -193,5 +193,9 @@
             window.print();
         });
     });
+
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
 </script>
 @endsection

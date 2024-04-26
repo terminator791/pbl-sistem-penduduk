@@ -105,7 +105,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Penduduk :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -130,18 +130,39 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        // Update the drop-down for the initially selected tab
-        updateDropdown($('.nav-link.active').data('bantuan-id'));
+         // Function to update the dropdown and save active tab ID to localStorage
+    // Function to update the dropdown and save active tab ID to localStorage
+    function updateDropdownAndSave(bantuanId) {
+        var selectedBantuan = $('.nav-link[data-bantuan-id="' + bantuanId + '"]').text().trim();
+        $('#id_bantuan').html('<option value="' + bantuanId + '">' + selectedBantuan + '</option>');
+        // Save active tab ID to localStorage
+        localStorage.setItem('activeTabId', bantuanId);
+    }
 
-        $('.nav-link').on('click', function() {
-            var bantuanId = $(this).data('bantuan-id');
-            updateDropdown(bantuanId);
-        });
+    // Check if there's a saved active tab ID in localStorage
+    var savedTabId = localStorage.getItem('activeTabId');
+    if(savedTabId) {
+        // Activate the saved tab
+        $('.nav-link[data-bantuan-id="' + savedTabId + '"]').tab('show');
+        updateDropdownAndSave(savedTabId);
+    } else {
+        // Activate the first tab by default if no saved tab
+        var firstTabId = $('.nav-link').first().data('bantuan-id');
+        $('.nav-link[data-bantuan-id="' + firstTabId + '"]').tab('show');
+        updateDropdownAndSave(firstTabId);
+    }
 
-        function updateDropdown(bantuanId) {
-            var selectedBantuan = $('.nav-link[data-bantuan-id="' + bantuanId + '"]').text().trim();
-            $('#id_bantuan').html('<option value="' + bantuanId + '">' + selectedBantuan + '</option>');
-        }
+    // Update the dropdown and save active tab ID when tab is clicked
+    $('.nav-link').on('click', function() {
+        var bantuanId = $(this).data('bantuan-id');
+        updateDropdownAndSave(bantuanId);
     });
+
+    });
+
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
+    
 </script>
 @endsection
