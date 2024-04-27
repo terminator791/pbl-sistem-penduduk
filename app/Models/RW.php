@@ -9,7 +9,7 @@ class RW extends Model
 {
     use HasFactory;
 
-    protected $table = 'RW';
+    protected $table = 'tabel_rw';
 
     protected $guarded = ['id'];
 

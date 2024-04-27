@@ -31,7 +31,7 @@ for ($i = 0; $i < 50; $i++) {
     $id_pekerjaan = mt_rand(1, 25);
     $id_status_perkawinan = mt_rand(1, 2);
     $id_rt = mt_rand(1, 5);
-    $id_rw = mt_rand(1, 3);
+    $id_rw = mt_rand(1, 2);
     $id_keluarga = mt_rand(1, 3);
     $status_penghuni = $status_penghuni_options[array_rand($status_penghuni_options)];
     $nama_jalan = 'Jl ' . ($id_rt == 5 ? 'veteran' : ($id_rt == 4 ? 'diponegoro' : 'mulawarman')); // Assuming different streets for different RTs
@@ -90,7 +90,7 @@ foreach ($data as $row) {
         //     $id_pekerjaan = $faker->numberBetween(1, 25);
         //     $id_status_perkawinan = $faker->numberBetween(1, 2);
         //     $id_rt = $faker->numberBetween(1, 5);
-        //     $id_rw = $faker->numberBetween(1, 3);
+        //     $id_rw = $faker->numberBetween(1, 2);
         //     $id_keluarga = $faker->numberBetween(1, 3);
         //     $status_penghuni = $faker->randomElement(['tetap', 'kos', 'kontrak', 'pindah']);
         //     $nama_jalan = $faker->streetName;

@@ -33,8 +33,6 @@ class DatabaseSeeder extends Seeder
 
         $tanggal_lahir = Carbon::createFromFormat('Y-m-d', '2004-06-15');
 
-
-
         keluarga::create([
             'status_keluarga' => 'kepala keluarga'
         ],);
@@ -407,13 +405,6 @@ class DatabaseSeeder extends Seeder
             'ketua_rw' => 'Iqbal'
 
         ],);
-        RW::create([
-            'nama_rw' => '03',
-            'ketua_rw' => 'Husein'
-
-        ],);
-
-
         RT::create([
             'nama_rt' => '01',
             'id_rw' => '1',
@@ -426,19 +417,25 @@ class DatabaseSeeder extends Seeder
         ],);
         RT::create([
             'nama_rt' => '03',
+            'id_rw' => '1',
+
+        ],);
+        RT::create([
+            'nama_rt' => '01',
             'id_rw' => '2',
 
         ],);
         RT::create([
-            'nama_rt' => '04',
+            'nama_rt' => '02',
             'id_rw' => '2',
 
         ],);
         RT::create([
-            'nama_rt' => '05',
-            'id_rw' => '3',
+            'nama_rt' => '03',
+            'id_rw' => '2',
 
         ],);
+    
 
 
 
@@ -548,7 +545,7 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 12,
             'id_status_perkawinan' => 2,
             'id_rt' => 4,
-            'id_rw' => 3,
+            'id_rw' => 2,
             'id_keluarga' => 3,
             'status_penghuni' => 'kos',
             'nama_jalan' => 'Jl gondang',
@@ -586,7 +583,7 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 9,
             'id_status_perkawinan' => 2,
             'id_rt' => 1,
-            'id_rw' => 3,
+            'id_rw' => 1,
             'id_keluarga' => 3,
             'status_penghuni' => 'tetap',
             'nama_jalan' => 'Jl cipto',
@@ -624,7 +621,7 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 9,
             'id_status_perkawinan' => 2,
             'id_rt' => 2,
-            'id_rw' => 3,
+            'id_rw' => 2,
             'id_keluarga' => 3,
             'status_penghuni' => 'tetap',
             'nama_jalan' => 'Jl pahlawan',
@@ -681,7 +678,7 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 1,
             'id_status_perkawinan' => 2,
             'id_rt' => 5,
-            'id_rw' => 3,
+            'id_rw' => 1,
             'id_keluarga' => 3,
             'status_penghuni' => 'tetap',
             'nama_jalan' => 'Jl veteran',
@@ -719,7 +716,7 @@ class DatabaseSeeder extends Seeder
             'id_pekerjaan' => 1,
             'id_status_perkawinan' => 2,
             'id_rt' => 1,
-            'id_rw' => 3,
+            'id_rw' => 2,
             'id_keluarga' => 3,
             'status_penghuni' => 'kos',
             'nama_jalan' => 'Jl wisma',
@@ -845,7 +842,7 @@ class DatabaseSeeder extends Seeder
             'NIK' => '3317120041815',
             'nama' => "Dandy",
             'jenis_kelamin' => 'pria',
-            'tempat_lahir' => '',
+            'tempat_lahir' => 'Ngaliyan',
             'tanggal_lahir' => $tanggal_lahir,
             'agama' => 'islam',
             'id_pendidikan' => 4,
@@ -877,7 +874,6 @@ class DatabaseSeeder extends Seeder
             'pemilik_kos' => 'iqbal bagus',
             'nama_kos' => 'Baskoro 69',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
-            'jumlah_penghuni' => 8,
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
             'status' => true,
@@ -889,7 +885,6 @@ class DatabaseSeeder extends Seeder
             'pemilik_kos' => 'iqbal bagus',
             'nama_kos' => 'Baskoro 70',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
-            'jumlah_penghuni' => 11,
             'no_hp_pemilik' => '0895423630500',
             'email_pemilik' => 'iqbal@mail.com',
             'status' => false,
@@ -900,7 +895,6 @@ class DatabaseSeeder extends Seeder
             'pemilik_kos' => 'Rifqi',
             'nama_kos' => 'Norma House',
             'alamat_kos' => 'Jalan Nirwana Sari No. 30',
-            'jumlah_penghuni' => 19,
             'no_hp_pemilik' => '08213131231',
             'email_pemilik' => 'rifqi@mail.com',
             'status' => true,
@@ -910,14 +904,13 @@ class DatabaseSeeder extends Seeder
             'NIK' => '3317120041795',
             'id_kos' => 1,
             'tanggal_masuk' => $tanggal_lahir,
-            'tanggal_keluar' => $tanggal_lahir,
         ],);
 
         detail_pendatang::create([
             'NIK' => '3317120041796',
-            'id_kos' => 1,
+            'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
-            'tanggal_keluar' => $tanggal_lahir,
+            'deskripsi' => 'kamar-03',
         ],);
 
         detail_pendatang::create([
@@ -925,6 +918,7 @@ class DatabaseSeeder extends Seeder
             'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
             'tanggal_keluar' => $tanggal_lahir,
+            'deskripsi' => 'kamar-03',
         ],);
 
         User::create([

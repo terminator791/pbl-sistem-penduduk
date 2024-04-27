@@ -18,15 +18,15 @@ return new class extends Migration
             $table->enum('jenis_kelamin', ['pria', 'wanita']);
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->enum('agama', ['islam', 'kristen', 'hindhu', 'Budha', 'konghucu','katolik']);
+            $table->enum('agama', ['islam', 'kristen', 'hindhu', 'Budha', 'konghucu','katolik'])->nullable();
             $table->unsignedBigInteger('id_pendidikan')->nullable();
-            $table->unsignedBigInteger('id_pekerjaan');
+            $table->unsignedBigInteger('id_pekerjaan')->nullable();
             $table->unsignedBigInteger('id_status_perkawinan')->nullable();
             $table->unsignedBigInteger('id_rt')->nullable();
             $table->unsignedBigInteger('id_rw')->nullable();
             $table->unsignedBigInteger('id_bantuan')->nullable();
             $table->unsignedBigInteger('id_keluarga')->nullable();
-            $table->string('nama_jalan')>nullable();
+            $table->string('nama_jalan')->nullable();
             $table->enum('status_penghuni', ['kos', 'kontrak', 'tetap', 'pindah', 'meninggal']);
             $table->date('tanggal_peristiwa')->nullable();
             $table->string('foto_ktp')->nullable();

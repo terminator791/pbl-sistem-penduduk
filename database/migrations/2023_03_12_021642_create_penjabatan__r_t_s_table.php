@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('NIK_ketua_rt');
             $table->date('tanggal_dilantik');
             $table->date('tanggal_diberhentikan')->nullable();
+            $table->string('foto_ketua_rt')->nullable();
             $table->timestamps();
         });
     }

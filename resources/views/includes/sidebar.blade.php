@@ -6,6 +6,7 @@
                 <span>Dasbor</span>
             </a>
         </li>
+        @if(Auth::user()->level != 'pemilik_kos')
         <li class="sidebar-item has-sub {{ Request::is('wargaAsli', 'wargaPendatang') ? 'active open' : '' }}">
             <a href="#" class="sidebar-link">
                 <i class="bi bi-people-fill"></i>
@@ -40,6 +41,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         <li class="sidebar-item {{ Request::is('dataKos') ? 'active' : '' }} ">
             <a href="{{ route('dataKos') }}" class='sidebar-link'>
                 <i class="bi bi-house-fill"></i>

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('detail_pendatang', function (Blueprint $table) {
             $table->id();
             $table->string('NIK')->unique();
-            $table->unsignedBigInteger('id_kos')->nullable();
+            $table->unsignedBigInteger('id_kos');
             $table->date('tanggal_masuk');
-            $table->date('tanggal_keluar');
+            $table->date('tanggal_keluar')->nullable();
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
         });
     }
