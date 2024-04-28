@@ -18,6 +18,6 @@ class RW extends Model
 }
 
 public function RT(){
-    return $this->hasMany(RT::class, 'id_rw');
+    return $this->hasMany(RT::class, 'id');
 }
 }

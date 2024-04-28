@@ -47,11 +47,14 @@
                                 <th>Jumlah Penghuni</th>
                                 <th>Alamat Kos</th>
                                 <th>Status</th>
+                                @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'pemilik_kos')
                                 <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data_kos as $kos)
+                        @if(Auth::check() && Auth::user()->level == 'pemilik_kos')
+                            @foreach ($data_kos_pemilik as $kos)
                                 <tr id="row_{{ $kos->id }}">
                                     <td class="direct">{{ $loop->iteration }}</td>
                                     <td class="direct">{{ $kos->nama_kos }}</td>
@@ -79,6 +82,56 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            @elseif(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RW')
+                            @foreach ($data_kos as $kos)
+                                <tr id="row_{{ $kos->id }}">
+                                    <td class="direct">{{ $loop->iteration }}</td>
+                                    <td class="direct">{{ $kos->nama_kos }}</td>
+                                    <td class="direct">{{ $kos->pemilik_kos }}</td>
+                                    <td class="direct2" style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td>
+                                    <td class="direct">{{ $kos->alamat_kos }}</td>
+                                    <td class="direct">
+                                        @if ($kos->status)
+                                            <span class="badge bg-success">Aktif</span>
+                                        @else
+                                            <span class="badge bg-danger">Non Aktif</span>
+                                        @endif
+                                    </td>
+                                    @if(Auth::check() && Auth::user()->level == 'admin')
+                                    <td>
+                                        <!-- Tombol Toggle Edit -->
+                                        <a href="{{ route('dataKos.edit', $kos->id) }}"
+                                            class="btn btn-sm btn-warning toggle-edit">
+                                            <i class="bi bi-pencil-fill text-white"></i>
+                                        </a>
+                                        <!-- Tombol Hapus -->
+                                        <a href="#" class="btn btn-sm btn-danger toggle-delete"
+                                            onclick="confirmDelete(event, {{ $kos->id }})">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        @elseif(Auth::check() && Auth::user()->level == 'RT')
+                            @foreach ($data_kos_RT as $kos)
+                                <tr id="row_{{ $kos->id }}">
+                                    <td class="direct">{{ $loop->iteration }}</td>
+                                    <td class="direct">{{ $kos->nama_kos }}</td>
+                                    <td class="direct">{{ $kos->pemilik_kos }}</td>
+                                    <td class="direct2" style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td>
+                                    <td class="direct">{{ $kos->alamat_kos }}</td>
+                                    <td class="direct">
+                                        @if ($kos->status)
+                                            <span class="badge bg-success">Aktif</span>
+                                        @else
+                                            <span class="badge bg-danger">Non Aktif</span>
+                                        @endif
+                                    </td>
+                                    
+                                </tr>
+                            @endforeach
+                        @endif
                     </table>
                 </div>
             </div>

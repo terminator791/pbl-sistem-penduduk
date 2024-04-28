@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('tanggal_masuk')->default(now());
             $table->date('tanggal_keluar')->nullable();
             $table->string('deskripsi')->nullable();
+            $table->unsignedBigInteger('id_kamar');
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@
             </ul>
         </li>
         @endif
-        <li class="sidebar-item {{ Request::is('dataKos') ? 'active' : '' }} ">
+        <li class="sidebar-item {{ Request::is('dataKos*') || request()->routeIs('dataKos.*') ? 'active' : '' }} ">
             <a href="{{ route('dataKos') }}" class='sidebar-link'>
                 <i class="bi bi-house-fill"></i>
                 <span>Data Kos</span>

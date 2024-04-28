@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_kamar', 255);
             $table->boolean('tersedia')->default(true);
-            $table->string('NIK_penduduk')->nullable();
             $table->integer('kapasitas')->default(1);
-            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk')->onDelete('set null');
             $table->timestamps();
         });
     }

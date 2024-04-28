@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
+            // $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
         });
 
         Schema::table('tabel_rt', function (Blueprint $table) {
@@ -32,6 +32,7 @@ return new class extends Migration
         Schema::table('detail_pendatang', function (Blueprint $table) { 
             $table->foreign('NIK')->references('NIK')->on('penduduk');
             $table->foreign('id_kos')->references('id')->on('tabel_kos');
+            $table->foreign('id_kamar')->references('id')->on('kamar_kos');
         });
 
 

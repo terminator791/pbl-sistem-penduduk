@@ -30,18 +30,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos
-    Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
     Route::get('/dataKos-print', [dataKosController::class, 'print'])->name('dataKos.print');
-    Route::middleware(['LevelMiddleware'])->group(function (){
-            Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
-            Route::get('/dataKos/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
-            Route::post('/dataKos/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
-            Route::get('/dataKos/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
-            Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
-            Route::get('/dataKos/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
-Route::get('/dataKos/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
-Route::get('/dataKos/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
+    Route::middleware(['LevelMiddleware'])->prefix('dataKos')->group(function (){
+        Route::get('/', [dataKosController::class, 'index'])->name('dataKos');
+        Route::post('/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
+        Route::get('/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+        Route::post('/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
+        Route::get('/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
+        Route::get('/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
+        Route::get('/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
+        Route::get('/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
+        Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
+    
 
 // Data Warga Asli
     Route::middleware(['LevelMiddleware'])->group(function (){

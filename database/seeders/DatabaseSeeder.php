@@ -7,6 +7,7 @@ use App\Models\bantuan;
 use App\Models\detail_pendatang;
 use App\Models\jenis_kejadian;
 use App\Models\jenis_penyakit;
+use App\Models\kamar_kos;
 use App\Models\keluarga;
 use App\Models\kesehatan;
 use App\Models\kos;
@@ -332,8 +333,6 @@ class DatabaseSeeder extends Seeder
         pekerjaan::create([
             'jenis_pekerjaan' => 'Lain-lain',
         ]);
-
-
 
         jenis_kejadian::create([
             'jenis_kejadian' => 'Banjir'
@@ -900,10 +899,26 @@ class DatabaseSeeder extends Seeder
             'status' => true,
         ],);
 
+        kamar_kos::create([
+            'nama_kamar' => 'A1',
+            'kapasitas' => 2,
+        ],);
+        kamar_kos::create([
+            'nama_kamar' => 'A2',
+        ],);
+        kamar_kos::create([
+            'nama_kamar' => 'B1',
+            'kapasitas' => 2,
+        ],);
+        kamar_kos::create([
+            'nama_kamar' => 'B2',
+        ],);
+
         detail_pendatang::create([
             'NIK' => '3317120041795',
             'id_kos' => 1,
             'tanggal_masuk' => $tanggal_lahir,
+            'id_kamar' => 1,
         ],);
 
         detail_pendatang::create([
@@ -911,6 +926,7 @@ class DatabaseSeeder extends Seeder
             'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
             'deskripsi' => 'kamar-03',
+            'id_kamar' => 2,
         ],);
 
         detail_pendatang::create([
@@ -918,7 +934,8 @@ class DatabaseSeeder extends Seeder
             'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
             'tanggal_keluar' => $tanggal_lahir,
-            'deskripsi' => 'kamar-03',
+            'id_kamar' => 3,
+            'deskripsi' => 'kamar-B1',
         ],);
 
         User::create([

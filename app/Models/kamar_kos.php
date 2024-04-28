@@ -12,4 +12,8 @@ class kamar_kos extends Model
     protected $table = 'kamar_kos';
 
     protected $guarded = ['id'];
+
+    public function detail_pendatang(){
+        return $this->hasMany(detail_pendatang::class, 'id');
+    }
 }
