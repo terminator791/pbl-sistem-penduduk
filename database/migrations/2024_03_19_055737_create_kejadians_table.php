@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('tempat_kejadian')->nullable();
             $table->string('foto_kejadian')->nullable();
             $table->string('deskripsi_kejadian')->nullable();
-            $table->enum('status', ['proses', 'selesai']);
+            $table->enum('status', ['proses', 'selesai'])->default('proses');
             $table->timestamps();
         });
     }

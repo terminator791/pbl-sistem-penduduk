@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('NIK')->unique();
             $table->unsignedBigInteger('id_kos');
-            $table->date('tanggal_masuk');
+            $table->date('tanggal_masuk')->default(now());
             $table->date('tanggal_keluar')->nullable();
             $table->string('deskripsi')->nullable();
             $table->timestamps();

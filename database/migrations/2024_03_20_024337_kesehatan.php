@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('NIK_penduduk');
             $table->date('tanggal_terdampak')->nullable();
             $table->unsignedBigInteger('id_penyakit');
-            $table->enum('status', ['sakit', 'sembuh', 'meninggal']);
+            $table->enum('status', ['sakit', 'sembuh', 'meninggal'])->default('sakit');
             $table->timestamps();
         });
         
