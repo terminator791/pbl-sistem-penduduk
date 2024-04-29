@@ -57,38 +57,54 @@
                                                    name="country-floating" placeholder="User Name" data-parsley-required="true" />
                                         </div>
                                     </div>
+                                    @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Telepon</label>
-                                            <input type="text" id="Telepon" class="form-control"
-                                                   name="country-floating" placeholder="Telepon" data-parsley-required="true" />
+                                            <label for="tanggal-penjabatan" class="form-label">Tanggal Menjabat</label>
+                                            <input type="date" id="tanggal-penjabatan" class="form-control"
+                                            name="tanggal-penjabatan">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group mandatory">
-                                                <label for="first-name-column" class="form-label">Alamat</label>
-                                                <input type="text" id="alamat" class="form-control"
-                                                       placeholder="Alamat" name="alamat" data-parsley-required="true" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group mandatory">
-                                                <label for="last-name-column" class="form-label">Jabatan</label>
-                                                <input type="text" id="nama" class="form-control"
-                                                       placeholder="Nama" name="nama" data-parsley-required="true" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 d-flex justify-content-end">
-                                            <a href='{{ route('profile.create') }}' type="submit"
-                                               class="btn btn-primary me-1 mb-1">
-                                                Tambah Pengurus
-                                            </a>
-                                            <a type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                Reset
-                                            </a>
+                                    @endif
+                                </div>
+                                <div class="row">
+                                    @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="rt" class="form-label">RT</label>
+                                            <select id="rt" class="form-control" name="level">
+                                                    <option>1</option>
+                                                {{-- ini diisi dari tabel rt menampilkan rt apa --}}
+                                            </select>
                                         </div>
                                     </div>
+                                    @endif
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="level" class="form-label">Jabatan</label>
+                                            <select id="level" class="form-control" name="level">
+                                                @if(Auth::user()->level == 'admin')
+                                                <option>RW</option>
+                                                @endif
+                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
+                                                <option>RT</option>
+                                                @endif
+                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                                                <option>Pemilik Kos</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a href='{{ route('profile.create') }}' type="submit"
+                                           class="btn btn-primary me-1 mb-1">
+                                            Tambah Pengurus
+                                        </a>
+                                        <a type="reset" class="btn btn-light-secondary me-1 mb-1">
+                                            Reset
+                                        </a>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
