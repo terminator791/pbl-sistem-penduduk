@@ -17,6 +17,7 @@
                         Data Kejadian
                     </li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -31,7 +32,7 @@
     @foreach($list_jenis_kejadian as $jenis_kejadian)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $jenis_kejadian->jenis_kejadian }}-tab" data-bs-toggle="tab" href="#{{ $jenis_kejadian->jenis_kejadian }}" role="tab" aria-controls="{{ $jenis_kejadian->jenis_kejadian }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-jenis_kejadian-id="{{ $jenis_kejadian->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-bolt fa-lg" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $jenis_kejadian->jenis_kejadian }}</span>
         </a>
     </li>
@@ -63,7 +64,9 @@
                                     <th>Tempat</th>
                                     <th>Deskripsi</th>
                                     <th>Pelapor</th>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,7 +77,7 @@
                                     <td>{{ $p->tempat_kejadian }}</td>
                                     <td>{{ $p->deskripsi_kejadian }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
-                                    @if(Auth::check() && Auth::user()->level == 'admin'  &&  Auth::user()->level == 'RT' )
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <td>
                                         <a href="{{ route('kejadian.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
@@ -92,7 +95,7 @@
     </div>
     @endforeach
 </div>
-@if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
@@ -131,7 +134,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Pelapor :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -142,19 +145,33 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Tambah Kejadian</button>
                     </div>
-                </div>
             </form>
         </div>
     </div>
 </div>
 @endif
-
 @endsection
 
 @section('scripts')
 <script>
     // Script jQuery
     $(document).ready(function() {
+        // Fungsi untuk menyimpan id jenis kejadian ke local storage
+    function saveActiveJenisKejadianId(jenisKejadianId) {
+        localStorage.setItem('activeJenisKejadianId', jenisKejadianId);
+    }
+
+    // Fungsi untuk mendapatkan id jenis kejadian terakhir yang diakses dari local storage
+    function getSavedActiveJenisKejadianId() {
+        return localStorage.getItem('activeJenisKejadianId');
+    }
+
+    // Inisialisasi tab aktif
+    var activeJenisKejadianId = getSavedActiveJenisKejadianId(); // Mendapatkan id jenis kejadian terakhir yang diakses dari local storage
+    if (activeJenisKejadianId) {
+        $('.nav-link[data-jenis_kejadian-id="' + activeJenisKejadianId + '"]').tab('show'); // Menampilkan tab dengan id jenis kejadian terakhir yang diakses
+    }
+
         // Inisialisasi nilai jenis_kejadian pada load halaman pertama kali
         var initialjenis_kejadian = $('.nav-link.active').data('jenis_kejadian-id'); // Mengambil data jenis_kejadian-id dari elemen nav-link aktif
         var namajenis_kejadian = $('.nav-link.active').text().trim();
@@ -168,11 +185,17 @@
             var jenis_kejadianId = $(this).data('jenis_kejadian-id'); // Mengambil data jenis_kejadian-id dari elemen nav-link yang di-klik
             var namajenis_kejadian = $(this).text().trim();
             $('#id_jenis_kejadian').html('<option value="' + jenis_kejadianId + '" selected>' + namajenis_kejadian + '</option>');
+            var jenisKejadianId = $(this).data('jenis_kejadian-id');
+        saveActiveJenisKejadianId(jenisKejadianId); // Menyimpan id jenis kejadian ke local storage setiap kali tab diubah
         });
 
         $('.print-button').on('click', function() {
             window.print();
         });
     });
+
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
 </script>
 @endsection

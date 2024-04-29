@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class kos extends Model
 {
     use HasFactory;
-    protected $table = 'kos';
+    protected $table = 'tabel_kos';
 
     protected $fillable = ['nama_kos', 'jumlah_penghuni'];
 
 
     public function rt()
     {
-        return $this->belongsTo(RT::class, 'id')->withTimestamps();
+        return $this->belongsTo(RT::class, 'id');
     }
 
     public function penduduk(){
-        return $this->belongsToMany(penduduk::class, 'detail_pendatang', 'id_kos', 'NIK')->withTimestamps();
+        return $this->belongsToMany(penduduk::class, 'detail_pendatang', 'id_kos', 'NIK');
     }
 
     public function detail_pendatang(){
-        return $this->hasMany(detail_pendatang::class, 'id_kos')->withTimestamps();
+        return $this->hasMany(detail_pendatang::class, 'id_kos' , 'id_kos');
     }
 }

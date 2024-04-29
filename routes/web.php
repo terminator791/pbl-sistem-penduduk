@@ -26,36 +26,39 @@ Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'v
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/tambah-pengurus', [ProfileController::class, 'create'])->name('profile.create');
-
-//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/store-pengurus', [ProfileController::class, 'store'])->name('profile.store');
+    Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos
-    Route::get('/dataKos', [dataKosController::class, 'index'])->name('dataKos');
-    Route::middleware('RT')->group(function (){
-        Route::middleware('Kos')->group(function () {
-            Route::post('/dataKos/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
-            Route::get('/dataKos/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
-            Route::post('/dataKos/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
-        });
-        Route::get('/dataKos/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
-        Route::get('/dataKos/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
+    Route::get('/dataKos-print', [dataKosController::class, 'print'])->name('dataKos.print');
+    Route::middleware(['LevelMiddleware'])->prefix('dataKos')->group(function (){
+        Route::get('/', [dataKosController::class, 'index'])->name('dataKos');
+        Route::post('/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
+        Route::get('/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+        Route::post('/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
+        Route::get('/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
+        Route::get('/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
+        Route::get('/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
+        Route::get('/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
+        Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
+    
 
 // Data Warga Asli
-    Route::middleware('RT')->group(function (){
+    Route::middleware(['LevelMiddleware'])->group(function (){
         //Middleware agar hanya Ketua RT yang berhak mengubah data warga asli
         Route::get('/wargaAsli/tambah-warga-asli', [wargaAsliController::class, 'create'])->name('wargaAsli.create');
-        Route::post('/wargaAsli/store-warga-asli', [wargaAsliController::class, 'store'])->name("wargaAsli.store");
+        Route::post('/wargaAsli/store-warga-asli', [wargaAsliController::class, 'simpan'])->name("wargaAsli.store");
         Route::get('/wargaAsli/edit-data-warga-asli/{id}', [wargaAsliController::class, 'edit'])->name('wargaAsli.edit');
         Route::post('/wargaAsli/update-data-warga-asli/{id}', [wargaAsliController::class, 'update'])->name('wargaAsli.update');
         Route::get('/wargaAsli/hapus-data-warga-asli/{id}', [wargaAsliController::class, 'delete'])->name('wargaAsli.delete');
     });
     Route::get('/wargaAsli', [wargaAsliController::class, 'index'])->name('wargaAsli');
     Route::get('/wargaAsli/print', [wargaAsliController::class, 'print'])->name('wargaAsli.print');
+    Route::get('/wargaAsli-fetchAll', [wargaAsliController::class, 'fetchAll'])->name("wargaAsli.fetchAll");
 
 // Data Warga Pendatang
-    Route::middleware('RT')->group(function () {
+    Route::middleware(['LevelMiddleware'])->group(function () {
         //Middleware agar hanya Ketua RT yang berhak mengubah data warga pendatang
         Route::get('/wargaPendatang/tambah-warga-pendatang', [wargaPendatangController::class, 'create'])->name('wargaPendatang.create');
         Route::post('/wargaPendatang/store-warga-pendatang', [wargaPendatangController::class, 'store'])->name("wargaPendatang.store");
@@ -65,11 +68,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/wargaPendatang', [wargaPendatangController::class, 'index'])->name('wargaPendatang');
     Route::get('/wargaPendatang/print', [WargaPendatangController::class, 'print'])->name('wargaPendatang.print');
+    Route::get('/wargaPendatang/fetchAll', [wargaPendatangController::class, 'fetchAll'])->name("wargaPendatang.fetchAll");
 
 
 // Kesehatan
     Route::get('/kesehatan', [KesehatanController::class, 'index'])->name('kesehatan');
-    Route::middleware('RT')->group(function () {
+    Route::middleware('LevelMiddleware')->group(function () {
         Route::get('/daftar_kesehatan', [KesehatanController::class, 'create']);
         Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.store");
         Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
@@ -78,7 +82,7 @@ Route::middleware('auth')->group(function () {
 
 // kejadian
     Route::get('/kejadian', [KejadianController::class, 'index'])->name('kejadian');
-    Route::middleware('RT')->group(function (){
+    Route::middleware('LevelMiddleware')->group(function (){
         Route::post('/kejadian/store-kejadian', [KejadianController::class, 'store'])->name("kejadian.store");
         Route::get('/kejadian/hapus-kejadian/{id}', [KejadianController::class, 'delete'])->name('kejadian.delete');
     });
@@ -87,13 +91,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/tambah_kejadian', [KejadianController::class, 'store'])->name("kejadian.add");
 
 // pendidikan
-    Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
-    Route::get('/pendidikan3', [PendidikanController::class, 'create']);
-    Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
+Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
+Route::get('/pendidikan/tambah-pendidikan/{id}', [PendidikanController::class, 'create'])->name('pendidikan.create');
+Route::post('/pendidikan/store-pendidikan/{id}', [PendidikanController::class, 'store'])->name('pendidikan.store');
+Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'delete'])->name('pendidikan.delete');
 
 // Bantuan
     Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
-    Route::middleware('RT')->group(function (){
+    Route::middleware('LevelMiddleware')->group(function (){
         Route::post('/bantuan/store-bantuan', [BantuanController::class, 'store'])->name("bantuan.store");
         Route::get('/bantuan/hapus-bantuan/{id}', [BantuanController::class, 'delete'])->name('bantuan.delete');
     });
@@ -104,64 +109,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-//Route::get('/pendidikan', [PendidikanController::class, 'create']);
-//Route::get('/pendidikan2', [PendidikanController::class, 'store'])->name("pendidikan");
-
-//Tambah Penduduk/Warga tetap
-Route::get('/data_warga', [PendudukController::class, 'create']);
-Route::post('/tambah_warga', [PendudukController::class, 'store'])->name("penduduk");
-
-//Kesehatan
-Route::get('/kesehatan', [KesehatanController::class, 'index'])->name("kesehatan");
-Route::post('/tambah_kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.add");
-
-
-Route::get('/warga-json', function () {
-
-    $penduduks = penduduk::all();
-    $data = [];
-
-    foreach ($penduduks as $penduduk) {
-        $data[] = [
-            'NIK ' => $penduduk->NIK,
-            'jenis_kelamin' => $penduduk->jenis_kelamin,
-            'nama' => $penduduk->nama,
-            'tanggal_lahir' => $penduduk->tanggal_lahir,
-            'agama' => $penduduk->agama,
-            'id_pendidikan' => $penduduk->id_pendidikan,
-            'tempat_lahir' => $penduduk->tempat_lahir,
-            'id_rt' => $penduduk->id_rt,
-            'id_rw' => $penduduk->id_rw,
-            'id_pekerjaan' => $penduduk->id_pekerjaan,
-            'id_status_perkawinan' => $penduduk->id_status_perkawinan,
-            'nama_jalan' => $penduduk->nama_jalan,
-            'id_keluarga' => $penduduk->id_keluarga,
-            'status_penghuni' => $penduduk->status_penghuni,
-            'no_hp' => $penduduk->no_hp,
-            'email' => $penduduk->email,
-
-
-        ];
-    }
-
-    // membuat array dengan kunci "data" dan kumpulan data karyawan di dalamnya
-    $json_data = ['data' => $data];
-
-    $json_data = json_encode($json_data, JSON_PRETTY_PRINT);
-
-    $file_path = resource_path('data/table-datatable.json');
-
-    File::put($file_path, $json_data);
-
-    return redirect()->route('wargaAsli')->with('success', 'Penduduk added successfully!');
-})->name('warga_json');
-
-//profile
-
-
-
-
-
-
 

@@ -53,13 +53,6 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="city-column" class="form-label">Jumlah Penghuni</label>
-                                            <input type="text" id="jumlah_penghuni" class="form-control"
-                                                placeholder="Jumlah penghuni" name="jumlah_penghuni" value="{{ $data_kos->jumlah_penghuni }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
                                             <label for="country-floating" class="form-label">Alamat Kos</label>
                                             <input type="text" id="alamat_kos" class="form-control"
                                                 name="alamat_kos" placeholder="Alamat kos" value="{{ $data_kos->alamat_kos }}"

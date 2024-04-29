@@ -14,6 +14,6 @@ class pekerjaan extends Model
     protected $fillable = ['jenis_pekerjaan'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'pekerjaan')->withTimestamps();
+        return $this->hasMany(penduduk::class, 'id');
 }
 }

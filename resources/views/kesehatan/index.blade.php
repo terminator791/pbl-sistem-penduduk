@@ -31,7 +31,7 @@
     @foreach($list_penyakit as $penyakit)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $penyakit->nama_penyakit }}-tab" data-bs-toggle="tab" href="#{{ $penyakit->nama_penyakit }}" role="tab" aria-controls="{{ $penyakit->nama_penyakit }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $penyakit->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-hospital-user fa-lg" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $penyakit->nama_penyakit }}</span>
         </a>
     </li>
@@ -106,12 +106,12 @@
                 <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data Kesehatan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{ route('kesehatan.store') }}">
+            <form method="POST" action="{{ route('kesehatan.store') }}" id="tambahDataForm">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Penduduk :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -138,12 +138,28 @@
 </div>
 @endif
 
+
 @endsection
 
 @section('scripts')
 <script>
     // Script jQuery
     $(document).ready(function() {
+         // Fungsi untuk menyimpan ID tab aktif ke dalam localStorage
+    function simpanTabAktif(tabId) {
+        localStorage.setItem('tabAktif', tabId);
+    }
+
+    // Fungsi untuk memulihkan tab aktif dari localStorage
+    function pulihkanTabAktif() {
+        var tabAktif = localStorage.getItem('tabAktif');
+        if (tabAktif) {
+            $('.nav-link[data-penyakit-id="' + tabAktif + '"]').tab('show');
+        }
+    }
+
+    pulihkanTabAktif();
+
         // Inisialisasi nilai penyakit pada load halaman pertama kali
         var initialPenyakit = $('.nav-link.active').data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
         var namaPenyakit = $('.nav-link.active').text().trim();
@@ -157,11 +173,44 @@
             var penyakitId = $(this).data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
             var namaPenyakit = $(this).text().trim();
             $('#id_penyakit').html('<option value="' + penyakitId + '" selected>' + namaPenyakit + '</option>');
+            // Simpan ID tab aktif ke dalam localStorage saat tab diubah
+        simpanTabAktif(penyakitId);
         });
 
         $('.print-button').on('click', function() {
             window.print();
         });
     });
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
+
+        
+    
 </script>
+
+<script>
+    // Function to show toast
+    function showToast(message) {
+        Toastify({
+            text: message,
+            duration: 2000, // Duration in milliseconds (3 seconds in this example)
+            close: true // Show close button or not
+        }).showToast();
+    }
+
+    // Function to handle form submission
+    $(document).ready(function() {
+        $('#tambahDataForm').submit(function(event) {
+            // Cek apakah tanggal_terdampak tidak diisi
+            if ($('#tanggal_terdampak').val() === '') {
+                // Tampilkan toast
+                showToast("Tanggal terdampak harus diisi!");
+                // Hentikan pengiriman form
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
 @endsection

@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\bantuan;
 use App\Models\penduduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BantuanController extends Controller
 {
     public function index()
     {
-        $list_bantuan = Bantuan::all();
-        $list_penduduk = Penduduk::all(); // Make sure this line exists
+        $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
+        $list_bantuan = bantuan::all();
 
         return view('bantuan.index', compact('list_bantuan', 'list_penduduk'));
     }

@@ -26,7 +26,7 @@
 
 @section('content')
     {{-- Start Table --}}
-    {{-- <section id="multiple-column-form">
+    <section id="multiple-column-form">
         <div class="row match-height">
             <div class="col-12">
                 <div class="card">
@@ -125,10 +125,9 @@
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="id_pekerjaan"
-                                                class="form-label"><strong>Pekerjaan</strong></label>
+                                            <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}">
@@ -248,72 +247,14 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="submit"  class="btn btn-primary me-1 mb-1">Submit</button>
                                             <button type="reset"
                                                 class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
                                     </div>
+
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
-    <section id="form-and-scrolling-components">
-        <div class="row">
-            <div class="col-md-6 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <h4 class="card-title">Modal with Login Form</h4>
-                                <p> Created Simple Login Form.</p>
-
-                                <!--login form Modal -->
-                                <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
-                                    aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Login Form </h4>
-                                                <button type="button" class="close" data-bs-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <i data-feather="x"></i>
-                                                </button>
-                                            </div>
-                                            <form action="#">
-                                                <div class="modal-body">
-                                                    <label for="email">Email: </label>
-                                                    <div class="form-group">
-                                                        <input id="email" type="text" placeholder="Email Address"
-                                                            class="form-control">
-                                                    </div>
-                                                    <label for="password">Password: </label>
-                                                    <div class="form-group">
-                                                        <input id="password" type="password" placeholder="Password"
-                                                            class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Close</span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary ms-1"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">login</span>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -324,18 +265,35 @@
 @endsection
 
 @section('scripts')
-    <script>
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     var resetButton = document.querySelector('button[type="reset"]');
-        //     resetButton.addEventListener('click', function() {
-        //         resetForm();
-        //         window.location.href = "{{ route('wargaAsli.create') }}";
-        //     });
-        // });
+<script>
+    // function tambah_warga() {
+    //     // Mendapatkan referensi ke elemen formulir
+    //     const form = document.querySelector('.form');
 
-        function resetForm() {
-            var form = document.querySelector('form');
-            form.reset();
-        }
-    </script>
+    //     // Membuat objek FormData dari formulir
+    //     const formData = new FormData(form);
+
+    //     // Mengirimkan permintaan POST ke API menggunakan fetch API
+    //     fetch("{{ route('wargaAsli.store') }}", {
+    //         method: "POST",
+    //         body: formData
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('API Post gagal');
+    //         }
+    //         // Redirect ke halaman lain, jika perlu
+    //         window.location.href = "{{ route('wargaAsli') }}";
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //         alert('Terjadi kesalahan saat mengirim data.');
+    //     });
+    // }
+
+    $(document).ready(function(){
+            $('.select2').select2();
+        });
+</script>
+
 @endsection

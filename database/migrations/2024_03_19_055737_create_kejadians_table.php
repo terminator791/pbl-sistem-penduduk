@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('kejadian', function (Blueprint $table) {
             $table->id();
-            $table->string('NIK_penduduk')->nullable();
+            $table->string('NIK_penduduk');
             $table->unsignedBigInteger('jenis_kejadian');
-            $table->date('tanggal_kejadian');
-            $table->string('tempat_kejadian');
-            $table->string('deskripsi_kejadian');
+            $table->date('tanggal_kejadian')->nullable();
+            $table->string('tempat_kejadian')->nullable();
+            $table->string('foto_kejadian')->nullable();
+            $table->string('deskripsi_kejadian')->nullable();
+            $table->enum('status', ['proses', 'selesai'])->default('proses');
             $table->timestamps();
         });
     }

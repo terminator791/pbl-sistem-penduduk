@@ -13,6 +13,6 @@ class perkawinan extends Model
     protected $fillable = ['status_perkawinan'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'status_perkawinan')->withTimestamps();
+        return $this->hasMany(penduduk::class, 'id');
     }
 }

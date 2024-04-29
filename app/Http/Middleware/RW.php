@@ -16,7 +16,7 @@ class RW
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!(Auth::user()->level == 'RW')){
+        if(!(Auth::user()->level == 'RW')) {
             return redirect()->back();
         }
         return $next($request);

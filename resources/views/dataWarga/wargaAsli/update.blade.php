@@ -36,7 +36,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <form class="form" method="POST"
-                                action="{{ route('wargaAsli.update', ['id' => $penduduk->id]) }}" data-parsley-validate>
+                                action="{{ route('wargaAsli.update', ['id' => $penduduk->id]) }}"  data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <!-- Kolom 1 -->
@@ -139,16 +139,15 @@
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="id_pekerjaan"
-                                                class="form-label"><strong>Pekerjaan</strong></label>
+                                            <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pekerjaan" name="id_pekerjaan">
+                                                <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
                                                     <option disabled selected>Pilih Pekerjaan</option>
                                                     @foreach ($list_pekerjaan as $pekerjaan)
                                                         <option value="{{ $pekerjaan->id }}"
                                                             {{ $penduduk->id_pekerjaan == $pekerjaan->id ? 'selected' : '' }}>
-                                                            {{ $pekerjaan->jenis_pekerjaan }}</option>
-                                                        <!-- Use actual database values -->
+                                                            {{ $pekerjaan->jenis_pekerjaan }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </fieldset>
@@ -272,8 +271,15 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
                                             <label for="foto_ktp" class="form-label"><strong>File KTP</strong></label>
-                                            <input type="file" id="foto_ktp" name="foto_ktp"
-                                                class="basic-filepond form-control">
+                                            <input type="file" id="foto_ktp" name="foto_ktp" class="basic-filepond form-control">
+                                        </div>
+                                        <div>
+                                            <label for="current_foto_ktp" class="form-label"><strong>Foto KTP saat ini:</strong></label><br>
+                                            @if ($penduduk->foto_ktp)
+                                                <img src="{{ asset('storage/' . $penduduk->foto_ktp) }}" alt="Foto KTP">
+                                            @else
+                                                <span>Tidak ada foto KTP tersimpan.</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="row">
@@ -318,5 +324,10 @@
             var form = document.querySelector('form');
             form.reset();
         }
+
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
+        
     </script>
 @endsection

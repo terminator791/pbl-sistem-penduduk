@@ -1,156 +1,209 @@
 @extends('layouts.default-ui')
 
 @section('heading')
-<div class="page-title">
-    <div class="row">
-        <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Warga</h3>
-            <p class="text-subtitle text-muted">
-                Rekap data warga asli
-            </p>
-        </div>
-        <div class="col-12 col-md-6 order-md-2 order-first">
-            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Data Warga
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
-                </ol>
-            </nav>
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Data Warga</h3>
+                <p class="text-subtitle text-muted">
+                    Rekap data warga asli
+                </p>
+            </div>
+            <div class="col-12 col-md-6 order-md-8 order-last">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Data Warga</li>
+                        <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
+                    </ol>
+                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT {{ $id_rt }}</p>
+                </nav>
+            </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('content')
-{{-- Start Table --}}
-<section class="section">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">
-                Rekap Data Warga Asli RT
-            </h5>
-            <a href="{{ route('wargaAsli.print') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-print"></i>
-                Cetak
-            </a>
-
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover" id="table3">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($penduduk as $p)
-                        <tr class="{{ $p->status_penghuni == 'meninggal' ? 'fade-row' : '' }}">
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->NIK }}</td>
-                            <td>{{ $p->nama }}</td>
-
-                            <td>{{ $p->nama_jalan }} , RT: {{ $p->id_rt }} , RW: {{ $p->id_rw }}</td>
-                            <td>
-                                @if(Auth::check() && Auth::user()->level == 'admin'  &&  Auth::user()->level == 'RT' )
-                                <!-- Tombol Toggle Edit -->
-                                <a href="{{ route('wargaAsli.edit', $p->id) }}" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">
-                                    <i class="bi bi-pencil-fill text-white"></i>
-                                </a>
-
-                                <!-- Tombol Hapus -->
-                                <a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete({{ $p->id }})">
-                                    <i class="bi bi-trash-fill"></i>
-                                </a>
+    <section class="section">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    Rekap Data Warga Asli RT {{ $id_rt }}
+                </h5>
+                <a href="{{ route('wargaAsli.print') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-print"></i>
+                    Cetak
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table3">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Status</th>
+                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                                    <th>Aksi</th>
                                 @endif
-                                <!-- Tombol Toggle Detail -->
-                                <a href="#" class="btn btn-sm btn-primary toggle-detail" data-toggle="modal">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
+    @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+        <!-- Floating Toggle -->
+        <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
+            <a href="{{ route('wargaAsli.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data"
+               data-toggle="modal" data-target="#tambahDataModal">
+                <i class="bi bi-plus-lg"></i>
+            </a>
+        </div>
+        <!-- End Floating Toggle -->
 
-</section>
-{{-- End Table --}}
-@if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
-<!-- Floating Toggle -->
-<div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
-    <a href="{{ route('wargaAsli.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal" data-target="#tambahDataModal">
-        <i class="bi bi-plus-lg"></i>
-    </a>
-</div>
-@endif
-<!-- End Floating Toggle -->
-
-<style>
-    /* Aturan CSS */
-    .fade-row {
-        opacity: 0.5;
-        /* Sesuaikan dengan tingkat opasitas yang diinginkan */
-        transition: opacity 0.3s ease;
-        /* Animasi perubahan opasitas */
-    }
-
-    .fade-row:hover {
-        opacity: 1;
-        /* Opasitas kembali ke normal saat dihover */
-    }
-
-    .fade-row td {
-        text-decoration: line-through;
-    }
-</style>
+        <!-- Modal Detail -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel">Detail Warga</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalContent">
+                        <!-- Konten modal -->
+                        <!-- Anda dapat menambahkan konten modal di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('scripts')
-{{-- --}}
+    <script>
+    $(document).ready(function () {
+        var i = 1; // Inisialisasi variabel i di sini
+        var dataTable = $('#table3').DataTable({
+            processing: false,
+            serverSide: false, 
+            ajax: "/wargaAsli-fetchAll",
+            columns: [
+                {data: 'i', name: 'i', render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
+                }},
+                {data: 'NIK', name: 'NIK'},
+                {data: 'nama', name: 'nama'},
+                {data: 'nama_jalan', render: function(data, type, row) {
+                    return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
+                }, name: 'nama_jalan'},
+                {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
+                    let badgeColor;
+                    if (data === 'meninggal') {
+                        badgeColor = 'danger';
+                    } else if (data === 'tetap') {
+                        badgeColor = 'success';
+                    } else if (data === 'pindah') {
+                        badgeColor = 'secondary';
+                    }
+                    return `<span class="badge bg-${badgeColor}">${data}</span>`;
+                }},
+                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                @endif
+            ],
+            "initComplete": function(settings, json) {
+                i = this.api().page.info().start; // Mengambil nomor halaman saat ini
+            }
+            
+        });
 
-<script>
-    function confirmDelete(id) {
-        Swal.fire({
-            title: 'Konfirmasi Hapus',
-            text: "Apakah Anda yakin ingin menghapus data ini?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect to the delete route with the correct id
-                window.location.href = "{{ url('/wargaAsli/hapus-data-warga-asli') }}/" + id;
+    });
+
+function showWargaDetail(id) {
+    fetch(`/api/v1/wargaPendatang/fetchOne/${id}`)
+        .then(response => response.json())
+        .then(warga => {
+            const modalBody = document.getElementById('modalContent');
+            modalBody.innerHTML = `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nama:</strong> ${warga.nama}</p>
+                            <p><strong>NIK:</strong> ${warga.NIK}</p>
+                            <p><strong>Alamat:</strong> ${warga.nama_jalan}, RT: ${warga.id_rt}, RW: ${warga.id_rw}</p>
+                            <p><strong>Status:</strong> ${warga.status_penghuni}</p>
+                            <p><strong>Pendidikan Terakhir:</strong> ${warga.id_pendidikan}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Agama:</strong> ${warga.agama}</p>
+                            <p><strong>Status Perkawinan:</strong> ${warga.id_status_perkawinan}</p>
+                            <p><strong>Pekerjaan:</strong> ${warga.id_pekerjaan}</p>
+                            <p><strong>No Hp:</strong> ${warga.no_hp}</p>
+                            <p><strong>Email:</strong> ${warga.email}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label for="current_foto_ktp" class="form-label"><strong>Foto KTP :</strong></label><br>
+                            ${warga.foto_ktp ? `<img src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP" style="max-width: 100%; max-height: 200px;">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('#detailModal').modal('show');
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+
+        // Fungsi untuk konfirmasi hapus
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Konfirmasi Hapus',
+                text: "Apakah Anda yakin ingin menghapus data ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect ke route delete dengan id yang sesuai
+                    window.location.href = "{{ url('/wargaAsli/hapus-data-warga-asli') }}/" + id;
+                }
+            });
+        }
+
+        // Menambahkan fungsi untuk menutup modal saat tombol "Tutup" diklik
+        document.addEventListener('DOMContentLoaded', function () {
+            const closeButton = document.querySelector('.btn-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', function () {
+                    closeModal();
+                });
             }
         });
-    }
-</script>
 
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            $('#detailModal').modal('hide');
+        }
 
-@if (session('success'))
-<script>
-    Swal.fire({
-        title: 'Sukses!',
-        text: '{{ session('
-        success ') }}',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000
-    });
-</script>
-
-@endif
+        @if (session('success'))
+            Swal.fire({
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        @endif
+    </script>
 @endsection

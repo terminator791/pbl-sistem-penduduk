@@ -16,7 +16,7 @@ class RT
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!(Auth::user()->level == 'RT')){
+        if(!(Auth::user()->level == 'RT')) {
             return redirect()->back();
         }
         return $next($request);

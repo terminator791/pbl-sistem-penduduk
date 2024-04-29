@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    min-height: 70vh;
+    justify-content: center;
+    align-items: center;
+    margin-left: 150px;
+}
+.auth-logo {
+    max-width: 450px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+.gambar-kanan {
+    max-width: 1000px;
+    margin-top: 250px;
+    margin-left: 400px;
+    margin-bottom: 250px;
+}
+.form-control {
+    margin-top: 900px;
+}
+/* Memperbesar ukuran checkbox */
+#remember_me {
+    transform: scale(1.5); /* Mengatur skala checkbox */
+    margin-left: 5px; /* Memberikan jarak antara checkbox dan teks */
+}
+/* Memperbesar ukuran teks */
+#remember_me + span {
+    font-size: 1.2em;
+    margin-top: -1.8em;
+}

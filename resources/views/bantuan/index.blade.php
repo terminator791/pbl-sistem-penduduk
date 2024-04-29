@@ -13,6 +13,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Data Sosial</li>
                 </ol>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
             </nav>
         </div>
     </div>
@@ -26,7 +27,7 @@
     @foreach($list_bantuan as $bantuan)
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $bantuan->jenis_bantuan }}-tab" data-bs-toggle="tab" href="#{{ $bantuan->jenis_bantuan }}" role="tab" aria-controls="{{ $bantuan->jenis_bantuan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-bantuan-id="{{ $bantuan->id }}">
-            <i data-feather="user" class="font-medium-3 me-50"></i>
+            <i class="fa-solid fa-user-group" class="font-medium-3 me-50"></i>
             <span class="fw-bold">{{ $bantuan->jenis_bantuan }}</span>
         </a>
     </li>
@@ -53,7 +54,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Alamat</th>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,7 +65,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->nama }}</td>
                                     <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
-                                    @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
                                     <td>
                                         <a href="{{ route('bantuan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                             <i class="bi bi-trash-fill"></i>
@@ -80,7 +83,8 @@
     </div>
     @endforeach
 </div>
-@if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+@if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
+
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
@@ -101,7 +105,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="NIK_penduduk" class="form-label">Penduduk :</label>
-                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select">
+                        <select name="NIK_penduduk" id="NIK_penduduk" class="form-select choices">
                             @foreach ($list_penduduk as $penduduk)
                             <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
                             @endforeach
@@ -126,18 +130,39 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        // Update the drop-down for the initially selected tab
-        updateDropdown($('.nav-link.active').data('bantuan-id'));
+         // Function to update the dropdown and save active tab ID to localStorage
+    // Function to update the dropdown and save active tab ID to localStorage
+    function updateDropdownAndSave(bantuanId) {
+        var selectedBantuan = $('.nav-link[data-bantuan-id="' + bantuanId + '"]').text().trim();
+        $('#id_bantuan').html('<option value="' + bantuanId + '">' + selectedBantuan + '</option>');
+        // Save active tab ID to localStorage
+        localStorage.setItem('activeTabId', bantuanId);
+    }
 
-        $('.nav-link').on('click', function() {
-            var bantuanId = $(this).data('bantuan-id');
-            updateDropdown(bantuanId);
-        });
+    // Check if there's a saved active tab ID in localStorage
+    var savedTabId = localStorage.getItem('activeTabId');
+    if(savedTabId) {
+        // Activate the saved tab
+        $('.nav-link[data-bantuan-id="' + savedTabId + '"]').tab('show');
+        updateDropdownAndSave(savedTabId);
+    } else {
+        // Activate the first tab by default if no saved tab
+        var firstTabId = $('.nav-link').first().data('bantuan-id');
+        $('.nav-link[data-bantuan-id="' + firstTabId + '"]').tab('show');
+        updateDropdownAndSave(firstTabId);
+    }
 
-        function updateDropdown(bantuanId) {
-            var selectedBantuan = $('.nav-link[data-bantuan-id="' + bantuanId + '"]').text().trim();
-            $('#id_bantuan').html('<option value="' + bantuanId + '">' + selectedBantuan + '</option>');
-        }
+    // Update the dropdown and save active tab ID when tab is clicked
+    $('.nav-link').on('click', function() {
+        var bantuanId = $(this).data('bantuan-id');
+        updateDropdownAndSave(bantuanId);
     });
+
+    });
+
+    $(document).ready(function(){
+            $('.choices').choices();
+        });
+    
 </script>
 @endsection

@@ -9,15 +9,15 @@ class RW extends Model
 {
     use HasFactory;
 
-    protected $table = 'RW';
+    protected $table = 'tabel_rw';
 
     protected $guarded = ['id'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'id_rw')->withTimestamps();
+        return $this->hasMany(penduduk::class, 'id_rw', 'id');
 }
 
 public function RT(){
-    return $this->hasMany(RT::class, 'id_rw');
+    return $this->hasMany(RT::class, 'id');
 }
 }

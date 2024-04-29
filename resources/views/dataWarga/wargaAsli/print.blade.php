@@ -28,38 +28,55 @@
         }
     </style>
 </head>
-<body onload="window.print()"> <!-- Panggil window.print() saat halaman dimuat -->
+<body>
 <div class="card-body">
-<h2>Data Warga Asli</h2><br>
-            <div class="table-responsive">
-                <table class="table table-hover" id="table3">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($penduduk as $p)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->NIK }}</td>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
-                            <td>{{ $p->status_penghuni }}</td>
-
-                            <td>
-                        <!-- Tidak ada tombol cetak -->
-                    </td>
+    <h2>Data Warga Asli</h2><br>
+    <div class="table-responsive">
+        <table class="table table-hover" id="table3">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>NIK</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Status</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="wargaData">
+                <!-- Data Warga akan dimasukkan di sini -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <!-- Include Bootstrap JS jika diperlukan -->
-    <!-- <script src="path/to/bootstrap.js"></script> -->
+<!-- Include Bootstrap JS jika diperlukan -->
+<!-- <script src="path/to/bootstrap.js"></script> -->
+<script>
+    // Fungsi untuk mendapatkan data warga menggunakan HTTP Request
+    function getData() {
+        fetch('{{ route("wargaAsli.fetchAll") }}')
+        .then(response => response.json())
+        .then(data => {
+            // Memasukkan data ke dalam tabel
+            const tableBody = document.getElementById('wargaData');
+            data.forEach((warga, index) => {
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${warga.NIK}</td>
+                        <td>${warga.nama}</td>
+                        <td>${warga.nama_jalan}, RT ${warga.id_rt}, RW ${warga.id_rw}</td>
+                        <td>${warga.status_penghuni}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Panggil fungsi getData saat halaman dimuat
+    getData();
+</script>
 </body>
 </html>

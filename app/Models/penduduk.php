@@ -14,18 +14,18 @@ class penduduk extends Model
     protected $guarded = ['id'];
 
     public function keluarga(){
-        return $this->belongsTo(keluarga::class, 'id');
+        return $this->belongsTo(keluarga::class, 'id_keluarga');
     }
     public function perkawinan(){
-        return $this->belongsTo(perkawinan::class, 'id');
+        return $this->belongsTo(perkawinan::class, 'id_status_perkawinan');
     }
 
     public function pendidikan(){
-        return $this->belongsTo(pendidikan::class, 'id');
+        return $this->belongsTo(pendidikan::class, 'id_pendidikan');
     }
 
     public function pekerjaan(){
-        return $this->belongsTo(pekerjaan::class, 'id');
+        return $this->belongsTo(pekerjaan::class, 'id_pekerjaan');
     }
 
     public function bantuan()
@@ -34,31 +34,31 @@ class penduduk extends Model
     }
 
     public function rw(){
-        return $this->belongsTo(RW::class, 'id')->withTimestamps();
+        return $this->belongsTo(RW::class, 'id_rw');
     }
 
     public function penjabatan_rt(){
-        return $this->hasMany(penjabatan_RT::class, 'NIK_ketua_rt')->withTimestamps();
+        return $this->hasMany(penjabatan_RT::class, 'NIK_ketua_rt');
     }
     
     public function rt(){
-        return $this->belongsToMany(RT::class, 'penjabatan_rt', 'NIK_ketua_rt', 'id_rt')->withTimestamps();
+        return $this->belongsToMany(RT::class, 'penjabatan_rt', 'NIK_ketua_rt', 'id_rt');
     }
 
     public function kejadian(){
-        return $this->hasMany(kejadian::class, 'NIK_penduduk')->withTimestamps();
+        return $this->hasMany(kejadian::class, 'NIK_penduduk');
     }
     
     public function jenis_kejadian(){
-        return $this->belongsToMany(jenis_kejadian::class, 'kejadian', 'NIK_penduduk', 'id_rt')->withTimestamps();
+        return $this->belongsToMany(jenis_kejadian::class, 'kejadian', 'NIK_penduduk', 'id_rt');
     }
 
     public function detail_pendatang(){
-        return $this->hasMany(detail_pendatang::class, 'NIK')->withTimestamps();
+        return $this->hasMany(detail_pendatang::class, 'NIK' , 'NIK');
     }
     
     public function kos(){
-        return $this->belongsToMany(kos::class, 'detail_pendatang', 'NIK', 'id_kos')->withTimestamps();
+        return $this->belongsToMany(kos::class, 'detail_pendatang', 'NIK', 'id_kos');
     }
 
     public function jenis_penyakit(){

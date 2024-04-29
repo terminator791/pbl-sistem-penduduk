@@ -9,16 +9,16 @@ class RT extends Model
 {
     use HasFactory;
 
-    protected $table = 'rt';
+    protected $table = 'tabel_rt';
 
     protected $fillable = ['nama_rt', 'id_penjabatan'];
 
     public function kos(){
-        return $this->hasMany(kos::class, 'id_rt')->withTimestamps();
+        return $this->hasMany(kos::class, 'id_rt');
     }
 
     public function penduduk(){
-        return $this->belongsToMany(penduduk::class, 'penjabatan_rt', 'id_rt', 'NIK_ketua_rt')->withTimestamps();
+        return $this->belongsToMany(penduduk::class, 'penjabatan_rt', 'id_rt', 'NIK_ketua_rt');
     }
 
     public function RW(){
@@ -26,6 +26,6 @@ class RT extends Model
     }
 
     public function penjabatan_rt(){
-        return $this->hasMany(penjabatan_RT::class, 'id_rt')->withTimestamps();
+        return $this->hasMany(penjabatan_RT::class, 'id_rt');
     }
 }

@@ -16,7 +16,7 @@ class Kos
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!(Auth::user()->level == 'pemilik_kos')){
+        if(!(Auth::user()->level == 'pemilik kos')) {
             return redirect()->back();
         }
         return $next($request);

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kos', function (Blueprint $table) {
+        Schema::create('tabel_kos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_rt');
             $table->string('pemilik_kos');
-            $table->string('nama_kos');
-            $table->string('alamat_kos');
-            $table->integer('jumlah_penghuni');
+            $table->string('NIK_pemilik_kos')->nullable();
+            $table->string('nama_kos')->nullable();
+            $table->string('alamat_kos')->nullable();
             $table->string('no_hp_pemilik')->nullable();
             $table->string('email_pemilik')->nullable();
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
