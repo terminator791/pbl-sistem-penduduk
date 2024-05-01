@@ -62,35 +62,148 @@
                                     <th>Nama</th>
                                     <th>Alamat</th>
                                     <th>Tgl Terdampak</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($penyakit->kesehatan as $p)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $p->penduduk->nama }}</td>
-                                    <td>{{ $p->penduduk->nama_jalan }} , RT {{ $p->penduduk->id_rt }} , RW {{ $p->penduduk->id_rw }}</td>
-                                    <td>{{ $p->tanggal_terdampak }}</td>
+                                    <th>Status</th>
                                     @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
-                                    <td>
-                                        <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a>
-                                    </td>
+                                    <th>Aksi</th>
                                     @endif
                                 </tr>
-                                @endforeach
+                            </thead>
+                            @php
+                                $nomor_iterasi = 1;
+                            @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RT' )
+                            <tbody>
+                            @foreach($penyakit->kesehatan as $p)
+                                @if($p->penduduk->id_rt == $id_rt)
+                                <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $p->penduduk->nama }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->tanggal_terdampak }}</td>
+                                        <td>
+                                        @php
+                                            $badgeColor = '';
+                                            if ($p->status === 'sakit') {
+                                                $badgeColor = 'danger';
+                                            } else if ($p->status === 'sembuh') {
+                                                $badgeColor = 'success';
+                                            } else if ($p->status === 'meninggal') {
+                                                $badgeColor = 'secondary';
+                                            } 
+                                        @endphp
+                                        <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
+                                        </td>
+                                        <td>
+                                        @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+                                        <button  class="btn btn-sm btn-warning toggle-edit" data-id="{{ $p->id }}" data-status="{{ $p->status }}">
+                                            <i class="bi bi-pencil-fill text-white"></i>
+                                        </button>
+                                        </td>
+                                        <!-- <td>
+                                            <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        </td> -->
+                                    </tr>
+                                @endif
+                                    @php
+                                        $nomor_iterasi++;
+                                    @endphp
+                                @endif
+                            @endforeach
                             </tbody>
+                        @endif
+
+                        @if(Auth::check() && Auth::user()->level == 'admin' )
+                            <tbody>
+                            @foreach($penyakit->kesehatan as $p)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $p->penduduk->nama }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->tanggal_terdampak }}</td>
+                                        <td>
+                                        @php
+                                            $badgeColor = '';
+                                            if ($p->status === 'sakit') {
+                                                $badgeColor = 'danger';
+                                            } else if ($p->status === 'sembuh') {
+                                                $badgeColor = 'success';
+                                            } else if ($p->status === 'meninggal') {
+                                                $badgeColor = 'secondary';
+                                            } 
+                                        @endphp
+                                        <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
+                                        </td>
+                                        <td>
+                                        @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+                                        <button  class="btn btn-sm btn-warning toggle-edit" data-id="{{ $p->id }}" data-status="{{ $p->status }}">
+                                            <i class="bi bi-pencil-fill text-white"></i>
+                                        </button>
+                                        </td>
+                                        <!-- <td>
+                                            <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        </td> -->
+                                    </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
+                        @endif
+
+                        
+                        @php
+                            $nomor_iterasi_rw = 1;
+                        @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RW' )
+                            <tbody>
+                            @foreach($penyakit->kesehatan as $p)
+                                @if($p->penduduk->id_rw == $id_rw)
+                                    <tr>
+                                        <td>{{ $nomor_iterasi_rw }}</td>
+                                        <td>{{ $p->penduduk->nama }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->tanggal_terdampak }}</td>
+                                        <td>
+                                        @php
+                                            $badgeColor = '';
+                                            if ($p->status === 'sakit') {
+                                                $badgeColor = 'danger';
+                                            } else if ($p->status === 'sembuh') {
+                                                $badgeColor = 'success';
+                                            } else if ($p->status === 'meninggal') {
+                                                $badgeColor = 'secondary';
+                                            } 
+                                        @endphp
+                                        <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
+                                        </td>
+                                    </tr>
+                                    @php
+                                        $nomor_iterasi_rw++;
+                                    @endphp
+                                @endif
+                            @endforeach
+                            </tbody>
+                        @endif
+
                         </table>
                     </div>
                 </div>
+                
             </div>
         </section>
     </div>
+    
     @endforeach
 </div>
 @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
+<div class="text mt-3">
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik sekali untuk mengganti status menjadi <span class="badge bg-success">sembuh</span> atau <span class="badge bg-danger">sakit</span>.</p>
+    <p>Klik lama untuk mengganti status menjadi <span class="badge bg-secondary">meninggal</span>.</p>
+    </div>
+
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
     <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
@@ -139,10 +252,129 @@
 @endif
 
 
+<!-- Modal untuk konfirmasi perubahan status -->
+<div id="confirmModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title"><span style="color: red;">PERINGATAN</span> PERUBAHAN STATUS</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            <p>Apakah Anda yakin akan mengganti status menjadi 'meninggal'? Penduduk yang sudah meninggal <span style="color: red;">tidak bisa diubah</span> kembali.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                <button id="confirmButton" type="button" class="btn btn-danger">Ya</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal untuk peringatan jika status sudah 'meninggal' -->
+<div id="warningModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Peringatan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Penduduk ini sudah meninggal dan statusnya tidak bisa diubah. Silakan hubungi admin untuk bantuan lebih lanjut.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelButton2" type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
+
 <script>
+    $(document).ready( function () {
+        // Loop through each table with an ID starting with "table_"
+        $('table[id^="table_"]').each(function() {
+            $(this).DataTable(); // Initialize DataTable for the current table
+        });
+    });
+    
+    var pressTimer;
+
+    $('.toggle-edit').mousedown(function(event) {
+        var button = $(this);
+        var status = button.data('status');
+
+        if (status === 'meninggal') {
+            $('#warningModal').modal('show'); // Show warning modal if status is 'meninggal'
+            
+        } else {
+            if (!pressTimer) {
+            pressTimer = window.setTimeout(function() {
+                // Handle long press action here
+                $('#confirmModal').modal('show'); // Show modal
+                
+                // Set data attribute for the button to retrieve later
+                $('#confirmButton').data('id', button.data('id'));
+                
+                pressTimer = null; // Reset timer
+            }, 1000); // Waktu long press (dalam milidetik)
+
+            // Function to handle single click
+    $('.toggle-edit').click(function(event) {
+        var button = $(this);
+        var id = button.data('id'); // Get the ID of the health record
+        
+        // Send an AJAX request without long_press parameter
+        $.get('/toggle-status-kesehatan/' + id, function(data) {
+            // Optional: Perform actions after the request is completed
+            location.reload();
+        });
+        
+        console.log("Button clicked");
+    });
+    
+    // Function to handle confirm button click
+    $('#confirmButton').click(function(event) {
+        var id = $(this).data('id'); // Get the ID of the health record
+        
+        // Send AJAX request with long_press parameter
+        $.get('/toggle-status-kesehatan/' + id + '?long_press=true', function(data) {
+            // Optional: Perform actions after the request is completed
+            location.reload();
+        });
+        
+        $('#confirmModal').modal('hide'); // Hide modal
+    });
+        }
+            
+        }
+        
+    }).mouseup(function() {
+        // Hapus timer saat tombol dilepas
+        clearTimeout(pressTimer);
+        pressTimer = null; // Reset timer
+    });
+
+    
+
+    // Function to handle cancel button click
+    $('#cancelButton').click(function(event) {
+        $('#confirmModal').modal('hide'); // Hide modal
+    });
+    $('#cancelButton2').click(function(event) {
+        $('#warningModal').modal('hide'); // Hide modal
+    });
+
+</script>
+
+
+<script>
+
     // Script jQuery
     $(document).ready(function() {
          // Fungsi untuk menyimpan ID tab aktif ke dalam localStorage
@@ -212,5 +444,7 @@
         });
     });
 </script>
+
+
 
 @endsection

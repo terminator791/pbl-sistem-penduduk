@@ -10,6 +10,7 @@ use App\Models\RT;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class dataKosController extends Controller
 {
@@ -19,7 +20,6 @@ class dataKosController extends Controller
         $NIK = Auth::user()->NIK_penduduk;
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
         
-
         $list_penduduk = Penduduk::where('id_rw', $id_rw)->get();
         $data_kos = kos::all();
         $list_RT = RT::all();
@@ -29,7 +29,6 @@ class dataKosController extends Controller
     // Read
     public function index(Request $request)
 {
-
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
     
@@ -78,7 +77,7 @@ public function updatePenghuni(Request $request, $id)
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $pemilik_kos_asli_NIK = $request->input('NIK_pemilik_kos_asli');
         $pemilik_kos_asli = penduduk::where('NIK', $pemilik_kos_asli_NIK)->first();
@@ -124,6 +123,15 @@ public function updatePenghuni(Request $request, $id)
                 $user->save();
             }
         }
+
+        if ($request->hasFile('foto_kos')) {
+            $file = $request->file('foto_kos');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filepath = $file->storePubliclyAs('foto_kos', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/'
+            $data_kos->foto_kos = $filepath;
+            $data_kos->save();
+        }
+
         $data_kos->save();
 
     // Redirect kembali ke halaman 'wargaAsli'
@@ -133,24 +141,69 @@ public function updatePenghuni(Request $request, $id)
     // Update
     public function edit($id)
     {
+        $NIK = Auth::user()->NIK_penduduk;
+        $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+
+        $list_penduduk = Penduduk::where('id_rw', $id_rw)->get();
+        $list_NIK_penduduk = Penduduk::where('id_rw', $id_rw)->pluck('NIK')->toArray();
+
         $data_kos = kos::findOrFail($id);
+
+        // Periksa apakah pemilik kos termasuk dalam daftar penduduk yang memiliki kosan di RW tersebut
+        if (in_array($data_kos->NIK_pemilik_kos, $list_NIK_penduduk)) {
+            $pemilik_kos_asli = true; // Tandai bahwa pemilik kos adalah warga asli
+        } else {
+            $pemilik_kos_asli = false; // Tandai bahwa pemilik kos bukan warga asli
+        }
+        
         $list_RT = RT::all();
-        return view('dataKos.update', compact('data_kos', 'list_RT'));
+        return view('dataKos.update', compact('data_kos', 'list_RT', 'list_penduduk', 'pemilik_kos_asli', 'list_NIK_penduduk'));
     }
+
     public function update(Request $request, $id)
     {
-        $data_kos = kos::where('id', $id)->first();
+        // dd($request->all());
+        $data_kos = kos::findOrFail($id);
+
         $data_kos->id_rt = $request->input('id_rt');
-        $data_kos->pemilik_kos = $request->input('pemilik_kos');
         $data_kos->nama_kos = $request->input('nama_kos');
         $data_kos->alamat_kos = $request->input('alamat_kos');
-        $data_kos->jumlah_penghuni = $request->input('jumlah_penghuni');
         $data_kos->no_hp_pemilik = $request->input('no_hp_pemilik');
         $data_kos->email_pemilik = $request->input('email_pemilik');
+
+        if ($request->hasFile('foto_kos')) {
+            // Hapus  lama jika ada
+            if ($data_kos->foto_kos) {
+                Storage::delete('public/' . $data_kos->foto_kos);
+            }
+
+            $file = $request->file('foto_kos');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filepath = $file->storePubliclyAs('foto_kos', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/'
+            $data_kos->foto_kos = $filepath;
+            $data_kos->save();
+        }
+
         $data_kos->update();
 
         return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
     }
+
+    public function toggle_status(Request $request, $id)
+{
+    $data_kos = Kos::findOrFail($id);
+
+    // Mengubah status menjadi kebalikan dari nilai sebelumnya
+    $data_kos->status = !$data_kos->status;
+
+    $data_kos->update();
+
+    return redirect()->route('dataKos');
+}
+
+
+    
+
     public function print()
     {
         // Mengambil semua data kos

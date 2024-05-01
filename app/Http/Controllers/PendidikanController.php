@@ -17,14 +17,29 @@ class PendidikanController extends Controller
 {
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+    $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
 
-    $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
+    $userLevel = Auth::user()->level;
+    
+    $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
+    $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
+    $list_penduduk_admin = Penduduk::all();
 
-    $pendidikan = pendidikan::whereHas('penduduk', function ($query) use ($id_rt) {
-        $query->where('id_rt', $id_rt);
-    })->paginate(10);
+    if ($userLevel === 'admin') {
+        $list_penduduk = $list_penduduk_admin;
+    } elseif ($userLevel === 'RW') {
+        $list_penduduk = $list_penduduk_rw;
+    } elseif ($userLevel === 'RT') {
+        $list_penduduk = $list_penduduk_rt;
+    }
 
-    return view('pendidikan.index', compact('pendidikan', 'list_penduduk', 'id_rt'));
+    // $pendidikan = pendidikan::whereHas('penduduk', function ($query) use ($id_rt) {
+    //     $query->where('id_rt', $id_rt);
+    // })->paginate(10);
+
+    $pendidikan = pendidikan::with('penduduk')->get();
+
+    return view('pendidikan.index', compact('pendidikan', 'list_penduduk', 'id_rt', 'id_rw'));
 }
 
 
@@ -38,12 +53,15 @@ class PendidikanController extends Controller
 
     public function store(Request $request, $id)
     {
-        $pendidikan = penduduk::findOrFail($id);
-        $pendidikan->id_pendidikan = $request->input('id_pendidikan');
-
-        $pendidikan->update();
-
-        return redirect()->route('pendidikan')->with('success', 'Kesehatan added successfully!');
+        try {
+            $pendidikan = penduduk::findOrFail($id);
+            $pendidikan->id_pendidikan = $request->input('id_pendidikan');
+            $pendidikan->update();
+            
+            return redirect()->route('pendidikan.index')->with('success', 'Data pendidikan berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menambahkan data pendidikan: ' . $e->getMessage());
+        }
     }
 
     public function delete(Request $request, $id)

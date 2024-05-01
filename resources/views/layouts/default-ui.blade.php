@@ -105,6 +105,39 @@
                 .background-dark {
                     background-color: purple-violet; /* Warna purple-violet untuk dark mode */
                 }
+
+                                /* Custom Modal Styles */
+                .modal-content {
+                    border-radius: 20px; /* Mengatur border-radius untuk modal */
+                    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1); /* Menambahkan shadow */
+                    background-color: #fff; /* Mengatur warna latar belakang modal */
+                }
+
+                .modal-header {
+                    background-color: #f0f4f7; /* Mengatur warna latar belakang header modal */
+                    border-top-left-radius: 20px; /* Mengatur border-radius atas kiri */
+                    border-top-right-radius: 20px; /* Mengatur border-radius atas kanan */
+                }
+
+                .modal-title {
+                    font-weight: bold; /* Mengatur ketebalan font judul modal */
+                }
+
+                .modal-body {
+                    color: #444; /* Mengatur warna teks konten modal */
+                }
+
+                .btn-close {
+                    color: #999; /* Mengatur warna ikon close modal */
+                    font-size: 1.5rem; /* Mengatur ukuran font ikon close */
+                    opacity: 0.7; /* Mengatur kecerahan ikon close */
+                }
+
+                .btn-close:hover {
+                    color: #666; /* Mengubah warna ikon close saat dihover */
+                    opacity: 1; /* Meningkatkan kecerahan ikon close saat dihover */
+                }
+
             </style>
 
             <header class="mb-3">

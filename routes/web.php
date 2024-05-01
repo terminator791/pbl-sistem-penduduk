@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [dataKosController::class, 'index'])->name('dataKos');
         Route::post('/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
         Route::get('/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+        Route::get('/toggle-status-data-kos/{id}', [dataKosController::class, 'toggle_status'])->name('dataKos.toggle_status');
         Route::post('/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
         Route::get('/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
         Route::get('/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/daftar_kesehatan', [KesehatanController::class, 'create']);
         Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.store");
         Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
+        Route::get('/toggle-status-kesehatan/{id}', [KesehatanController::class, 'toggle_status'])->name('kesehatan.toggle_status');
     });
     Route::get('/kesehatan/{penyakit}/print', [KesehatanController::class, 'print'])->name('kesehatan.print');
 

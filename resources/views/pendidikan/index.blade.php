@@ -62,8 +62,9 @@
                                     <th>Alamat</th>
                                 </tr>
                             </thead>
+                        @if(Auth::check() && Auth::user()->level == 'admin' )
                             <tbody>
-                                @foreach($pendidik->penduduk->where('id_rt', $id_rt) as $p)
+                                @foreach($pendidik->penduduk as $p)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $p->nama }}</td>
@@ -71,9 +72,52 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                        @endif
+
+                        @php
+                            $nomor_iterasi_rw = 1;
+                        @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RW' )
+                            <tbody>
+                                @foreach($pendidik->penduduk as $p)
+                                    @if($p->id_rw == $id_rw)
+                                    <tr>
+                                        <td>{{ $nomor_iterasi_rw }}</td>
+                                        <td>{{ $p->nama }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    </tr>
+                                    @php
+                                        $nomor_iterasi_rw++;
+                                    @endphp
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        @endif
+
+
+                        @php
+                            $nomor_iterasi_rt = 1;
+                        @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RT' )
+                            <tbody>
+                                @foreach($pendidik->penduduk as $p)
+                                    @if($p->id_rt == $id_rt)
+                                    <tr>
+                                        <td>{{ $nomor_iterasi_rt }}</td>
+                                        <td>{{ $p->nama }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    </tr>
+                                    @php
+                                        $nomor_iterasi_rt++;
+                                    @endphp
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        @endif
+                        
                         </table>
                     </div>
-                    {{ $pendidikan->links() }}
+                   
                 </div>
             </div>
         </section>
@@ -130,6 +174,13 @@
 @section('scripts')
 <script>
     // Script jQuery
+    $(document).ready( function () {
+        // Loop through each table with an ID starting with "table_"
+        $('table[id^="table_"]').each(function() {
+            $(this).DataTable(); // Initialize DataTable for the current table
+        });
+    });
+    
     $(document).ready(function() {
         // Fungsi untuk menyimpan id jenis pendidikan ke local storage
     function saveActiveJenisPendidikanId(jenisPendidikanId) {
@@ -183,3 +234,4 @@
 </script>
 
 @endsection
+

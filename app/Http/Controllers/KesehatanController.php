@@ -5,31 +5,82 @@ namespace App\Http\Controllers;
 use App\Models\jenis_penyakit;
 use App\Models\kesehatan;
 use App\Models\penduduk;
+use App\Models\RT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class KesehatanController extends Controller
 {
     //
     public function index()
 {
+
+
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+    $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+
+    $userLevel = Auth::user()->level;
     
-    $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
-    $kesehatan = Kesehatan::with(['penduduk', 'jenis_penyakit'])->get();
+    $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
+    $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
+    $list_penduduk_admin = Penduduk::all();
+
+
+    if ($userLevel === 'admin') {
+        $list_penduduk = $list_penduduk_admin;
+    } elseif ($userLevel === 'RW') {
+        $list_penduduk = $list_penduduk_rw;
+    } elseif ($userLevel === 'RT') {
+        $list_penduduk = $list_penduduk_rt;
+    }
+
+    $kesehatan = kesehatan::all();
+
     $list_penyakit = jenis_penyakit::all();
 
-    return view('kesehatan.index', compact('kesehatan', 'list_penyakit', 'list_penduduk'));
+    return view('kesehatan.index', compact( 'list_penyakit', 'list_penduduk', 'id_rt', 'kesehatan', 'id_rw'));
+}
+
+public function toggle_status(Request $request, $id)
+{
+    $penduduk = Penduduk::findOrFail($id);
+
+    $kesehatan = Kesehatan::findOrFail($id);
+
+    // Cek status awal
+    $statusAwal = $kesehatan->status;
+
+    // Jika ditekan lama, ubah status menjadi 'meninggal'
+    // Jika ditekan lama, ubah status menjadi 'meninggal'
+if ($request->has('long_press')) {
+    $kesehatan->status = 'meninggal';
+
+    // Cari penduduk terkait
+    $penduduk = $kesehatan->penduduk;
+    // Ubah status penghuni menjadi 'meninggal'
+    $penduduk->status_penghuni = 'meninggal';
+    // Simpan perubahan status penghuni
+    $penduduk->save();
+
+} else {
+    // Jika ditekan sekali, toggle status antara 'sembuh' dan 'sakit'
+    $kesehatan->status = ($statusAwal == 'sembuh') ? 'sakit' : 'sembuh';
 }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Simpan perubahan status
+    $kesehatan->save();
+
+    return redirect()->route('dataKos');
+}
+
+
     public function create()
     {
         //
+        
         $list_penduduk = penduduk::all();
         $list_penyakit = jenis_penyakit::all();
         return view('kesehatan.tambah', compact('list_penyakit', 'list_penduduk'));

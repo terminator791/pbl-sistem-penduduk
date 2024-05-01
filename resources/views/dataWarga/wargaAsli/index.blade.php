@@ -50,6 +50,18 @@
                                 @endif
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Status</th>
+                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                                    <th>Aksi</th>
+                                @endif
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -101,6 +113,7 @@
                 {data: 'nama_jalan', render: function(data, type, row) {
                     return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
                 }, name: 'nama_jalan'},
+                
                 {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
                     let badgeColor;
                     if (data === 'meninggal') {

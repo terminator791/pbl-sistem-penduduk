@@ -69,6 +69,8 @@
                                         @endif
                                     </td>
                                     <td>
+                                        
+
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit">
@@ -99,6 +101,16 @@
                                     </td>
                                     @if(Auth::check() && Auth::user()->level == 'admin')
                                     <td>
+                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}"
+                                        class="btn btn-sm
+                                                @if($kos->status)
+                                                    btn-secondary
+                                                @else
+                                                    btn-primary
+                                                    
+                                                @endif">
+                                            <i class="bi bi-exclamation-triangle text-white"></i>
+                                        </a>
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit">
@@ -108,6 +120,11 @@
                                         <a href="#" class="btn btn-sm btn-danger toggle-delete"
                                             onclick="confirmDelete(event, {{ $kos->id }})">
                                             <i class="bi bi-trash-fill"></i>
+                                        </a>
+
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail"
+                                            onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
+                                            <i class="bi bi-eye-fill text-white"></i>
                                         </a>
                                     </td>
                                     @endif
@@ -148,11 +165,59 @@
         </a>
     </div>
 
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Kos</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     <!-- End Floating Toggle -->
 @endsection
 
 @section('scripts')
     <script>
+
+        
+function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_hp_pemilik, email_pemilik, foto_kos) {
+    var modalContent = document.getElementById('modalContent');
+    var fotoKosHTML = '';
+
+    if (foto_kos) {
+        fotoKosHTML = `
+            <div style="text-align: center;">
+                <img src="/storage/${foto_kos}" alt="Foto KOS" style="max-width: 100%; height: auto;">
+            </div>
+        `;
+    } else {
+        fotoKosHTML = `<span>Tidak ada foto kos</span>`;
+    }
+
+    modalContent.innerHTML = `
+        <p><strong>Nama Kos:</strong> ${nama_kos}</p>
+        <p><strong>Pemilik Kos:</strong> ${pemilik_kos}</p>
+        <p><strong>Jumlah Penghuni:</strong> ${jumlah_penghuni}</p>
+        <p><strong>Alamat Kos:</strong> ${alamat_kos}</p>
+        <p><strong>Kontak:</strong> ${no_hp_pemilik}</p>
+        <p><strong>Email:</strong> ${email_pemilik}</p>
+        <div>
+            <strong>Foto KOS:</strong><br>
+            ${fotoKosHTML}
+        </div>
+    `;
+    $('#detailModal').modal('show');
+}
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             // Mendapatkan semua elemen baris tabel
             var directElements = document.querySelectorAll(".direct2");

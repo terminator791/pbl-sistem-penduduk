@@ -50,6 +50,9 @@ public function fetchAll()
     // 2. Temukan id_rt dari tabel penduduk berdasarkan NIK pengguna
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
 
+     // 2. Temukan id_rw dari tabel penduduk berdasarkan NIK pengguna
+     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+
     // 3. Ambil data dari API
     $response = Http::withHeaders([
         'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
@@ -59,10 +62,31 @@ public function fetchAll()
     if ($response->successful()) {
         $data = $response->json();
 
-        // 5. Filter data sesuai kondisi yang diinginkan
-        $filteredData = collect($data)->filter(function ($item) use ($id_rt) {
+        // 6. Tentukan level pengguna saat ini
+        $userLevel = Auth::user()->level;
+        
+          // 5. Filter data sesuai kondisi yang diinginkan
+          $filteredData_rt = collect($data)->filter(function ($item) use ($id_rt) {
             return $item['id_rt'] == $id_rt && in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
+
+        // 5. Filter data sesuai kondisi yang diinginkan
+        $filteredData_rw = collect($data)->filter(function ($item) use ($id_rw) {
+            return $item['id_rw'] == $id_rw && in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        })->values()->all();
+
+        $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
+            return  in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        })->values()->all();
+
+        // 7. Filter data sesuai dengan level pengguna
+        if ($userLevel === 'admin') {
+            $filteredData = $filteredData_admin;
+        } elseif ($userLevel === 'RW') {
+            $filteredData = $filteredData_rw;
+        } elseif ($userLevel === 'RT') {
+            $filteredData = $filteredData_rt;
+        }
 
         // 6. Mengembalikan data dalam format yang sesuai dengan DataTables
 return DataTables::of($filteredData)

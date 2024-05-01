@@ -163,8 +163,7 @@
                                                     <option disabled selected>Pilih Hubungan Keluarga</option>
                                                     @foreach ($list_keluarga as $keluarga)
                                                         <option value="{{ $keluarga->id }}"
-                                                            {{ $penduduk->id_keluarga == $keluarga->id ? 'selected' : '' }}>
-                                                            {{ $keluarga->status_keluarga }}</option>
+                                                            {{ $penduduk->id_keluarga == $keluarga->id ? 'selected' : '' }}>{{ $keluarga->status_keluarga }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
                                                 </select>

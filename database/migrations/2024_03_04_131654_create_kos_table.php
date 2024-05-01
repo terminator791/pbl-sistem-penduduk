@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('alamat_kos')->nullable();
             $table->string('no_hp_pemilik')->nullable();
             $table->string('email_pemilik')->nullable();
+            $table->string('foto_kos')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

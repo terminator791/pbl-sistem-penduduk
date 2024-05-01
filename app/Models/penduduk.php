@@ -14,23 +14,23 @@ class penduduk extends Model
     protected $guarded = ['id'];
 
     public function keluarga(){
-        return $this->belongsTo(keluarga::class, 'id_keluarga');
+        return $this->belongsTo(keluarga::class, 'id');
     }
     public function perkawinan(){
-        return $this->belongsTo(perkawinan::class, 'id_status_perkawinan');
+        return $this->belongsTo(perkawinan::class, 'id');
     }
 
     public function pendidikan(){
-        return $this->belongsTo(pendidikan::class, 'id_pendidikan');
+        return $this->belongsTo(pendidikan::class, 'id');
     }
 
     public function pekerjaan(){
-        return $this->belongsTo(pekerjaan::class, 'id_pekerjaan');
+        return $this->belongsTo(pekerjaan::class, 'id');
     }
 
     public function bantuan()
     {
-        return $this->belongsTo(bantuan::class, 'id_bantuan');
+        return $this->belongsTo(bantuan::class, 'id');
     }
 
     public function rw(){
