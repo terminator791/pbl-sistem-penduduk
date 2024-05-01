@@ -43,6 +43,8 @@ class KejadianController extends Controller
         $kejadian->tanggal_kejadian = $request->input('tanggal_kejadian');
         $kejadian->tempat_kejadian = $request->input('tempat_kejadian');
         $kejadian->deskripsi_kejadian = $request->input('deskripsi_kejadian');
+        $kejadian->bukti_kejadian = $request->input('bukti_kejadian');
+
 
         $kejadian->save();
 

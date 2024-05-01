@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('tanggal_kejadian');
             $table->string('tempat_kejadian');
             $table->string('deskripsi_kejadian');
+            $table->binary('bukti_kejadian')->nullable();
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
     @csrf
     <div>
         <label for="jenis_kejadian" class="form-label">Kejadian:</label>
-        <select name="jenis_kejadian" id="jenis_kejadian" class="form-select">
+        <select name="jenis_kejadian" id="jenis_kejadian" class="form-select"> </select>
     </div>
     <div>
         <label for="tanggal_kejadian" class="form-label">Tanggal:</label>
@@ -20,7 +20,7 @@
         <label for="id_penyakit">Penyakit :</label>
         <select name="id_penyakit" id="id_penyakit">
             @foreach ($list_penyakit as $penyakit)
-            <option value="{{ $penyakit->id }}">{{ $penyakit->nama_penyakit }}</option>
+                <option value="{{ $penyakit->id }}">{{ $penyakit->nama_penyakit }}</option>
             @endforeach
         </select>
     </div>
@@ -28,9 +28,13 @@
         <label for="NIK_penduduk">Pelapor </label>
         <select name="NIK_penduduk" id="NIK_penduduk">
             @foreach ($list_penduduk as $penduduk)
-            <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
+                <option value="{{ $penduduk->NIK }}">{{ $penduduk->nama }}</option>
             @endforeach
         </select>
+    </div>
+    <div>
+        <label for="bukti_kejadian" class="form-label">Bukti Kejadian</label>
+        <input type="file" id="bukti_kejadian" name="bukti_kejadian" class="basic-filepond form-control">
     </div>
 
     <button type="submit">Tambah Penduduk</button>

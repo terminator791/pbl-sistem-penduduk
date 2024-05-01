@@ -63,6 +63,7 @@
                                     <th>Tempat</th>
                                     <th>Deskripsi</th>
                                     <th>Pelapor</th>
+                                    <th>Bukti</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -74,6 +75,7 @@
                                     <td>{{ $p->tempat_kejadian }}</td>
                                     <td>{{ $p->deskripsi_kejadian }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
+                                    <td><img src="{{ asset('images/'.$p->bukti_kejadian) }}" style="max-width: 200px; max-height: 200px;"></td>
 
                                     <td>
                                         <a href="{{ route('kejadian.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
@@ -137,14 +139,19 @@
                         </select>
 
                     </div>
+                    <div>
+                        <label for="bukti_kejadian" class="form-label">Bukti Kejadian</label>
+                        <input type="file" id="bukti_kejadian" name="bukti_kejadian" alt="bukti_kejadian" class="basic-filepond form-control">
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Tambah Kejadian</button>
                     </div>
+                </div>
             </form>
         </div>
-    </div>
-</div>
+        </div>
+        </div>
 
 @endsection
 
