@@ -31,6 +31,7 @@ class ProfileController extends Controller
         $list_RT = RT::all();
         return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan']));
     }
+
      public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -72,20 +73,20 @@ class ProfileController extends Controller
     {
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
-    
+
         // Menghitung jumlah penjabatan hari ini
         $today = Carbon::today();
         $countToday = penjabatan_RT::whereDate('created_at', $today)->count();
-    
+
         // Membuat id_penjabatan dengan angka unik hari ini
         $id_penjabatan = $today->format('Ymd') . str_pad($countToday + 1, 2, '0', STR_PAD_LEFT);
-    
+
         $penjabatan = new penjabatan_RT();
         $penjabatan->id_penjabatan = $id_penjabatan;
         $penjabatan->NIK_ketua_rt = $request->input('NIK_penduduk');
         $penjabatan->tanggal_dilantik = $request->input('tanggal_dilantik');
         $penjabatan->id_rt = $id_rt;
-        
+
         $user = new User();
         $user->username = $request->input('username');
         $user->NIK_penduduk = $request->input('NIK_penduduk');
@@ -94,17 +95,17 @@ class ProfileController extends Controller
 
         $penjabatan->save();
         $user->save();
-    
+
         return redirect()->route('profile')->with('success', 'User berhasil diperbarui!');
     }
-    
+
 
 
     public function update(Request $request)
     {
         $NIK = Auth::user()->NIK_penduduk;
         $id = penduduk::where('NIK', $NIK)->value('id');
-        
+
         $user = User::findOrFail($id);
         $user->username = $request->input('username');
         $user->NIK_penduduk = $request->input('NIK_penduduk');
@@ -133,5 +134,23 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    // menampilkan daftar RT yang pernah menjabat
+    public function tampil(){
+        if(Auth::user()->level == 'RT')
+        {
+            $NIK = Auth::user()->NIK_penduduk;
+            $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+            $list_ketua = penduduk::whereHas('penjabatan_rt', function ($query) use ($id_rt){
+                $query->where('id_rt', $id_rt);
+            });
+        }
+        else{
+            $id_rt = penduduk::All()->pluck('id_rt');
+            $list_ketua = penduduk::whereHas('penjabatan_rt', function ($query) use ($id_rt){
+                $query->whereIn('id_rt', $id_rt);
+            });
+        }
+        return view('penjabatan.index', compact('id_rt','list_ketua'));
     }
 }

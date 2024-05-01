@@ -70,6 +70,7 @@
                                         </div>
                                         @endif
                                     </div>
+                                </div>
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
@@ -90,9 +91,6 @@
                                                 @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                                 <option>RT</option>
                                                 @endif
-                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
-                                                <option>pemilik_kos</option>
-                                                @endif
                                             </select>
                                         </div>
 
@@ -101,6 +99,7 @@
                                                 class="btn btn-primary me-1 mb-1"><strong>Tambah</strong></button>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>

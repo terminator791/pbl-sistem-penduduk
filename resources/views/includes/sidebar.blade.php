@@ -48,6 +48,14 @@
                 <span>Data Kos</span>
             </a>
         </li>
+        @if(Auth::user()->level != 'pemilik_kos')
+        <li class="sidebar-item {{Request::is('jabatan') || request()->routeIs('jabatan.*') ? 'active' : ''}}">
+            <a href="{{route('jabatan')}}" class="sidebar-link">
+                <i class="bi bi-people-fill"></i>
+                <span>Penjabatan RT</span>
+            </a>
+        </li>
+        @endif
         <li class="sidebar-item has-sub {{ Request::is('profile') ? 'active' : '' }} ">
             <a href="{{route('profile')}}" class='sidebar-link'>
                 <i class="bi bi-person-fill"></i>

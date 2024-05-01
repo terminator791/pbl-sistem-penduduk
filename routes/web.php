@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
         Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
-    
+
 
 // Data Warga Asli
     Route::middleware(['LevelMiddleware'])->group(function (){
@@ -106,6 +106,12 @@ Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'd
     Route::get('/bantuan', [BantuanController::class, 'index'])->name("bantuan");
     Route::get('/daftar_bantuan', [BantuanController::class, 'create']);
     Route::post('/tambah_bantuan', [BantuanController::class, 'store'])->name("bantuan.add");
+
+//penjabatan rt
+    Route::middleware('LevelMiddleware')->group(function (){
+        Route::get('/daftar-rt', [ProfileController::class, 'tampil'])->name('jabatan');
+    });
+
 });
 
 require __DIR__.'/auth.php';

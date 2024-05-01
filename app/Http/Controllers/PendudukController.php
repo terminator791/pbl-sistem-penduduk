@@ -10,6 +10,7 @@ use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File; // Import Facade File
 
 class PendudukController extends Controller
@@ -18,8 +19,9 @@ class PendudukController extends Controller
     {
         $menu = $request->query('menu', 'data_warga');
         $penduduk = penduduk::with(['pekerjaan'])->get();
-
-        return view('home', compact('menu', 'penduduk'));
+        $user = Auth::user()->NIK_penduduk;
+        $pengguna = penduduk::where('NIK',$user)->get();
+        return view('home', compact('menu', 'penduduk', 'pengguna'));
     }
 
     public function create()

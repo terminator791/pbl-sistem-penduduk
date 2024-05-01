@@ -1,7 +1,7 @@
 @extends('layouts.default-ui')
 
 @section('heading')
-    <h3 class="text-center">Selamat Datang di Dasbor Tegalsari RW 13</h3>
+    <h3 class="text-center">Selamat Datang {{$pengguna[0]->nama}} di Dasbor Tegalsari RW 13</h3>
     <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
 @endsection
 
