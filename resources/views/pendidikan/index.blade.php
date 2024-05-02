@@ -54,7 +54,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover" id="table_{{ $pendidik->jenis_pendidikan }}">
+                        
+                        <table class="dataTable table table-hover"style="width:100%" id="table_{{ $pendidik->jenis_pendidikan }}">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -174,13 +175,17 @@
 @section('scripts')
 <script>
     // Script jQuery
-    $(document).ready( function () {
-        // Loop through each table with an ID starting with "table_"
-        $('table[id^="table_"]').each(function() {
-            $(this).DataTable(); // Initialize DataTable for the current table
+   // Script jQuery
+$(document).ready(function () {
+    // Loop through each table with an ID starting with "table_"
+    $('table[id^="table_"]').each(function () {
+        $(this).DataTable({ // Initialize DataTable for the current table
+            
         });
     });
-    
+});
+
+
     $(document).ready(function() {
         // Fungsi untuk menyimpan id jenis pendidikan ke local storage
     function saveActiveJenisPendidikanId(jenisPendidikanId) {

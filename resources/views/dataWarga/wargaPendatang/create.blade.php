@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST" action="{{ route('wargaPendatang.store') }}" data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('wargaPendatang.store') }}" id="tambahDataForm" data-parsley-validate>
                             @csrf
                                 <div class="row">
                                     <div class="col-md-6 col-12">
@@ -49,7 +49,7 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Jenis Kelamin</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
+                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" data-parsley-required="true">
                                                     <option disabled selected>Pilih Jenis Kelamin</option>
                                                     <option value="wanita">Perempuan</option>
                                                     <option value="pria">Laki-laki</option>
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="last-name-column" class="form-label">Agama</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="agama" name="agama">
@@ -81,15 +81,15 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="first-name-column" class="form-label">Tempat Lahir</label>
                                             <input type="text" id="tempat_lahir" class="form-control"
                                                 placeholder="Tempat Lahir" name="tempat_lahir"
-                                                data-parsley-required="true" />
+                                                />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Pendidikan</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="id_pendidikan" name="id_pendidikan">
@@ -102,13 +102,13 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="country-floating" class="form-label">Tanggal Lahir</label>
                                             <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Pekerjaan</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Status Hubungan
                                                 Keluarga</label>
                                             <fieldset class="form-group">
@@ -135,7 +135,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Status Perkawinan</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="id_status_perkawinan" name="id_status_perkawinan">
@@ -151,7 +151,7 @@
                                         <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Status Tinggal</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                <select class="form-select" id="status_penghuni" name="status_penghuni" data-parsley-required="true">
                                                     <option disabled selected>Pilih Status Tinggal</option>
                                                     <option value="kos">Kos</option>
                                                     <option value="kontrak">Kontrak</option>
@@ -161,7 +161,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Nama Kos/Kontrak</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="id_kos" name="id_kos">
@@ -181,7 +181,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="country-floating" class="form-label">Tanggal Keluar</label>
                                             <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar">
                                         </div>
@@ -199,7 +199,7 @@
                                                 </select>
                                                 <select id="id_rw" class="form-select" name="id_rw"
                                                     data-parsley-required="true">
-                                                    <option visabled selected>Pilih RW</option>
+                                                    <option disabled selected>Pilih RW</option>
                                                     @foreach ($list_RW as $RW)
                                                         <option value="{{ $RW->id }}">{{ $RW->nama_rw }}</option> <!-- Use actual database values -->
                                                     @endforeach
@@ -208,22 +208,22 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="first-name-column" class="form-label">Nomor HP</label>
                                             <input type="text" id="no_hp" class="form-control"
                                                 placeholder="Nomor HP" name="no_hp"
-                                                data-parsley-required="true" />
+                                                 />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="first-name-column" class="form-label">Email</label>
                                             <input type="text" id="email" class="form-control"
-                                                placeholder="Email" name="email" data-parsley-required="true" />
+                                                placeholder="Email" name="email" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="first-name-column" class="form-label">File KTP</label>
                                             <input type="file"  id="foto_ktp" name="foto_ktp" class="basic-filepond form-control">
                                         </div>
@@ -246,6 +246,21 @@
 
 @section('scripts')
     <script>
+        $(document).ready(function () {
+    // Ketika nilai pada form id_kos berubah
+    $('#id_kos').on('change', function() {
+        // Jika nilai id_kos tidak kosong
+        if ($(this).val()) {
+            // Aktifkan input tanggal_masuk dan buat wajib diisi
+            $('#tanggal_masuk').prop('required', true).removeAttr('disabled');
+        } else {
+            // Jika nilai id_kos kosong, nonaktifkan input tanggal_masuk dan hapus kewajiban
+            $('#tanggal_masuk').prop('required', false).attr('disabled', 'disabled').val('');
+        }
+    });
+  
+});
+
         // document.addEventListener("DOMContentLoaded", function() {
         //     var birthdateInput = document.getElementById("birthdate");
         //     birthdateInput.addEventListener("change", function() {

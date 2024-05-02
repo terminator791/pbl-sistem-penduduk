@@ -37,7 +37,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover" id="table3">
+                    <table class="table table-striped" id="table3">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -98,6 +98,7 @@
 
 @section('scripts')
     <script>
+        
     $(document).ready(function () {
         var i = 1; // Inisialisasi variabel i di sini
         var dataTable = $('#table3').DataTable({
@@ -105,30 +106,34 @@
             serverSide: false, 
             ajax: "/wargaAsli-fetchAll",
             columns: [
-                {data: 'i', name: 'i', render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
-                }},
-                {data: 'NIK', name: 'NIK'},
-                {data: 'nama', name: 'nama'},
-                {data: 'nama_jalan', render: function(data, type, row) {
-                    return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
-                }, name: 'nama_jalan'},
-                
-                {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
-                    let badgeColor;
-                    if (data === 'meninggal') {
-                        badgeColor = 'danger';
-                    } else if (data === 'tetap') {
-                        badgeColor = 'success';
-                    } else if (data === 'pindah') {
-                        badgeColor = 'secondary';
-                    }
-                    return `<span class="badge bg-${badgeColor}">${data}</span>`;
-                }},
-                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                @endif
-            ],
+            {data: 'i', name: 'i', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
+            }},
+            {data: 'NIK', name: 'NIK', render: function(data) {
+                return data || ''; // Jika NIK null, kembalikan string kosong
+            }},
+            {data: 'nama', name: 'nama', render: function(data) {
+                return data || ''; // Jika nama null, kembalikan string kosong
+            }},
+            {data: 'nama_jalan', render: function(data, type, row) {
+                return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data || ''}`; // Jika nama jalan null, kembalikan string kosong
+            }, name: 'nama_jalan'},
+
+            {data: 'status_penghuni', name: 'status_penghuni', render: function(data) {
+                let badgeColor;
+                if (data === 'meninggal') {
+                    badgeColor = 'danger';
+                } else if (data === 'tetap') {
+                    badgeColor = 'success';
+                } else if (data === 'pindah') {
+                    badgeColor = 'secondary';
+                }
+                return `<span class="badge bg-${badgeColor}">${data || ''}</span>`; // Jika status_penghuni null, kembalikan string kosong
+            }},
+            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                {data: 'action', name: 'action', orderable: false, searchable: false}
+            @endif
+        ],
             "initComplete": function(settings, json) {
                 i = this.api().page.info().start; // Mengambil nomor halaman saat ini
             }
@@ -142,6 +147,8 @@ function showWargaDetail(id) {
         .then(response => response.json())
         .then(warga => {
             const modalBody = document.getElementById('modalContent');
+            // // Manipulasi NIK di sini untuk menyensor digit tertentu
+            // const censoredNIK = warga.NIK.substr(0, 2) + 'xxxxxxxxxxx' + warga.NIK.substr(11); // Mengganti digit ke-3 hingga ke-13 dengan 'x'
             modalBody.innerHTML = `
                 <div class="container">
                     <div class="row">

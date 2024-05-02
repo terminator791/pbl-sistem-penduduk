@@ -49,7 +49,7 @@
                                     </div>
                                     <!-- Kolom 2 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="jenis_kelamin" class="form-label"><strong>Jenis
                                                     Kelamin</strong></label>
                                             <fieldset class="form-group">
@@ -88,17 +88,17 @@
                                     </div>
                                     <!-- Kolom 5 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="tempat_lahir" class="form-label"><strong>Tempat
                                                     Lahir</strong></label>
                                             <input type="text" id="tempat_lahir" class="form-control"
                                                 placeholder="Tempat Lahir" name="tempat_lahir"
-                                                data-parsley-required="true" />
+                                                 />
                                         </div>
                                     </div>
                                     <!-- Kolom 6 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="id_pendidikan"
                                                 class="form-label"><strong>Pendidikan</strong></label>
                                             <fieldset class="form-group">
@@ -115,7 +115,7 @@
                                     </div>
                                     <!-- Kolom 7 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="tanggal_lahir" class="form-label"><strong>Tanggal
                                                     Lahir</strong></label>
                                             <input type="date" id="tanggal_lahir" class="form-control"
@@ -124,7 +124,7 @@
                                     </div>
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="id_pekerjaan" class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
                                                 <select class="form-select select2" id="id_pekerjaan" name="id_pekerjaan">
@@ -140,7 +140,7 @@
                                     </div>
                                     <!-- Kolom 9 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_keluarga" class="form-label"><strong>Status Hubungan
                                                     Keluarga</strong></label>
                                             <fieldset class="form-group">
@@ -157,7 +157,7 @@
                                     </div>
                                     <!-- Kolom 10 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_status_perkawinan" class="form-label"><strong>Status
                                                     Perkawinan</strong></label>
                                             <fieldset class="form-group">
@@ -179,7 +179,7 @@
                                             <label for="status_penghuni" class="form-label"><strong>Status
                                                     Tinggal</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                <select class="form-select" id="status_penghuni" name="status_penghuni" data-parsley-required="true">
                                                     <option disabled selected>Pilih Status Tinggal</option>
                                                     <option value="tetap">Tetap</option>
                                                     <option value="pindah">Pindah</option>
@@ -190,11 +190,11 @@
                                     </div>
                                     <!-- Kolom 12 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="nama_jalan" class="form-label"><strong>Nama Jalan</strong></label>
                                             <input type="text" id="nama_jalan" class="form-control"
                                                 placeholder="Alamat Rumah" name="nama_jalan"
-                                                data-parsley-required="true" />
+                                                />
                                         </div>
                                     </div>
                                     <!-- Kolom 13 -->
@@ -223,23 +223,23 @@
                                     </div>
                                     <!-- Kolom 14 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="no_hp" class="form-label"><strong>Nomor HP</strong></label>
                                             <input type="text" id="no_hp" class="form-control"
-                                                placeholder="Nomor HP" name="no_hp" data-parsley-required="true" />
+                                                placeholder="Nomor HP" name="no_hp"  />
                                         </div>
                                     </div>
                                     <!-- Kolom 15 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="email" class="form-label"><strong>Email</strong></label>
                                             <input type="text" id="email" class="form-control"
-                                                placeholder="Email" name="email" data-parsley-required="true" />
+                                                placeholder="Email" name="email" />
                                         </div>
                                     </div>
                                     <!-- Kolom 16 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="foto_ktp" class="form-label"><strong>File KTP</strong></label>
                                             <input type="file" id="foto_ktp" name="foto_ktp"
                                                 class="basic-filepond form-control">

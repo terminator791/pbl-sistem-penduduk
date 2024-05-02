@@ -60,6 +60,7 @@ public function fetchAll()
         })->values()->all();
 
         $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
+            
             return  !in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
@@ -72,8 +73,18 @@ public function fetchAll()
             $filteredData = $filteredData_rt;
         }
 
+        // 8. Urutkan data berdasarkan nama sebelum mengembalikannya ke DataTables
+        $sortedData = collect($filteredData)->sortBy('nama')->values()->all();
+
+
         // 8. Mengembalikan data dalam format yang sesuai dengan DataTables
-        return DataTables::of($filteredData)
+        return DataTables::of($sortedData)
+        // ->addColumn('NIK', function ($warga) {
+
+        //     $NIK = $warga['NIK'];
+        //     $censoredNIK = substr_replace($NIK, 'xxxxxxxxxxx', 2, 9); // Mengganti digit ke-3 hingga ke-13 dengan 'x'
+        //     return $censoredNIK;
+        // })
             ->addColumn('action', function ($warga) {
                 // Tambahkan tombol aksi di sini sesuai kebutuhan
                 return '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
@@ -151,6 +162,7 @@ public function fetchAll()
             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
         ])->get("http://localhost:9000/v1/wargaAsli/$id");
 
+        
         // Periksa status respons sebelum mengakses data JSON
         if ($response->successful()) {
             $data = $response->json();
