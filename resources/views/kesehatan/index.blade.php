@@ -140,12 +140,13 @@
                                         <button  class="btn btn-sm btn-warning toggle-edit" data-id="{{ $p->id }}" data-status="{{ $p->status }}">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </button>
-                                        </td>
-                                        <!-- <td>
-                                            <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
+                                        <!-- <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">
                                                 <i class="bi bi-trash-fill"></i>
-                                            </a>
-                                        </td> -->
+                                            </a> -->
+                                            <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $p->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -291,12 +292,81 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus data ini?</p>
+                <p>Untuk mengkonfirmasi, masukkan kata <strong>konfirmasi</strong> di bawah ini:</p>
+                <input type="text" class="form-control" id="confirmInput">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" id="deleteConfirmedBtn">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
 
 <script>
+    $(document).ready(function() {
+        // Event handler untuk tombol toggle-delete
+        $('.toggle-delete').click(function() {
+            // Ambil id dari data yang akan dihapus
+            var id = $(this).data('id');
+            // Tampilkan modal konfirmasi
+            $('#deleteConfirmationModal').modal('show');
+            // Set URL hapus sesuai dengan id yang dipilih
+            $('#deleteConfirmedBtn').attr('onclick', 'deleteData('+id+')');
+        });
+    });
+
+    // Function untuk menghapus data
+function deleteData(id) {
+    // Ambil input teks yang dimasukkan pengguna
+    var confirmInput = document.getElementById('confirmInput').value.trim();
+
+    // Periksa apakah input teks sesuai dengan yang diharapkan
+    if (confirmInput.toLowerCase() === 'konfirmasi') {
+        // Redirect to the delete route with the correct id
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Status berhasil diubah.',
+            showConfirmButton: false,
+            timer: 700 // Adjust the time as needed
+        });
+
+        setTimeout(function() {
+            window.location.href = "{{ url('kesehatan/hapus-kesehatan') }}/" + id;
+            }, 850);
+
+    } else {
+        Toastify({
+            text: "kata yang dimasukkan salah",
+            duration: 1000, 
+            position: "center",
+            style: {
+        background: "#ff3300"
+    },
+            close: true 
+        }).showToast();
+    }
+}
+
+</script>
+
+<script>
     $(document).ready( function () {
+        
         // Loop through each table with an ID starting with "table_"
         $('table[id^="table_"]').each(function() {
             $(this).DataTable(); // Initialize DataTable for the current table
@@ -332,9 +402,26 @@
         // Send an AJAX request without long_press parameter
         $.get('/toggle-status-kesehatan/' + id, function(data) {
             // Optional: Perform actions after the request is completed
-            location.reload();
+    // Redirect to a specific route with success message
+    setTimeout(function() {
+                window.location.href = "{{ route('kesehatan') }}";
+            }, 1000);
+
+    Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Status berhasil diubah.',
+            showConfirmButton: false,
+            timer: 800 // Adjust the time as needed
         });
-        
+
+    // Toastify({
+    //         text: "Status berhasil diubah",
+    //         duration: 500, // Duration in milliseconds (3 seconds in this example)
+    //         close: true // Show close button or not
+    //     }).showToast();
+
+        });
         console.log("Button clicked");
     });
     
@@ -344,10 +431,22 @@
         
         // Send AJAX request with long_press parameter
         $.get('/toggle-status-kesehatan/' + id + '?long_press=true', function(data) {
-            // Optional: Perform actions after the request is completed
-            location.reload();
+            // Redirect to a specific route with success message
+    setTimeout(function() {
+                window.location.href = "{{ route('kesehatan') }}";
+            }, 1000);
+
+    Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Status berhasil diubah.',
+            showConfirmButton: false,
+            timer: 800 // Adjust the time as needed
+        });
+            
         });
         
+        with('success', 'berhasil mengganti status!');
         $('#confirmModal').modal('hide'); // Hide modal
     });
         }
@@ -374,10 +473,11 @@
 
 
 <script>
-
     // Script jQuery
     $(document).ready(function() {
+        
          // Fungsi untuk menyimpan ID tab aktif ke dalam localStorage
+         
     function simpanTabAktif(tabId) {
         localStorage.setItem('tabAktif', tabId);
     }
@@ -421,6 +521,7 @@
     
 </script>
 
+
 <script>
     // Function to show toast
     function showToast(message) {
@@ -443,6 +544,8 @@
             }
         });
     });
+
+
 </script>
 
 

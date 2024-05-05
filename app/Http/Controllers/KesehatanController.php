@@ -71,9 +71,10 @@ if ($request->has('long_press')) {
 
 
     // Simpan perubahan status
+    
     $kesehatan->save();
 
-    return redirect()->route('dataKos');
+    return redirect()->route('kesehatan')->with('success', 'berhasil mengganti status!');
 }
 
 

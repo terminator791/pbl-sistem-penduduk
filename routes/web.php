@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
         Route::get('/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
         Route::get('/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
+        Route::get('/penghuni-kos/update-data-penghuni/{id}', [dataKosController::class, 'updatePenghuni'])->name('dataKos.penghuniKos.update');
         Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
     

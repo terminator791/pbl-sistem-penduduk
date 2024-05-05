@@ -61,17 +61,26 @@ public function penghuni($id)
 
 public function updatePenghuni(Request $request, $id)
 {
-    $data_kos = kos::where('id', $id)->first();
-    $data_kos->id_rt = $request->input('id_rt');
-    $data_kos->pemilik_kos = $request->input('pemilik_kos');
-    $data_kos->nama_kos = $request->input('nama_kos');
-    $data_kos->alamat_kos = $request->input('alamat_kos');
-    $data_kos->jumlah_penghuni = $request->input('jumlah_penghuni');
-    $data_kos->no_hp_pemilik = $request->input('no_hp_pemilik');
-    $data_kos->email_pemilik = $request->input('email_pemilik');
-    $data_kos->update();
+    // dd($request->all());
 
-    return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
+    // Ambil data penduduk berdasarkan id_ yang diberikan
+    $penghuni = detail_pendatang::where('id', $id)->with('penduduk')->first();
+
+    
+    if($request->has('deskripsi')){
+        $penghuni->deskripsi = $request->input('deskripsi');
+    }elseif($request->has('tanggal_keluar')){
+        $penghuni->tanggal_keluar = $request->input('tanggal_keluar');
+    }elseif($request->has('tanggal_masuk')){
+        $penghuni->tanggal_masuk = $request->input('tanggal_masuk');
+    }
+
+    
+    $penghuni->save();
+
+    
+
+    return redirect()->back()->with('success', 'Data penghuni berhasil diperbarui.');
 }
 
 
@@ -198,7 +207,7 @@ public function updatePenghuni(Request $request, $id)
 
     $data_kos->update();
 
-    return redirect()->route('dataKos');
+    return redirect()->route('dataKos')->with('success', 'berhasil mengganti status!');
 }
 
 
