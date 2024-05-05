@@ -212,6 +212,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
     ])->toArray(),
 
 ];

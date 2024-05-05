@@ -32,7 +32,7 @@
         @foreach($id_rt as $rt)
             <li class="nav-item">
                 <a class="nav-link @if($loop->first) active @endif" id="{{ $rt }}-tab" data-bs-toggle="tab" href="#{{ $rt }}" role="tab" aria-controls="{{ $rt }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $rt }}">
-                    <i class="fa-solid fa-hospital-user fa-lg" class="font-medium-3 me-50"></i>
+                    <i class="bi bi-building-fill"></i>
                     <span class="fw-@if($loop->first)bold @endif">{{ $rt }}</span>
                 </a>
             </li>
@@ -46,7 +46,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">
-                                Rekap Data - {{ $ketua->id_rt }}
+                                Daftar Ketua RT 0{{ $ketua->id_rt }}
                             </h5>
 {{--                            <a href="{{ route('penjabatan', $ketua) }}" class="btn btn-primary btn-sm">--}}
 {{--                                <i class="fas fa-print"></i>--}}
@@ -63,20 +63,29 @@
                                         <th>NIK</th>
                                         <th>Nama</th>
                                         <th>Tanggal Dilantik</th>
-                                        <th>Tanggal Diberhentikan</th>
+                                        <th>Tanggal Selesai Menjabat</th>
                                         <th>Foto Ketua</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($list_ketua as $ketua)
+                                        @foreach($nama_ketua as $nama_ketua)
+                                            @if($ketua->NIK_ketua_rt == $nama_ketua->NIK)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{$ketua->NIK}}</td>
-                                            <td>{{$ketua->nama }}</td>
+                                            <td>{{$ketua->NIK_ketua_rt}}</td>
+                                            <td>{{$nama_ketua->nama }}</td>
                                             <td>{{$ketua->tanggal_dilantik}}</td>
+                                            @php
+                                                if($ketua->tanggal_diberhentikan ==  null){
+                                                $ketua->tanggal_diberhentikan = "Petahana";
+                                                }
+                                            @endphp
                                             <td>{{$ketua->tanggal_diberhentikan }}</td>
                                             <td>{{$ketua->foto_ketua_rt}}</td>
                                         </tr>
+                                            @endif
+                                        @endforeach
                                     @endforeach
                                     </tbody>
                                 </table>

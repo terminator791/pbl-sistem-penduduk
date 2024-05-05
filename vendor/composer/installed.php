@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-login-htg',
         'version' => 'dev-login-htg',
-        'reference' => 'f182339dbbcadeeb4a561b95dd61ddb9f1e701e1',
+        'reference' => 'a2198831be16b629b49b4ac99826fc28b79bc568',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -391,7 +391,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-login-htg',
             'version' => 'dev-login-htg',
-            'reference' => 'f182339dbbcadeeb4a561b95dd61ddb9f1e701e1',
+            'reference' => 'a2198831be16b629b49b4ac99826fc28b79bc568',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

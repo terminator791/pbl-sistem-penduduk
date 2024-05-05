@@ -7,19 +7,24 @@ use App\Models\penduduk;
 use App\Models\penjabatan_RT;
 use App\Models\RT;
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use function Laravel\Prompts\select;
+
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
-    public function index(){
+    public function index()
+    {
         $NIK = Auth::user()->NIK_penduduk;
         $username = Auth::user()->username;
         $nama = penduduk::where('NIK', $NIK)->value('nama');
@@ -32,14 +37,15 @@ class ProfileController extends Controller
         return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan']));
     }
 
-     public function edit(Request $request): View
+    public function edit(Request $request): View
     {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
     }
 
-    public function create(){
+    public function create()
+    {
         $NIK = Auth::user()->NIK_penduduk;
         $username = Auth::user()->username;
         $nama = penduduk::where('NIK', $NIK)->value('nama');
@@ -50,7 +56,7 @@ class ProfileController extends Controller
 
         $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
         $list_RT = RT::all();
-        return view('profile.create',compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'list_penduduk']));
+        return view('profile.create', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'list_penduduk']));
     }
 
     /**
@@ -100,7 +106,6 @@ class ProfileController extends Controller
     }
 
 
-
     public function update(Request $request)
     {
         $NIK = Auth::user()->NIK_penduduk;
@@ -135,22 +140,36 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
     // menampilkan daftar RT yang pernah menjabat
-    public function tampil(){
-        if(Auth::user()->level == 'RT')
-        {
+    public function tampil()
+    {
+        if (Auth::user()->level == 'RT') {
             $NIK = Auth::user()->NIK_penduduk;
             $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
-            $list_ketua = penduduk::whereHas('penjabatan_rt', function ($query) use ($id_rt){
-                $query->where('id_rt', $id_rt);
-            });
+            $list_ketua = penjabatan_RT::where('id_rt',$id_rt)->get();
+            $nama_ketua = DB::table('penduduk')
+                ->whereExists(function ($query) {
+                    $query->select()
+                        ->from('penjabatan_rt')
+                        ->whereRaw('penduduk.nik = penjabatan_rt.NIK_ketua_rt')
+                        ->where('id_rt', '=', 4);
+                })
+                ->get();
         }
         else{
-            $id_rt = penduduk::All()->pluck('id_rt');
-            $list_ketua = penduduk::whereHas('penjabatan_rt', function ($query) use ($id_rt){
-                $query->whereIn('id_rt', $id_rt);
-            });
+                $id_rt = RT::pluck('id'); // Mengambil semua id RT
+                $list_ketua = penjabatan_RT::whereIn('id_rt',$id_rt)->get();
+                $nama_ketua = DB::table('penduduk')
+                ->whereExists(function ($query) {
+                    $query->select()
+                        ->from('penjabatan_rt')
+                        ->whereRaw('penduduk.nik = penjabatan_rt.NIK_ketua_rt')
+                        ->where('id_rt', '=', 4);
+                })
+                ->get();
         }
-        return view('penjabatan.index', compact('id_rt','list_ketua'));
+            return view('penjabatan.index', compact('id_rt', 'list_ketua','nama_ketua'));
+        }
     }
-}
+
