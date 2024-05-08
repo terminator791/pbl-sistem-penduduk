@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,10 @@
     @include('includes.style')
 </head>
 
+
+
 <body>
+
 <script src="{{ asset('dist/assets/static/js/initTheme.js') }}"></script>
 <div class="container">
     <div class="row h-100">
@@ -69,3 +73,24 @@
 @include('includes.script')
 </body>
 </html>
+    @if(session('warning'))
+    <script>
+        Toastify({
+            text: "{{ session('warning') }}",
+            duration: 8000,
+            position: 'center',
+            backgroundColor: 'red'
+        }).showToast();
+        </script>
+    @endif
+
+    @if ($errors->has('NIK_penduduk'))
+<script>
+        Toastify({
+            text: "{{ $errors->first('NIK_penduduk') }}",
+            duration: 8000,
+            position: 'center',
+            backgroundColor: 'red'
+        }).showToast();
+        </script>
+@endif

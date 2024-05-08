@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">User Name</label>
+                                            <label for="country-floating" class="form-label">Username</label>
                                             <input type="text" id="username" class="form-control"
                                                    name="username" placeholder="username"  data-parsley-required="true" />
                                         </div>
@@ -66,7 +66,7 @@
                                         <div class="form-group mandatory">
                                             <label for="tanggal_dilantik" class="form-label">Tanggal Mulai Menjabat</label>
                                             <input type="date" id="tanggal_dilantik" class="form-control"
-                                                    name="tanggal_dilantik" class="form-control">
+                                                    name="tanggal_dilantik" class="form-control" data-parsley-required="true">
                                         </div>
                                         @endif
                                     </div>
@@ -89,9 +89,6 @@
                                                 @endif
                                                 @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                                 <option>RT</option>
-                                                @endif
-                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
-                                                <option>pemilik_kos</option>
                                                 @endif
                                             </select>
                                         </div>

@@ -4,9 +4,17 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Profile</h3>
+                 @if (Auth::user()->level == 'admin')
+                    <h3>Profile Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Profile RW 13, {{$username}}</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Profile RW 13 RT {{ $id_rt}}, {{$username}}</h3>
+                @elseif(Auth::user()->level == 'pemilik_kos')
+                    <h3>Profile {{$username}}</h3>
+                @endif
                 <p class="text-subtitle text-muted">
-                    Kec.Tembalang,Kel.Pedalangan.RT.{{ $id_rt }} RW.05
+                    Kec.Candisari, Kel.Tegalsari, RW 13
                 </p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -45,7 +53,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="last-name-column" class="form-label">Nama</label>
                                             <input type="text" id="nama" class="form-control"
                                                    placeholder="nama" value="{{$nama}}" name="nama" data-parsley-required="true" disabled/>
@@ -61,16 +69,16 @@
                                     <div class="col-md-6 col-12">
                                         @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT' ||  Auth::user()->level == 'RW')
                                         <div class="form-group mandatory">
-                                            <label for="tanggal_dilantik" class="form-label"  value="04/11/2000">Tanggal Mulai Menjabat</label>
+                                            <label for="tanggal_dilantik" class="form-label" name="tanggal_dilantik" value="04/11/2000">Tanggal Mulai Menjabat</label>
                                             <input type="date" id="tanggal_dilantik" class="form-control"
-                                                    name="tanggal_dilantik" class="form-control">
+                                                    name="tanggal_dilantik" data-parsley-required="true" />
                                         </div>
                                         @endif
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
-                                            <div class="form-group mandatory">
+                                            <div class="form-group ">
                                                 <label for="country-floating" class="form-label">No Hp</label>
                                                 <input type="text" id="no_hp" class="form-control"
                                                     name="country-floating" placeholder="no_hp" value="{{$no_hp}}" data-parsley-required="true" disabled/>
@@ -78,7 +86,7 @@
                                                 @endif
                                         </div>
                                         <div class="col-md-6 col-12">
-                                            <div class="form-group mandatory">
+                                            <div class="form-group ">
                                                 <label for="country-floating" class="form-label">Email</label>
                                                 <input type="text" id="email" class="form-control"
                                                     name="country-floating" placeholder="email" value="{{$email}}" data-parsley-required="true" disabled/>
@@ -97,13 +105,13 @@
                                         </div>
                                         <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Email</label>
+                                            <label for="country-floating" class="form-label">Role</label>
                                             <input type="text" id="level" class="form-control" name="level" placeholder="email"
-                                                value="{{ ($jabatan == 'RT' || $jabatan == 'RW') ? 'Ketua ' . $jabatan : $jabatan }}" 
+                                                value="{{ ($jabatan == 'RT' || $jabatan == 'RW') ? 'Ketua ' . $jabatan : $jabatan }}"
                                                 data-parsley-required="true" readOnly />
                                         </div>
 
-                                        
+
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit"
                                                 class="btn btn-primary me-1 mb-1"><strong>Update Profil</strong></button>
@@ -121,13 +129,29 @@
 
 @section('scripts')
     {{--  --}}
-    <!-- @if (session('success'))
-            Swal.fire({
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        @endif -->
+   
+
+    @if(session('success'))
+    <script>
+        Toastify({
+            text: "{{ session('success') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'green'
+        }).showToast();
+        </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        Toastify({
+            text: "{{ session('error') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'red'
+        }).showToast();
+        </script>
+    @endif
+
+        
 @endsection

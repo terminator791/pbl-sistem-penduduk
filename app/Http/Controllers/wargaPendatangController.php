@@ -53,6 +53,8 @@ public function fetchAll()
      // 2. Temukan id_rw dari tabel penduduk berdasarkan NIK pengguna
      $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
 
+     $penduduk = Penduduk::where('NIK', $NIK)->first();
+
     // 3. Ambil data dari API
     $response = Http::withHeaders([
         'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
@@ -71,8 +73,8 @@ public function fetchAll()
         })->values()->all();
 
         // 5. Filter data sesuai kondisi yang diinginkan
-        $filteredData_rw = collect($data)->filter(function ($item) use ($id_rw) {
-            return $item['id_rw'] == $id_rw && in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        $filteredData_rw = collect($data)->filter(function ($item) use ($penduduk) {
+            return $item['id_rw'] == $penduduk->rw->nama_rw && in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
         $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
@@ -141,7 +143,8 @@ public function fetchOne($id)
         $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
-        $list_kos = kos::all();
+        // $list_kos = kos::all();
+        $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.create', compact(
             'list_pendidikan',
             'list_pekerjaan',
@@ -205,7 +208,8 @@ public function fetchOne($id)
         $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
-        $list_kos = kos::all();
+        // $list_kos = kos::all();
+        $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.update', compact(
             'penduduk',
             'list_pendidikan',

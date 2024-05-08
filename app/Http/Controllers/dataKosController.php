@@ -18,9 +18,26 @@ class dataKosController extends Controller
     public function Create()
     {
         $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+
+        $userLevel = Auth::user()->level;
         
-        $list_penduduk = Penduduk::where('id_rw', $id_rw)->get();
+        $list_penduduk_admin = Penduduk::all();
+        $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
+        $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
+        $list_penduduk_kos = kos::where('NIK_pemilik_kos', $NIK)->get();
+
+        if ($userLevel === 'admin') {
+            $list_penduduk = $list_penduduk_admin;
+        } elseif ($userLevel === 'RW') {
+            $list_penduduk = $list_penduduk_rw;
+        } elseif ($userLevel === 'RT') {
+            $list_penduduk = $list_penduduk_rt;
+        } elseif ($userLevel === 'pemilik_kos') {
+            $list_penduduk = $list_penduduk_kos;
+        }
+
         $data_kos = kos::all();
         $list_RT = RT::all();
         return view('dataKos.create', compact( 'data_kos', 'list_RT', 'list_penduduk'));
@@ -31,6 +48,7 @@ class dataKosController extends Controller
 {
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+    $username = Auth::user()->username;
     
     $data_kos_pemilik = kos::where('NIK_pemilik_kos', $NIK)->get();
     $data_kos_RT = kos::where('id_rt', $id_rt)->get();
@@ -42,7 +60,7 @@ class dataKosController extends Controller
         $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
     }
 
-    return view('dataKos.index', compact('data_kos', 'jumlah_penghuni', 'data_kos_pemilik', 'data_kos_RT'));
+    return view('dataKos.index', compact('data_kos', 'jumlah_penghuni', 'data_kos_pemilik', 'data_kos_RT', 'id_rt', 'username'));
 }
 
 public function penghuni($id)
@@ -224,11 +242,34 @@ public function updatePenghuni(Request $request, $id)
 
     // Delete
     public function delete($id)
-    {
-        $data_kos = kos::findOrFail($id);
-        $data_kos->delete();
-        return redirect()->route('dataKos')->with('success', 'kos ' . $data_kos->nama_kos .' berhasil dihapus!');
+{
+    
+    $data_kos = Kos::findOrFail($id);
+    $NIK_pemilik_kos = $data_kos->NIK_pemilik_kos;
+    
+    $data_kos->delete();
+
+    $kos_cek = Kos::where('NIK_pemilik_kos', $NIK_pemilik_kos)->exists();
+
+    if(!$kos_cek) {
+        $user = User::where('NIK_penduduk', $NIK_pemilik_kos)->where('level', 'pemilik_kos')->first();
+        
+        if($user) {
+            $user->delete();
+            if (Auth::user()->level == 'pemilik_kos'){
+                return redirect()->route('login')->with('warning', 'Akun tidak akan bisa digunakan lagi karena tidak adanya kos yang ada di akun ini, Hubungi Admin lebih lanjut!');
+            }
+            else{
+                return redirect()->route('dataKos')->with('success', 'Kos ' . $data_kos->nama_kos .' berhasil dihapus!')->with('warning', "Akun " .$user->username. " tidak akan bisa digunakan lagi karena tidak adanya kos yang ada di akun ini, Hubungi Admin lebih lanjut!");
+            }
+            }
+           
     }
+}
+    
+
+
+
 
     public function delete_penghuni($id)
     {

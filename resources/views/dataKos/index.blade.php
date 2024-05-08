@@ -4,7 +4,15 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Data Kos</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Kos Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Kos RW 13, {{ $username}}</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Kos RW 13  RT {{ $id_rt}}, {{ $username}}</h3>
+                @elseif(Auth::user()->level == 'pemilik_kos')
+                    <h3>Data Kos {{ $username }}</h3>
+                @endif
                 <p class="text-subtitle text-muted">
                     Rekap data kos
                 </p>
@@ -69,7 +77,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        
+
 
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
@@ -77,10 +85,9 @@
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>
                                         <!-- Tombol Hapus -->
-                                        <a href="#" class="btn btn-sm btn-danger toggle-delete"
-                                            onclick="confirmDelete(event, {{ $kos->id }})">
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
                                             <i class="bi bi-trash-fill"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -107,7 +114,7 @@
                                                     btn-secondary
                                                 @else
                                                     btn-primary
-                                                    
+
                                                 @endif">
                                             <i class="bi bi-exclamation-triangle text-white"></i>
                                         </a>
@@ -148,7 +155,7 @@
                                             <span class="badge bg-danger">Non Aktif</span>
                                         @endif
                                     </td>
-                                    
+
                                 </tr>
                             @endforeach
                         @endif
@@ -169,7 +176,7 @@
     </div>
 
     <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> 
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailModalLabel">Detail Kos</h5>
@@ -232,12 +239,12 @@ function deleteData(id) {
     } else {
         Toastify({
             text: "kata yang dimasukkan salah",
-            duration: 1000, 
+            duration: 1000,
             position: "center",
             style: {
         background: "#ff3300"
     },
-            close: true 
+            close: true
         }).showToast();
     }
 }
@@ -245,16 +252,14 @@ function deleteData(id) {
 </script>
 
     <script>
-
-        
 function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_hp_pemilik, email_pemilik, foto_kos) {
     var modalContent = document.getElementById('modalContent');
     var fotoKosHTML = '';
 
     if (foto_kos) {
         fotoKosHTML = `
-            <div style="text-align: center;">
-                <img src="/storage/${foto_kos}" alt="Foto KOS" style="max-width: 100%; height: auto;">
+            <div style="text-align: center; width: 300px; height: 500px;">
+                <img src="/storage/${foto_kos}" alt="Foto KOS" style="max-width: 100%; max-height: 100%; width: auto; height: auto;">
             </div>
         `;
     } else {
@@ -300,7 +305,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
             });
         });
     </script>
-
+<!-- 
     <script>
         function confirmDelete(event, id) {
             event.preventDefault();
@@ -320,7 +325,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
                 }
             });
         }
-    </script>
+    </script> -->
 
     @if (session('success'))
         <script>
@@ -331,6 +336,18 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
                 showConfirmButton: false,
                 timer: 3000
             });
+        </script>
+    @endif
+
+    // Script untuk menampilkan pesan warning
+    @if(session('warning'))
+    <script>
+        Toastify({
+            text: "{{ session('warning') }}",
+            duration: 8000,
+            position: 'center',
+            backgroundColor: '#FFCC00'
+        }).showToast();
         </script>
     @endif
 @endsection

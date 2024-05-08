@@ -4,7 +4,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Kesehatan</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Kesehatan Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Kesehatan RW 13</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Kesehatan RW 13  RT {{ $id_rt}}</h3>
+                @endif
             <p class="text-subtitle text-muted">
                 Rekap data Kesehatan
             </p>
@@ -78,7 +84,7 @@
                                 <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $p->penduduk->nama }}</td>
-                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->rw->nama_rw }}</td>
                                         <td>{{ $p->tanggal_terdampak }}</td>
                                         <td>
                                         @php
@@ -89,7 +95,7 @@
                                                 $badgeColor = 'success';
                                             } else if ($p->status === 'meninggal') {
                                                 $badgeColor = 'secondary';
-                                            } 
+                                            }
                                         @endphp
                                         <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
                                         </td>
@@ -120,7 +126,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $p->penduduk->nama }}</td>
-                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->rw->nama_rw }}</td>
                                         <td>{{ $p->tanggal_terdampak }}</td>
                                         <td>
                                         @php
@@ -131,7 +137,7 @@
                                                 $badgeColor = 'success';
                                             } else if ($p->status === 'meninggal') {
                                                 $badgeColor = 'secondary';
-                                            } 
+                                            }
                                         @endphp
                                         <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
                                         </td>
@@ -153,7 +159,7 @@
                             </tbody>
                         @endif
 
-                        
+
                         @php
                             $nomor_iterasi_rw = 1;
                         @endphp
@@ -164,7 +170,7 @@
                                     <tr>
                                         <td>{{ $nomor_iterasi_rw }}</td>
                                         <td>{{ $p->penduduk->nama }}</td>
-                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
+                                        <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->rw->nama_rw }}</td>
                                         <td>{{ $p->tanggal_terdampak }}</td>
                                         <td>
                                         @php
@@ -175,7 +181,7 @@
                                                 $badgeColor = 'success';
                                             } else if ($p->status === 'meninggal') {
                                                 $badgeColor = 'secondary';
-                                            } 
+                                            }
                                         @endphp
                                         <span class="badge bg-{{ $badgeColor }}">{{ $p->status }}</span>
                                         </td>
@@ -191,11 +197,11 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </section>
     </div>
-    
+
     @endforeach
 </div>
 @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
@@ -352,12 +358,12 @@ function deleteData(id) {
     } else {
         Toastify({
             text: "kata yang dimasukkan salah",
-            duration: 1000, 
+            duration: 1000,
             position: "center",
             style: {
         background: "#ff3300"
     },
-            close: true 
+            close: true
         }).showToast();
     }
 }
@@ -366,13 +372,13 @@ function deleteData(id) {
 
 <script>
     $(document).ready( function () {
-        
+
         // Loop through each table with an ID starting with "table_"
         $('table[id^="table_"]').each(function() {
             $(this).DataTable(); // Initialize DataTable for the current table
         });
     });
-    
+
     var pressTimer;
 
     $('.toggle-edit').mousedown(function(event) {
@@ -381,16 +387,16 @@ function deleteData(id) {
 
         if (status === 'meninggal') {
             $('#warningModal').modal('show'); // Show warning modal if status is 'meninggal'
-            
+
         } else {
             if (!pressTimer) {
             pressTimer = window.setTimeout(function() {
                 // Handle long press action here
                 $('#confirmModal').modal('show'); // Show modal
-                
+
                 // Set data attribute for the button to retrieve later
                 $('#confirmButton').data('id', button.data('id'));
-                
+
                 pressTimer = null; // Reset timer
             }, 1000); // Waktu long press (dalam milidetik)
 
@@ -398,7 +404,7 @@ function deleteData(id) {
     $('.toggle-edit').click(function(event) {
         var button = $(this);
         var id = button.data('id'); // Get the ID of the health record
-        
+
         // Send an AJAX request without long_press parameter
         $.get('/toggle-status-kesehatan/' + id, function(data) {
             // Optional: Perform actions after the request is completed
@@ -424,11 +430,11 @@ function deleteData(id) {
         });
         console.log("Button clicked");
     });
-    
+
     // Function to handle confirm button click
     $('#confirmButton').click(function(event) {
         var id = $(this).data('id'); // Get the ID of the health record
-        
+
         // Send AJAX request with long_press parameter
         $.get('/toggle-status-kesehatan/' + id + '?long_press=true', function(data) {
             // Redirect to a specific route with success message
@@ -443,23 +449,23 @@ function deleteData(id) {
             showConfirmButton: false,
             timer: 800 // Adjust the time as needed
         });
-            
+
         });
-        
+
         with('success', 'berhasil mengganti status!');
         $('#confirmModal').modal('hide'); // Hide modal
     });
         }
-            
+
         }
-        
+
     }).mouseup(function() {
         // Hapus timer saat tombol dilepas
         clearTimeout(pressTimer);
         pressTimer = null; // Reset timer
     });
 
-    
+
 
     // Function to handle cancel button click
     $('#cancelButton').click(function(event) {
@@ -475,9 +481,9 @@ function deleteData(id) {
 <script>
     // Script jQuery
     $(document).ready(function() {
-        
+
          // Fungsi untuk menyimpan ID tab aktif ke dalam localStorage
-         
+
     function simpanTabAktif(tabId) {
         localStorage.setItem('tabAktif', tabId);
     }
@@ -517,8 +523,8 @@ function deleteData(id) {
             $('.choices').choices();
         });
 
-        
-    
+
+
 </script>
 
 

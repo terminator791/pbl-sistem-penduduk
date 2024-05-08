@@ -10,16 +10,22 @@ use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File; // Import Facade File
 
 class PendudukController extends Controller
 {
     public function index(Request $request)
     {
+        $NIK_user = Auth::user()->NIK_penduduk;
+
+        $roles = penduduk::where('NIK', $NIK_user)->first();
+        // dd($roles);
+        
         $menu = $request->query('menu', 'data_warga');
         $penduduk = penduduk::with(['pekerjaan'])->get();
 
-        return view('home', compact('menu', 'penduduk'));
+        return view('home', compact('menu', 'penduduk', 'roles'));
     }
 
     public function create()

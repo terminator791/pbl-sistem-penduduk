@@ -30,12 +30,14 @@ public function fetchAll()
 {
     // 1. Ambil NIK pengguna yang saat ini login
     $NIK = Auth::user()->NIK_penduduk;
-    
+
     // 2. Temukan id_rw dari tabel penduduk berdasarkan NIK pengguna
     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
 
     // 3. Temukan id_rt dari tabel penduduk berdasarkan NIK pengguna
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+    $penduduk = Penduduk::where('NIK', $NIK)->first();
 
     // 4. Ambil data dari API
     $response = Http::withHeaders([
@@ -45,22 +47,22 @@ public function fetchAll()
     // 5. Periksa apakah request berhasil
     if ($response->successful()) {
         $data = $response->json();
-        
+
         // 6. Tentukan level pengguna saat ini
         $userLevel = Auth::user()->level;
-        
+
           // 5. Filter data sesuai kondisi yang diinginkan
           $filteredData_rt = collect($data)->filter(function ($item) use ($id_rt) {
             return $item['id_rt'] == $id_rt && !in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
         // 5. Filter data sesuai kondisi yang diinginkan
-        $filteredData_rw = collect($data)->filter(function ($item) use ($id_rw) {
-            return $item['id_rw'] == $id_rw && !in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        $filteredData_rw = collect($data)->filter(function ($item) use ($penduduk) {
+            return $item['id_rw'] == $penduduk->rw->nama_rw && !in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
         $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
-            
+
             return  !in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
@@ -162,7 +164,7 @@ public function fetchAll()
             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
         ])->get("http://localhost:9000/v1/wargaAsli/$id");
 
-        
+
         // Periksa status respons sebelum mengakses data JSON
         if ($response->successful()) {
             $data = $response->json();
