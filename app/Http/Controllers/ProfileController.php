@@ -27,19 +27,34 @@ class ProfileController extends Controller
         $username = Auth::user()->username;
         $nama = penduduk::where('NIK', $NIK)->value('nama');
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+        $id_rw = penduduk::where('NIK', $NIK)->value('id_rw');
         $no_hp = penduduk::where('NIK', $NIK)->value('no_hp');
         $email = penduduk::where('NIK', $NIK)->value('email');
         $jabatan = Auth::user()->level;
 
         $list_RT = RT::all();
-        return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan']));
+        return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'id_rw']));
     }
+    
      public function edit(Request $request): View
     {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
     }
+
+    public function toggle_tanggal(Request $request, $id)
+{
+    // Temukan data ketua RT berdasarkan ID
+    $ketua_rt = penjabatan_RT::where('id_penjabatan', $id)->first();
+    // dd($ketua_rt);
+    $ketua_rt->tanggal_diberhentikan = $request->input('tanggal_diberhentikan');
+    
+    $ketua_rt->update();
+    // Redirect dengan pesan sukses
+    return redirect()->route('jabatan')->with('success', 'Berhasil mengganti status!');
+}
+
 
     public function create(){
         $NIK = Auth::user()->NIK_penduduk;
@@ -150,7 +165,10 @@ class ProfileController extends Controller
     if (Auth::user()->level == 'RT') {
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
-        $list_ketua = penjabatan_RT::where('id_rt', $id_rt)->orderBy('tanggal_dilantik', 'desc')->get();
+        $list_ketua = penjabatan_RT::where('id_rt', $id_rt)
+        ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
+        ->orderBy('tanggal_dilantik', 'desc')
+        ->get();
         $nama_ketua = DB::table('penduduk')
             ->whereExists(function ($query) use ($id_rt) {
                 $query->select()
@@ -161,7 +179,10 @@ class ProfileController extends Controller
             ->get();
     } else {
         $id_rt = RT::pluck('id'); // Mengambil semua id RT
-        $list_ketua = penjabatan_RT::whereIn('id_rt', $id_rt)->orderBy('tanggal_dilantik', 'desc')->get();
+        $list_ketua = penjabatan_RT::whereIn('id_rt', $id_rt)
+        ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
+        ->orderBy('tanggal_dilantik', 'desc')
+        ->get();
         $nama_ketua = DB::table('penduduk')
             ->whereExists(function ($query) {
                 $query->select()
@@ -224,6 +245,49 @@ public function check_password(Request $request){
     }
     
 }
+
+public function delete_ketua($id)
+{
+    $ketua_rt = penjabatan_RT::where('id_penjabatan', $id);
+    $ketua_rt->delete();
+
+    return redirect()->route('jabatan')->with('success', 'Deleted successfully!');
+}
+
+public function kelola_akun()
+{
+
+    $users = User::all();
+    $uniqueLevels = $users->pluck('level')->unique();
+
+    $list_users_admin = User::byLevel('admin')->get();
+    $list_users_RT = User::byLevel('RT')->get();
+    $list_users_RW = User::byLevel('RW')->get();
+    $list_users_pemilik_kos = User::byLevel('pemilik_kos')->get();
+
+    return view('profile.kelola_akun', compact('users', 'uniqueLevels', 'list_users_admin', 'list_users_RT', 'list_users_RW', 'list_users_pemilik_kos'));
+}
+
+public function toggle_status(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    // Mengubah status menjadi kebalikan dari nilai sebelumnya
+    $user->status_akun = !$user->status_akun;
+
+    $user->update();
+
+    return redirect()->route('profile.kelola_akun')->with('success', 'berhasil mengganti status!');
+}
+
+public function delete_akun($id)
+{
+    $user = User::findOrFail($id);
+    $user->delete();
+
+    return redirect()->route('profile.kelola_akun')->with('success', 'Deleted successfully!');
+}
+
 
 
 

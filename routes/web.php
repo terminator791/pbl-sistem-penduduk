@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/ganti_sandi_profile', [ProfileController::class, 'ganti_sandi_profile'])->name('profile.ganti_sandi_profile');
     Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
+    Route::get('/kelola_akun', [ProfileController::class, 'kelola_akun'])->name('profile.kelola_akun');
+    Route::get('/toggle-status-user/{id}', [ProfileController::class, 'toggle_status'])->name('profile.toggle_status');
+    Route::get('/delete_akun/{id}', [ProfileController::class, 'delete_akun'])->name('profile.delete_akun');
 
     Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -117,6 +120,9 @@ Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'd
     //penjabatan rt
     Route::middleware('LevelMiddleware')->group(function (){
         Route::get('/daftar-rt', [ProfileController::class, 'tampil'])->name('jabatan');
+        Route::get('/toggle_tanggal_RT/{id}', [ProfileController::class, 'toggle_tanggal'])->name('toggle_tanggal_RT');
+        Route::get('/delete_ketua/{id}', [ProfileController::class, 'delete_ketua'])->name('delete_ketua');
+
     });
 });
 

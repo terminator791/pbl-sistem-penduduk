@@ -119,7 +119,7 @@
                                             <i class="bi bi-exclamation-triangle text-white"></i>
                                         </a>
                                         <!-- Tombol Toggle Edit -->
-                                        <a href="{{ route('dataKos.edit', $kos->id) }}"
+                                        <a href="{{ route('profile.toggle_status', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>
@@ -305,27 +305,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
             });
         });
     </script>
-<!-- 
-    <script>
-        function confirmDelete(event, id) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: "Apakah Anda yakin ingin menghapus data ini?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Hapus',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect to the delete route with the correct id
-                    window.location.href = "{{ url('/dataKos/hapus-kos') }}/" + id;
-                }
-            });
-        }
-    </script> -->
+
 
     @if (session('success'))
         <script>

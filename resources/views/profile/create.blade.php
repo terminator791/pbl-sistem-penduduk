@@ -74,9 +74,12 @@
                                         <div class="col-md-6 col-12">
                                             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                             <div class="form-group mandatory">
-                                                    <label for="rt" class="form-label">RT</label>
-                                                    <input type="text" id="id_rt" class="form-control"
-                                                    placeholder="Nama" value="{{ $id_rt}}" name="id_rt" data-parsley-required="true" disabled/>
+                                                <label for="rt" class="form-label">RT</label>
+                                                <select name="id_rt" id="id_rt" class="form-select choices">
+                                                    @foreach ($list_RT as $rt)
+                                                        <option value="{{ $rt->id }}">{{ $rt->nama_rt }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                                 @endif
                                         </div>
