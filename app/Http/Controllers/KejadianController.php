@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\jenis_kejadian;
 use App\Models\kejadian;
-use App\Models\penduduk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class KejadianController extends Controller
 {
@@ -23,9 +20,6 @@ class KejadianController extends Controller
         return view('kejadian.index', compact('kejadian', 'list_jenis_kejadian', 'list_penduduk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -34,9 +28,6 @@ class KejadianController extends Controller
         return view('kejadian.tambah', compact('list_jenis_kejadian', 'list_penduduk'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Create a new kejadian instance
