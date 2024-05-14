@@ -22,7 +22,7 @@ class dataKosController extends Controller
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
 
         $userLevel = Auth::user()->level;
-        
+
         $list_penduduk_admin = Penduduk::all();
         $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
         $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
@@ -49,11 +49,11 @@ class dataKosController extends Controller
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
     $username = Auth::user()->username;
-    
+
     $data_kos_pemilik = kos::where('NIK_pemilik_kos', $NIK)->get();
     $data_kos_RT = kos::where('id_rt', $id_rt)->get();
     $data_kos = kos::all();
-    
+
     $jumlah_penghuni = []; // array untuk menyimpan jumlah penghuni untuk setiap kos
     foreach ($data_kos as $kos) {
         // Hitung jumlah penghuni untuk setiap kos
@@ -67,7 +67,7 @@ public function penghuni($id)
 {
     // Ambil data kos berdasarkan ID
     $kos = Kos::find($id);
-    
+
     // Ambil data penduduk berdasarkan id_kos yang diberikan
     $penghuni = detail_pendatang::where('id_kos', $id)->with('penduduk')->get();
 
@@ -84,7 +84,7 @@ public function updatePenghuni(Request $request, $id)
     // Ambil data penduduk berdasarkan id_ yang diberikan
     $penghuni = detail_pendatang::where('id', $id)->with('penduduk')->first();
 
-    
+
     if($request->has('deskripsi')){
         $penghuni->deskripsi = $request->input('deskripsi');
     }elseif($request->has('tanggal_keluar')){
@@ -93,10 +93,10 @@ public function updatePenghuni(Request $request, $id)
         $penghuni->tanggal_masuk = $request->input('tanggal_masuk');
     }
 
-    
+
     $penghuni->save();
 
-    
+
 
     return redirect()->back()->with('success', 'Data penghuni berhasil diperbarui.');
 }
@@ -110,7 +110,7 @@ public function updatePenghuni(Request $request, $id)
         $pemilik_kos_asli = penduduk::where('NIK', $pemilik_kos_asli_NIK)->first();
 
         $NIK_pemilik_kos = $request->input('NIK_pemilik_kos');
-        
+
 
         $data_kos = new kos();
         $data_kos->id_rt = $request->input('id_rt');
@@ -182,7 +182,7 @@ public function updatePenghuni(Request $request, $id)
         } else {
             $pemilik_kos_asli = false; // Tandai bahwa pemilik kos bukan warga asli
         }
-        
+
         $list_RT = RT::all();
         return view('dataKos.update', compact('data_kos', 'list_RT', 'list_penduduk', 'pemilik_kos_asli', 'list_NIK_penduduk'));
     }
@@ -229,13 +229,13 @@ public function updatePenghuni(Request $request, $id)
 }
 
 
-    
+
 
     public function print()
     {
         // Mengambil semua data kos
         $data_kos = kos::all();
-        
+
         // Kembalikan view print dengan data kos
         return view('dataKos.print', compact('data_kos'));
     }
@@ -243,17 +243,17 @@ public function updatePenghuni(Request $request, $id)
     // Delete
     public function delete($id)
 {
-    
+
     $data_kos = Kos::findOrFail($id);
     $NIK_pemilik_kos = $data_kos->NIK_pemilik_kos;
-    
+
     $data_kos->delete();
 
     $kos_cek = Kos::where('NIK_pemilik_kos', $NIK_pemilik_kos)->exists();
 
     if(!$kos_cek) {
         $user = User::where('NIK_penduduk', $NIK_pemilik_kos)->where('level', 'pemilik_kos')->first();
-        
+
         if($user) {
             $user->delete();
             if (Auth::user()->level == 'pemilik_kos'){
@@ -263,10 +263,10 @@ public function updatePenghuni(Request $request, $id)
                 return redirect()->route('dataKos')->with('success', 'Kos ' . $data_kos->nama_kos .' berhasil dihapus!')->with('warning', "Akun " .$user->username. " tidak akan bisa digunakan lagi karena tidak adanya kos yang ada di akun ini, Hubungi Admin lebih lanjut!");
             }
             }
-           
+
     }
 }
-    
+
 
 
 
@@ -278,5 +278,5 @@ public function updatePenghuni(Request $request, $id)
         return redirect()->route('dataKos')->with('success', 'Deleted successfully!');
     }
 
-    
+
 }

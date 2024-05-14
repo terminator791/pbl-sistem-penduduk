@@ -96,6 +96,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/kejadian/{jenis_kejadian}/print', [KejadianController::class, 'print'])->name('kejadian.print');
     Route::get('/daftar_kejadian', [KejadianController::class, 'create']);
     Route::post('/tambah_kejadian', [KejadianController::class, 'store'])->name("kejadian.add");
+    Route::get('/toggle-status-kejadian/{id}', [KejadianController::class, 'toggle_status'])->name('kejadian.toggle_status');
+
+
+
 
 // pendidikan
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
