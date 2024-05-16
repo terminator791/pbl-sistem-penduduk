@@ -119,7 +119,7 @@
                                             <i class="bi bi-exclamation-triangle text-white"></i>
                                         </a>
                                         <!-- Tombol Toggle Edit -->
-                                        <a href="{{ route('profile.toggle_status', $kos->id) }}"
+                                        <a href="{{ route('dataKos.edit', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>

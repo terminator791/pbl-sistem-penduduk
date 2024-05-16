@@ -188,7 +188,6 @@ public function fetchOne($id)
             $detail_pendatang->id_kos = $request->input('id_kos');
             $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
             $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-            $detail_pendatang->id_kamar = 1;
             $detail_pendatang->save();
         }
 
@@ -256,7 +255,6 @@ public function fetchOne($id)
                 $detail_pendatang->id_kos = $request->input('id_kos');
                 $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
                 $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-                $detail_pendatang->id_kamar = 1;
                 
                 $detail_pendatang->save();
             }
@@ -264,7 +262,6 @@ public function fetchOne($id)
             $detail_pendatang->id_kos = $request->input('id_kos');
             $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
             $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-            $detail_pendatang->id_kamar = 1;
             $detail_pendatang->update();
         }
         

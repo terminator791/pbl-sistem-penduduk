@@ -72,6 +72,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-12">
+                                            <div class="form-group mandatory">
+                                                <label for="level" class="form-label">Jabatan</label>
+                                                <select id="level" class="form-control" name="level">
+                                                    @if(Auth::user()->level == 'admin')
+                                                    <option>RW</option>
+                                                    @endif
+                                                    @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
+                                                    <option>RT</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12" id="rtSelectWrapper">
                                             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
                                             <div class="form-group mandatory">
                                                 <label for="rt" class="form-label">RT</label>
@@ -83,18 +97,13 @@
                                             </div>
                                                 @endif
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="level" class="form-label">Jabatan</label>
-                                            <select id="level" class="form-control" name="level">
-                                                @if(Auth::user()->level == 'admin')
-                                                <option>RW</option>
-                                                @endif
-                                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
-                                                <option>RT</option>
-                                                @endif
-                                            </select>
-                                        </div>
+
+                                        <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                            <label for="foto_ketua" class="form-label"><strong>Foto Ketua</strong></label>
+                                            <input type="file" id="foto_ketua" name="foto_ketua" class="basic-filepond form-control">
+                                    </div>
+                                </div>
 
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit"
@@ -118,5 +127,51 @@
             var nik = selectedOption.value; // Get the value of the selected option
             document.getElementById('NIK_penduduk').value = nik; // Set the value of NIK input field
         });
+
+
+        // Definisikan fungsi untuk menangani visibilitas dan disable elemen RT
+        function handleRTVisibilityAndDisable() {
+            var selectedOption = document.getElementById('level').value;
+            var rtSelectWrapper = document.getElementById('rtSelectWrapper'); // Ambil elemen wrapper
+            var rtSelect = document.getElementById('id_rt'); // Ambil elemen RT select
+
+            if (selectedOption === 'RW') { // Jika RW dipilih
+                rtSelectWrapper.style.display = 'none'; // Sembunyikan elemen RT
+                rtSelect.disabled = true; // Disable elemen RT
+            } else { // Jika selain RW dipilih
+                rtSelectWrapper.style.display = 'block'; // Tampilkan kembali elemen RT
+                rtSelect.disabled = false; // Enable elemen RT
+            }
+        }
+
+        // Panggil fungsi saat halaman pertama kali dimuat
+        handleRTVisibilityAndDisable();
+
+        // Tambahkan event listener pada dropdown level/jabatan
+        document.getElementById('level').addEventListener('change', function() {
+            handleRTVisibilityAndDisable(); // Panggil fungsi saat ada perubahan pada dropdown
+        });
     </script>
+
+@if(session('success'))
+    <script>
+        Toastify({
+            text: "{{ session('success') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'green'
+        }).showToast();
+        </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        Toastify({
+            text: "{{ session('error') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'red'
+        }).showToast();
+        </script>
+    @endif
 @endsection

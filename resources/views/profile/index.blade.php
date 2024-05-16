@@ -99,6 +99,38 @@
                                             </div>
                                                 @endif
                                         </div>
+                                    </div>
+                                    <div class="col-md-12 col-12">
+                                            @if(Auth::user()->level == 'RT')
+                                        <div class="form-group mandatory">
+                                            <label for="foto_ketua_rt" class="form-label"><strong>foto Ketua RT</strong></label>
+                                            <input type="file" id="foto_ketua_rt" name="foto_ketua_rt" class="basic-filepond form-control">
+                                        </div>
+                                        <!-- <div>
+                                            <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RT saat ini:</strong></label><br>
+                                            @if ($data_kos->foto_kos)
+                                                <img src="{{ asset('storage/' . $data_kos->foto_kos) }}" alt="Foto Ketua RT">
+                                            @else
+                                                <span>Tidak ada foto KOS tersimpan.</span>
+                                            @endif
+                                        </div> -->
+                                                @endif
+
+                                                @if(Auth::user()->level == 'RW')
+                                        <div class="form-group mandatory">
+                                            <label for="foto_ketua_rw" class="form-label"><strong>foto Ketua RW</strong></label>
+                                            <input type="file" id="foto_ketua_rw" name="foto_ketua_rw" class="basic-filepond form-control">
+                                        </div>
+                                        <div>
+                                            <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RW saat ini:</strong></label><br>
+                                            @if ($ketua_rw->foto_ketua_rw)
+                                                <img src="{{ asset('storage/' . $ketua_rw->foto_ketua_rw) }}" alt="Foto Ketua RT">
+                                            @else
+                                                <span>Tidak ada foto tersimpan.</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @endif
 
 
                                         <div class="col-12 d-flex justify-content-end">

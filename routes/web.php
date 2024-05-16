@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
     Route::get('/kelola_akun', [ProfileController::class, 'kelola_akun'])->name('profile.kelola_akun');
     Route::get('/toggle-status-user/{id}', [ProfileController::class, 'toggle_status'])->name('profile.toggle_status');
+    Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
     Route::get('/delete_akun/{id}', [ProfileController::class, 'delete_akun'])->name('profile.delete_akun');
 
     Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
@@ -94,6 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/kejadian', [KejadianController::class, 'index'])->name('kejadian');
     Route::middleware('LevelMiddleware')->group(function (){
         Route::post('/kejadian/store-kejadian', [KejadianController::class, 'store'])->name("kejadian.store");
+        Route::get('/toggle-status-kejadian/{id}', [KejadianController::class, 'toggle_status'])->name('kejadian.toggle_status');
         Route::get('/kejadian/hapus-kejadian/{id}', [KejadianController::class, 'delete'])->name('kejadian.delete');
     });
     Route::get('/kejadian/{jenis_kejadian}/print', [KejadianController::class, 'print'])->name('kejadian.print');
@@ -105,6 +107,7 @@ Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidi
 Route::get('/pendidikan/tambah-pendidikan/{id}', [PendidikanController::class, 'create'])->name('pendidikan.create');
 Route::post('/pendidikan/store-pendidikan/{id}', [PendidikanController::class, 'store'])->name('pendidikan.store');
 Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'delete'])->name('pendidikan.delete');
+Route::get('/pendidikan/{pendidikan}/print', [PendidikanController::class, 'print'])->name('pendidikan.print');
 
 // Bantuan
     Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');

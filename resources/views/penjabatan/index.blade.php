@@ -32,7 +32,7 @@
                 <li class="nav-item">
                     <a class="nav-link @if($loop->first) active @endif" id="{{ $rt }}-tab" data-bs-toggle="tab" href="#{{ $rt }}" role="tab" aria-controls="{{ $rt }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $rt }}">
                         <i class="bi bi-building-fill"></i>
-                        <span class="fw-@if($loop->first)bold @endif">{{ $rt }}</span>
+                        <span class="fw-@if($loop->first)bold @endif">RT {{ $rt }}</span>
                     </a>
                 </li>
             @endforeach
@@ -74,9 +74,9 @@
                                                             <td>{{ $counter++ }}</td>
                                                             <td>{{$ketua->NIK_ketua_rt}}</td>
                                                             <td>{{$data_nama->nama }}</td>
-                                                            <td>{{$ketua->tanggal_dilantik}}</td>
-                                                            <td>{{ $ketua->tanggal_diberhentikan ? $ketua->tanggal_diberhentikan : 'Petahana' }}</td>
-                                                            <td style="width: 175px; height: 200px; text-align: center;">
+                                                            <td class="edit-tanggal-dilantik" data-id="{{ $ketua->id }}" tanggalDilantik-data="{{ $ketua->tanggal_dilantik }}"> {{$ketua->tanggal_dilantik}}</td>
+                                                            <td @if($ketua->tanggal_diberhentikan !== null) class="edit-tanggal-Diberhentikan" data-id="{{ $ketua->id }}" tanggalDiberhentikan-data="{{ $ketua->tanggal_diberhentikan }}" @endif>{{ $ketua->tanggal_diberhentikan ? $ketua->tanggal_diberhentikan : 'Petahana' }}</td>
+                                                            <td style="width: 175px; height: 200px; text-align: center;" class="edit-foto" data-id="{{ $ketua->id }}" foto-data="{{ $ketua->foto_ketua_rt }}">
                                                                 @if($ketua->foto_ketua_rt)
                                                                     <img src="/storage/{{ $ketua->foto_ketua_rt }}" alt="Foto Ketua RT" style="max-width: 100%; max-height: 100%; width: 100%; height: 100%;">
                                                                 @else
@@ -150,14 +150,86 @@
     </div>
 </div>
 
+
+<!-- Edit Tanggal Masuk Modal -->
+<div class="modal fade" id="editTanggalDilantikModal" tabindex="-1" aria-labelledby="editTanggalDilantikModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTanggalDilantikModalLabel">Edit Tanggal Dilantik</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditTanggalDilantik">
+                    <div class="mb-3">
+                        <label for="tanggalDilantikInput" class="form-label">Tanggal Dilantik</label>
+                        <input type="date" class="form-control" id="tanggalDilantikInput" name="tanggal_dilantik">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="saveTanggalDilantikBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Tanggal Masuk Modal -->
+<div class="modal fade" id="editTanggalDiberhentikanModal" tabindex="-1" aria-labelledby="editTanggalDiberhentikanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTanggalDiberhentikanModalLabel">Edit Tanggal Diberhentikan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditTanggalDiberhentikan">
+                    <div class="mb-3">
+                        <label for="tanggalDiberhentikanInput" class="form-label">Tanggal Diberhentikan</label>
+                        <input type="date" class="form-control" id="tanggalDiberhentikanInput" name="tanggal_diberhentikan">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="saveTanggalDiberhentikanBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editFotoModal" tabindex="-1" aria-labelledby="editFotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFotoModalLabel">Edit Foto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditFoto" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="FotoInput" class="form-label"><strong>Foto Ketua</strong></label>
+                        <input type="file" id="FotoInput" name="foto_ketua" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="saveFotoBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 
 @section('scripts')
 
 <script>
-
-$(document).ready(function() {
+    $(document).ready(function() {
         // Event handler untuk tombol toggle-delete
         $('.toggle-delete').click(function() {
             // Ambil id dari data yang akan dihapus
@@ -167,12 +239,14 @@ $(document).ready(function() {
             // Set URL hapus sesuai dengan id yang dipilih
             $('#deleteConfirmedBtn').attr('onclick', 'deleteData('+id+')');
         });
+
+        
     });
 
 
 // Function untuk menghapus data
 function deleteData(id) {
-    // Ambil input teks yang dimasukkan pengguna
+    // Ambil input teks yang  pengguna
     var confirmInput = document.getElementById('confirmInput').value.trim();
 
     // Periksa apakah input teks sesuai dengan yang diharapkan
@@ -207,14 +281,123 @@ $(document).ready(function() {
     // Function untuk memberhanetikan ketua rt
     function toggle_status(id) {
     var confirmInput = document.getElementById('confirmTanggal').value;
+    // Periksa apakah input tanggal diberhentikan kosong
+    if (confirmInput === "") {
+        // Tampilkan toast
+        showToast("Tanggal harus diisi!");
+        // Hentikan pengiriman form
+        return;
+    }
     // Lakukan operasi penyimpanan tanggal masuk ke server (misalnya melalui Ajax)
     window.location.href = "{{ url('toggle_tanggal_RT') }}/" + id + "?tanggal_diberhentikan=" + confirmInput;
-    
     $('#ConfirmationModal').modal('hide');
 }
 
 
+// Event handler untuk kolom tanggal yang di-klik
+$('.edit-tanggal-dilantik').click(function() {
+            var id = $(this).data('id');
+            var tanggalDilantik = $(this).attr('tanggalDilantik-data'); // Ambil deskripsi dari atribut deskripsi-data
+            $('#tanggalDilantikInput').val(tanggalDilantik); // Set nilai deskripsi ke dalam textarea
+            $('#editTanggalDilantikModal').modal('show');
+            // Set URL edit sesuai dengan id yang dipilih
+            $('#saveTanggalDilantikBtn').attr('onclick', 'saveTanggalDilantik('+id+')');
+        });
+
+// Function untuk menyimpan tanggal dilantik yang diubah
+function saveTanggalDilantik(id) {
+    var tanggalDilantik = $('#tanggalDilantikInput').val();
+    // Periksa apakah input tanggal dilantik kosong
+    if (tanggalDilantik === "") {
+        showToast("Tanggal harus diisi!");
+        // Hentikan pengiriman form
+        return;
+    }
+    // Lakukan operasi penyimpanan tanggal masuk ke server (misalnya melalui Ajax)
+    window.location.href = "{{ url('/update-data-ketua') }}/" + id + "?tanggal_dilantik=" + tanggalDilantik;
+    $('#editTanggalDilantikModal').modal('hide');
+}
+
+
+
+// Event handler untuk kolom tanggal yang di-klik
+$('.edit-tanggal-Diberhentikan').click(function() {
+            var id = $(this).data('id');
+            var tanggalDiberhentikan = $(this).attr('tanggalDiberhentikan-data'); // Ambil deskripsi dari atribut deskripsi-data
+            $('#tanggalDiberhentikanInput').val(tanggalDiberhentikan); // Set nilai deskripsi ke dalam textarea
+            $('#editTanggalDiberhentikanModal').modal('show');
+            // Set URL edit sesuai dengan id yang dipilih
+            $('#saveTanggalDiberhentikanBtn').attr('onclick', 'saveTanggalDiberhentikan('+id+')');
+        });
+
+// Function untuk menyimpan tanggal diberhentikan yang diubah
+function saveTanggalDiberhentikan(id) {
+    var tanggalDiberhentikan = $('#tanggalDiberhentikanInput').val();
+    // Periksa apakah input tanggal diberhentikan kosong
+    if (tanggalDiberhentikan === "") {
+        showToast("Tanggal harus diisi!");
+        // Hentikan pengiriman form
+        return;
+    }
+    // Lakukan operasi penyimpanan tanggal masuk ke server (misalnya melalui Ajax)
+    window.location.href = "{{ url('/update-data-ketua') }}/" + id + "?tanggal_diberhentikan=" + tanggalDiberhentikan;
+    $('#editTanggalDiberhentikanModal').modal('hide');
+}
+
+$(document).ready(function() {
+    $('.edit-foto').click(function() {
+        var id = $(this).data('id');
+        $('#editFotoModal').data('id', id).modal('show');
+    });
+
+    $('#saveFotoBtn').click(function() {
+        saveFoto($('#editFotoModal').data('id'));
+    });
+});
+
+function saveFoto(id) {
+    var fotoInput = document.getElementById('FotoInput');
+    var file = fotoInput.files[0];
+
+    compressImage(file, 0.6, function(compressedDataUrl) {
+        localStorage.setItem('compressedFoto', compressedDataUrl);
+        window.location.href = "{{ url('/update-data-ketua') }}/" + id;
+        $('#editFotoModal').modal('hide');
+    });
+}
+
+function compressImage(file, quality, callback) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            callback(dataUrl);
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+
+
+function showToast(message) {
+        Toastify({
+            text: message,
+            duration: 2000, // Duration in milliseconds (3 seconds in this example)
+            position:"center",
+            close: true // Show close button or not
+        }).showToast();
+    }
+
+
 </script>
+
 
 @if (session('success'))
         <script>
@@ -223,6 +406,7 @@ $(document).ready(function() {
                 text: '{{ session('success') }}',
                 icon: 'success',
                 showConfirmButton: false,
+                
                 timer: 3000
             });
         </script>

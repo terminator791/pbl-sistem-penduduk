@@ -52,7 +52,7 @@
                     <h5 class="card-title mb-0">
                         Rekap Data - {{ $pendidik->jenis_pendidikan }}
                     </h5>
-                    <a href="{{ route('kesehatan.print', $pendidik) }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('pendidikan.print', $pendidik) }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-print"></i>
                         Cetak - {{ $pendidik->jenis_pendidikan }}
                     </a>

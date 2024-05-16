@@ -64,6 +64,15 @@ class PendidikanController extends Controller
         }
     }
 
+    public function print(pendidikan $penyakit)
+    {
+        // Ambil data kesehatan berdasarkan kategori penyakit
+        $pendidikan = penduduk::where('id_pendidikan', $penyakit->id)->get();
+
+        // Kembalikan view print dengan data kesehatan
+        return view('pendidikan.print', compact('pendidikan', 'pendidikan'));
+    }
+
     public function delete(Request $request, $id)
     {
         $pendidikan = penduduk::findOrFail($id);

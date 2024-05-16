@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_rw');
             $table->string('ketua_rw');
+            $table->string('foto_ketua_rw')->nullable();
             $table->timestamps();
         });
     }

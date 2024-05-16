@@ -70,14 +70,12 @@
                                             </td>
                                             <td>
                                                 @if($user->level != 'admin')
-                                                <a href="{{ route('profile.toggle_status', $user->id) }}"
-                                                    class="btn btn-sm
-                                                            @if($user->status_akun)
-                                                                btn-secondary
-                                                            @else
-                                                                btn-primary
-
-                                                            @endif">
+                                                <a href="#" onclick="confirmDelete(event, {{ $user->id }})" class="btn btn-sm
+                                                    @if($user->status_akun)
+                                                        btn-secondary
+                                                    @else
+                                                        btn-primary
+                                                    @endif">
                                                         <i class="bi bi-exclamation-triangle text-white"></i>
                                                 </a>
                                                 @endif
@@ -169,6 +167,27 @@ function deleteData(id) {
         }).showToast();
     }
 }
+
+// Fungsi untuk konfirmasi hapus
+function confirmDelete(event, id) {
+    event.preventDefault(); // Menghentikan aksi default dari link
+    Swal.fire({
+        title: 'Konfirmasi Status',
+        text: "Apakah Anda yakin ingin Mengubah status data ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Konfirmasi',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Redirect ke route delete dengan id yang sesuai
+            window.location.href = "{{ url('/toggle-status-user') }}/" + id;
+        }
+    });
+}
+
 
 </script>
 
