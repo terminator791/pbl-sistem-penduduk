@@ -101,6 +101,8 @@ public function fetchAll()
             })
             ->rawColumns(['action']) // Menggunakan rawColumns untuk mengizinkan HTML di dalam kolom aksi
             ->make(true);
+
+        
     } else {
         // 9. Jika request gagal, kembalikan pesan error
         return response()->json(['error' => 'Failed to fetch data from API'], 500);

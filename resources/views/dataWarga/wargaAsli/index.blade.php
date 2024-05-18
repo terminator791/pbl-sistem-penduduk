@@ -143,11 +143,39 @@
         ],
             "initComplete": function(settings, json) {
                 i = this.api().page.info().start; // Mengambil nomor halaman saat ini
+                
             }
+            
 
         });
 
     });
+
+    // Menampilkan pesan jika tidak ada data yang tersedia
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        var table = $('#table3').DataTable();
+        var data = table.rows().data();
+        
+        if (xhr.status !== 200) {
+        // Tampilkan pesan error di konsol
+        Swal.fire({
+            title: 'Info',
+            text: xhr.responseJSON.message,
+            icon: 'info',
+            showConfirmButton: true,
+            
+        });
+    } else if (xhr.responseJSON && xhr.responseJSON.message && data.length === 0) {
+        Swal.fire({
+            title: 'Info',
+            text: "Tidak ada Data",
+            icon: 'info',
+            showConfirmButton: false,
+        });
+    }
+    });
+
+    
 
 function showWargaDetail(id) {
     fetch(`/api/v1/wargaPendatang/fetchOne/${id}`)

@@ -40,6 +40,8 @@ class KesehatanController extends Controller
 
     $list_penyakit = jenis_penyakit::all();
 
+    
+
     return view('kesehatan.index', compact( 'list_penyakit', 'list_penduduk', 'id_rt', 'kesehatan', 'id_rw'));
 }
 

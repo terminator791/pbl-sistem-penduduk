@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -383,6 +384,34 @@ public function delete_akun($id)
 
     return redirect()->route('profile.kelola_akun')->with('success', 'Deleted successfully!');
 }
+
+public function updateFotoKetua(Request $request, $id)
+{
+    $request->validate([
+        'foto_ketua' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $ketua = penjabatan_RT::find($id);
+
+    if ($request->hasFile('foto_ketua')) {
+        $file = $request->file('foto_ketua');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('foto_ketua_rt', $filename, 'public');
+
+        // Delete old photo if exists
+        if ($ketua->foto_ketua_rt) {
+            Storage::disk('public')->delete($ketua->foto_ketua_rt);
+        }
+
+        $ketua->foto_ketua_rt = $path;
+        $ketua->save();
+    }
+
+    // Set a session flash message
+    session()->flash('message', 'Foto berhasil diubah');
+    return response()->json(['message' => 'Foto berhasil diubah'], 200);
+}
+
 
 
 

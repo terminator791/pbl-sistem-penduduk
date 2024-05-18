@@ -125,6 +125,8 @@ Route::get('/pendidikan/{pendidikan}/print', [PendidikanController::class, 'prin
         Route::get('/daftar-rt', [ProfileController::class, 'tampil'])->name('jabatan');
         Route::get('/toggle_tanggal_RT/{id}', [ProfileController::class, 'toggle_tanggal'])->name('toggle_tanggal_RT');
         Route::get('/delete_ketua/{id}', [ProfileController::class, 'delete_ketua'])->name('delete_ketua');
+        Route::post('/update-foto-ketua/{id}', [ProfileController::class, 'updateFotoKetua'])->name('update-foto-ketua');
+
 
     });
 });

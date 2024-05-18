@@ -1,6 +1,7 @@
 @extends('layouts.default-ui')
 
 @section('heading')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
@@ -33,16 +34,46 @@
 @section('title', 'Data Warga')
 
 @section('content')
+
+@php
+$icons = [
+    "fa-solid fi-sr-ribbon fa-lg text-danger",
+    'fa-solid fa-stethoscope fa-lg text-success',
+    'fa-solid fa-heartbeat fa-lg text-danger',
+    'fa-solid fa-pills fa-lg text-warning',
+    'fa-solid fa-syringe fa-lg text-info',
+    // tambahkan lebih banyak ikon sesuai kebutuhan
+];
+@endphp
+<style>
+    .nav-link-icon {
+        border-radius: 50%;
+        padding: 10px;
+        margin-right: 10px;
+        transition: transform 0.3s ease;
+    }
+    .nav-link-icon:hover {
+        transform: scale(1.2);
+    }
+    .nav-link.active .nav-link-icon {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <ul class="nav nav-pills mb-2">
     @foreach($list_penyakit as $penyakit)
+    @php
+        $icon = $icons[$loop->index % count($icons)]; // Menggunakan modulus untuk mengulang jika ikon lebih sedikit dari penyakit
+    @endphp
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $penyakit->nama_penyakit }}-tab" data-bs-toggle="tab" href="#{{ $penyakit->nama_penyakit }}" role="tab" aria-controls="{{ $penyakit->nama_penyakit }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $penyakit->id }}">
-            <i class="fa-solid fa-hospital-user fa-lg" class="font-medium-3 me-50"></i>
+            <i class="{{ $icon }}" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $penyakit->nama_penyakit }}</span>
         </a>
     </li>
     @endforeach
 </ul>
+
 
 <div class="tab-content">
     @foreach($list_penyakit as $penyakit)

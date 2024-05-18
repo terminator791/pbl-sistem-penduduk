@@ -69,7 +69,7 @@
                                                 <span class="badge bg-{{ $user->status_akun == true ? 'success' : 'secondary' }}">{{ $user->status_akun == true ? 'Aktif' : 'Nonaktif' }}</span>
                                             </td>
                                             <td>
-                                                @if($user->level != 'admin')
+                                                @if(!($user->username == 'admin' && $user->level == 'admin'))
                                                 <a href="#" onclick="confirmDelete(event, {{ $user->id }})" class="btn btn-sm
                                                     @if($user->status_akun)
                                                         btn-secondary
@@ -78,12 +78,13 @@
                                                     @endif">
                                                         <i class="bi bi-exclamation-triangle text-white"></i>
                                                 </a>
-                                                @endif
+                                                
 
                                                 <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $user->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
                                                     <i class="bi bi-trash-fill"></i>
                                                 </button>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

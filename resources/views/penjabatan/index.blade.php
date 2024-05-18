@@ -9,6 +9,8 @@
                     Ketua RT
                 </p>
             </div>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
@@ -61,6 +63,7 @@
                                         <th>Nama</th>
                                         <th>Tanggal Dilantik</th>
                                         <th>Tanggal Selesai Menjabat</th>
+                                        <th>Status</th>
                                         <th>Foto Ketua</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -76,6 +79,19 @@
                                                             <td>{{$data_nama->nama }}</td>
                                                             <td class="edit-tanggal-dilantik" data-id="{{ $ketua->id }}" tanggalDilantik-data="{{ $ketua->tanggal_dilantik }}"> {{$ketua->tanggal_dilantik}}</td>
                                                             <td @if($ketua->tanggal_diberhentikan !== null) class="edit-tanggal-Diberhentikan" data-id="{{ $ketua->id }}" tanggalDiberhentikan-data="{{ $ketua->tanggal_diberhentikan }}" @endif>{{ $ketua->tanggal_diberhentikan ? $ketua->tanggal_diberhentikan : 'Petahana' }}</td>
+                                                            <td>
+                                                                @php
+                                                                    $badgeColor = '';
+                                                                    if ($ketua->tanggal_diberhentikan) {
+                                                                        $badgeColor = 'danger';
+                                                                    } else if ($ketua->tanggal_diberhentikan == null) {
+                                                                        $badgeColor = 'success';
+                                                                    }
+                                                                @endphp
+                                                                <span class="badge bg-{{ $badgeColor }}">
+                                                                    {{ ($ketua->tanggal_diberhentikan == null) ? 'Aktif' : 'NonAktif' }}
+                                                                </span>
+                                                            </td>
                                                             <td style="width: 175px; height: 200px; text-align: center;" class="edit-foto" data-id="{{ $ketua->id }}" foto-data="{{ $ketua->foto_ketua_rt }}">
                                                                 @if($ketua->foto_ketua_rt)
                                                                     <img src="/storage/{{ $ketua->foto_ketua_rt }}" alt="Foto Ketua RT" style="max-width: 100%; max-height: 100%; width: 100%; height: 100%;">
@@ -200,18 +216,21 @@
 </div>
 
 
+<!-- Edit Foto Modal -->
 <div class="modal fade" id="editFotoModal" tabindex="-1" aria-labelledby="editFotoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editFotoModalLabel">Edit Foto</h5>
+                <h5 class="modal-title" id="editFotoModalLabel">Edit Foto Ketua RT</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="formEditFoto" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="FotoInput" class="form-label"><strong>Foto Ketua</strong></label>
-                        <input type="file" id="FotoInput" name="foto_ketua" class="form-control">
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                        <label for="fotoKetuaInput" class="form-label">Pilih Foto</label>
+                        <input type="file" class="form-control" id="fotoKetuaInput" name="foto_ketua">
                     </div>
                 </form>
             </div>
@@ -222,6 +241,7 @@
         </div>
     </div>
 </div>
+
 
 @endsection
 
@@ -345,6 +365,13 @@ function saveTanggalDiberhentikan(id) {
 }
 
 $(document).ready(function() {
+    // Add CSRF token to every AJAX request
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $('.edit-foto').click(function() {
         var id = $(this).data('id');
         $('#editFotoModal').data('id', id).modal('show');
@@ -353,48 +380,44 @@ $(document).ready(function() {
     $('#saveFotoBtn').click(function() {
         saveFoto($('#editFotoModal').data('id'));
     });
+
+    // Check for flash message on page load
+    @if(session()->has('message'))
+        showToast("{{ session('message') }}");
+    @endif
 });
 
 function saveFoto(id) {
-    var fotoInput = document.getElementById('FotoInput');
-    var file = fotoInput.files[0];
+    var formData = new FormData($('#formEditFoto')[0]);
+    formData.append('id', id);
 
-    compressImage(file, 0.6, function(compressedDataUrl) {
-        localStorage.setItem('compressedFoto', compressedDataUrl);
-        window.location.href = "{{ url('/update-data-ketua') }}/" + id;
-        $('#editFotoModal').modal('hide');
+    $.ajax({
+        url: "{{ url('/update-foto-ketua') }}/" + id,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            $('#editFotoModal').modal('hide');
+            location.reload(); // Reload the page to reflect changes
+        },
+        error: function(xhr) {
+            showToast('Error: ' + xhr.responseText);
+        }
     });
 }
 
-function compressImage(file, quality, callback) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            const dataUrl = canvas.toDataURL('image/jpeg', quality);
-            callback(dataUrl);
-        };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-
-
 function showToast(message) {
-        Toastify({
-            text: message,
-            duration: 2000, // Duration in milliseconds (3 seconds in this example)
-            position:"center",
-            close: true // Show close button or not
-        }).showToast();
-    }
-
+    Toastify({
+        text: message,
+        duration: 2000, // Duration in milliseconds
+        position: "center",
+        style: {
+        background: "#28a745"
+    },
+        close: true // Show close button
+    }).showToast();
+}
 
 </script>
 
@@ -406,7 +429,6 @@ function showToast(message) {
                 text: '{{ session('success') }}',
                 icon: 'success',
                 showConfirmButton: false,
-                
                 timer: 3000
             });
         </script>
