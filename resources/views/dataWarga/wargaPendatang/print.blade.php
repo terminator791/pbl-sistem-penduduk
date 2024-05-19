@@ -123,9 +123,10 @@
         </tbody>
     </table>
     <div class="signature">
-        <p>Semarang, 5 Mei 2024</p>
+        
+        <p>{{ date("Y-m-d") }}</p>
         <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
-        <p>Nama yang Bertanda Tangan</p>
+        <p>{{ Auth::user()->username }}</p>
     </div>
     <script>
         // Panggil fungsi fillSignature() saat dokumen selesai dimuat

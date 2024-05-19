@@ -25,6 +25,16 @@
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     {{-- Start Table --}}
     <section id="multiple-column-form">
         <div class="row match-height">
@@ -36,7 +46,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <form class="form" method="POST"
-                                action="{{ route('wargaPendatang.update', ['id' => $penduduk->id]) }}" data-parsley-validate>
+                                action="{{ route('wargaPendatang.update', ['id' => $penduduk->id]) }}" data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <!-- Kolom 1 -->
@@ -231,7 +241,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="country-floating" class="form-label">Tanggal Keluar</label>
                                             <input type="date" id="tanggal_keluar" class="form-control" name="tanggal_keluar" value="{{ $detail_pendatang ? $detail_pendatang->tanggal_keluar : '' }}">
                                         </div>
@@ -288,6 +298,14 @@
                                             <label for="foto_ktp" class="form-label"><strong>File KTP</strong></label>
                                             <input type="file" id="foto_ktp" name="foto_ktp"
                                                 class="basic-filepond form-control" value="{{ $penduduk->foto_ktp }}" >
+                                        </div>
+                                        <div>
+                                            <label for="current_foto_ktp" class="form-label"><strong>Foto KTP saat ini:</strong></label><br>
+                                            @if ($penduduk->foto_ktp)
+                                                <img style="width: 400px; height: 200px; text-align: center;" src="{{ asset('storage/' . $penduduk->foto_ktp) }}" alt="Foto KTP">
+                                            @else
+                                                <span>Tidak ada foto KTP tersimpan.</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="row">

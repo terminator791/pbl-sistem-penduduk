@@ -129,7 +129,7 @@
                                         <div>
                                             <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RT saat ini:</strong></label><br>
                                             @if ($ketua_rt->foto_ketua_rt)
-                                                <img src="{{ asset('storage/' . $ketua_rt->foto_ketua_rt) }}" alt="Foto Ketua RT">
+                                                <img style="width: 400px; height: 200px; text-align: center;" src="{{ asset('storage/' . $ketua_rt->foto_ketua_rt) }}" alt="Foto Ketua RT">
                                             @else
                                                 <span>Tidak ada foto tersimpan.</span>
                                             @endif
@@ -144,7 +144,7 @@
                                         <div>
                                             <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RW saat ini:</strong></label><br>
                                             @if ($ketua_rw->foto_ketua_rw)
-                                                <img src="{{ asset('storage/' . $ketua_rw->foto_ketua_rw) }}" alt="Foto Ketua RT">
+                                                <img style="width: 400px; height: 200px; text-align: center;" src="{{ asset('storage/' . $ketua_rw->foto_ketua_rw) }}" alt="Foto Ketua RT">
                                             @else
                                                 <span>Tidak ada foto tersimpan.</span>
                                             @endif

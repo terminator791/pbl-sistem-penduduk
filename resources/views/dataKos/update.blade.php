@@ -106,10 +106,10 @@
                                             <label for="foto_kos" class="form-label"><strong>foto KOS</strong></label>
                                             <input type="file" id="foto_kos" name="foto_kos" class="basic-filepond form-control">
                                         </div>
-                                        <div>
+                                        <div >
                                             <label for="current_foto_kos" class="form-label"><strong>Foto KOS saat ini:</strong></label><br>
                                             @if ($data_kos->foto_kos)
-                                                <img src="{{ asset('storage/' . $data_kos->foto_kos) }}" alt="Foto KOS">
+                                                <img  style="width: 400px; height: 200px; text-align: center;" src="{{ asset('storage/' . $data_kos->foto_kos) }}" alt="Foto KOS">
                                             @else
                                                 <span>Tidak ada foto KOS tersimpan.</span>
                                             @endif

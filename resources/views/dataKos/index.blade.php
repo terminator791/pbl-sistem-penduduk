@@ -132,7 +132,7 @@
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
 
-                                        <a href="#" class="btn btn-sm btn-info toggle-detail"
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
                                             onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
                                             <i class="bi bi-eye-fill text-white"></i>
                                         </a>
@@ -167,7 +167,7 @@
 
     </section>
     {{-- End Table --}}
-
+    @if(Auth::user()->level != 'RW')
     <!-- Floating Toggle -->
     <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
         <a href="{{ route('dataKos.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal"
@@ -175,7 +175,7 @@
             <i class="bi bi-plus-lg"></i>
         </a>
     </div>
-
+    @endif
     <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -274,7 +274,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
         <p><strong>Alamat Kos:</strong> ${alamat_kos}</p>
         <p><strong>Kontak:</strong> ${no_hp_pemilik}</p>
         <p><strong>Email:</strong> ${email_pemilik}</p>
-        <div>
+        <div style="width: 175px; height: 220px; text-align: center;">
             <strong>Foto KOS:</strong><br>
             ${fotoKosHTML}
         </div>

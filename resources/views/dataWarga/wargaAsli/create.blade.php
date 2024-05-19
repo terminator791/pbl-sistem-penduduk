@@ -35,8 +35,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST" action="{{ route('wargaAsli.store') }}"
-                                data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('wargaAsli.store') }}" data-parsley-validate enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <!-- Kolom 1 -->
@@ -49,11 +48,11 @@
                                     </div>
                                     <!-- Kolom 2 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group mandatory">
                                             <label for="jenis_kelamin" class="form-label"><strong>Jenis
                                                     Kelamin</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
+                                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" data-parsley-required="true">
                                                     <option disabled selected>Pilih Jenis Kelamin</option>
                                                     <option value="wanita">Perempuan</option>
                                                     <option value="pria">Laki-laki</option>
@@ -206,7 +205,9 @@
                                                     data-parsley-required="true">
                                                     <option disabled selected>Pilih RT</option>
                                                     @foreach ($list_RT as $RT)
-                                                        <option value="{{ $RT->id }}">{{ $RT->nama_rt }}</option>
+                                                        <option value="{{ $RT->id }}" @if (Auth::user()->level =="RT")
+                                                         selected
+                                                        @endif>{{ $RT->nama_rt }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
                                                 </select>
@@ -214,7 +215,9 @@
                                                     data-parsley-required="true">
                                                     <option disabled selected>Pilih RW</option>
                                                     @foreach ($list_RW as $RW)
-                                                        <option value="{{ $RW->id }}">{{ $RW->nama_rw }}</option>
+                                                        <option value="{{ $RW->id }}" @if (Auth::user()->level =="RT" || Auth::user()->level =="RW")
+                                                         selected
+                                                        @endif>{{ $RW->nama_rw }}</option>
                                                         <!-- Use actual database values -->
                                                     @endforeach
                                                 </select>

@@ -89,7 +89,9 @@ public function fetchAll()
         // })
             ->addColumn('action', function ($warga) {
                 // Tambahkan tombol aksi di sini sesuai kebutuhan
-                return '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
+                return 
+                
+                    '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
                     '<i class="bi bi-pencil-fill text-white"></i>' .
                     '</a>&nbsp;&nbsp;' . // Spasi di sini
                     '<a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(' . $warga['id'] . ')">' .
@@ -197,9 +199,23 @@ public function fetchAll()
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
         $list_perkawinan = perkawinan::all();
-        $list_RT = RT::with(['RW'])->get();
         $list_keluarga = keluarga::all();
         $list_RW = RW::all();
+
+        $NIK = Auth::user()->NIK_penduduk;
+
+        $userLevel = Auth::user()->level;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        
+
+        if ($userLevel === 'admin') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RW') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RT') {
+            $list_RT = RT::where('id', $id_rt)->get();
+        }
+
         return view('dataWarga.wargaAsli.create', compact(
             'list_pendidikan',
             'list_pekerjaan',
@@ -211,15 +227,49 @@ public function fetchAll()
     }
 
 
-    public function simpan(Request $request)
+//     public function simpan(Request $request)
+// { 
+//     try {
+//         $response = Http::withHeaders([
+//             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
+//         ])->post('http://localhost:9000/v1/wargaAsli', $request->all());
+
+//         if ($response->successful()) {
+//             return redirect()->route('wargaAsli')->with('success', " berhasil ditambahkan");
+//         } else {
+//             return back()->withErrors(['message' => 'Gagal menambah penduduk.']);
+//         }
+//     } catch (\Exception $e) {
+//         return response()->json(['message' => 'API Post Failed: ' . $e->getMessage()], 400);
+//     }
+// }
+
+public function simpan(Request $request)
 {
+    // dd($request->all());
     try {
+        // Handle the foto_ktp upload if a file is uploaded
+        $filePath = null;
+        if ($request->hasFile('foto_ktp')) {
+            $file = $request->file('foto_ktp');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storePubliclyAs('foto_ktp', $fileName, 'public');
+        }
+
+        // Prepare the data to send to the API
+        $data = $request->all();
+        if ($filePath) {
+            $data['foto_ktp'] = $filePath;
+        }
+
+        // Make the API request to add a new wargaAsli
         $response = Http::withHeaders([
             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
-        ])->post('http://localhost:9000/v1/wargaAsli', $request->all());
+        ])->post('http://localhost:9000/v1/wargaAsli', $data);
 
+        // Check the response status
         if ($response->successful()) {
-            return redirect()->route('wargaAsli')->with('success', " berhasil ditambahkan");
+            return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil ditambahkan');
         } else {
             return back()->withErrors(['message' => 'Gagal menambah penduduk.']);
         }
@@ -227,6 +277,7 @@ public function fetchAll()
         return response()->json(['message' => 'API Post Failed: ' . $e->getMessage()], 400);
     }
 }
+
     // Update
     public function edit($id)
     {
@@ -234,9 +285,22 @@ public function fetchAll()
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
         $list_perkawinan = perkawinan::all();
-        $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
+
+        $NIK = Auth::user()->NIK_penduduk;
+
+        $userLevel = Auth::user()->level;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        
+
+        if ($userLevel === 'admin') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RW') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RT') {
+            $list_RT = RT::where('id', $id_rt)->get();
+        }
 
         return view('dataWarga.wargaAsli.update', compact(
             'penduduk',
@@ -252,28 +316,38 @@ public function fetchAll()
     public function update(Request $request, $id)
 {
     try {
+        // Validate that the NIK is unique except for the current record
+        $existingNIK = Penduduk::where('NIK', $request->input('NIK'))->where('id', '!=', $id)->exists();
+        if ($existingNIK) {
+            return back()->withErrors(['message' => 'NIK sudah ada. Harap gunakan NIK yang berbeda.']);
+        }
+
+        // Fetch the penduduk record
         $penduduk = Penduduk::findOrFail($id);
 
+        // Make API request to update wargaAsli
         $response = Http::withHeaders([
             'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
         ])->put("http://localhost:9000/v1/wargaAsli/$id", $request->all());
 
+        // Handle the foto_ktp update if a file is uploaded
         if ($request->hasFile('foto_ktp')) {
-            // Hapus foto_ktp lama jika ada
+            // Delete the old foto_ktp if it exists
             if ($penduduk->foto_ktp) {
                 Storage::delete('public/' . $penduduk->foto_ktp);
             }
 
+            // Store the new foto_ktp
             $file = $request->file('foto_ktp');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filepath = $file->storePubliclyAs('foto_ktp', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/foto_ktp'
+            $filepath = $file->storePubliclyAs('foto_ktp', $fileName, 'public');
             $penduduk->foto_ktp = $filepath;
             $penduduk->save();
         }
 
-        // Periksa kode status respons
+        // Check the response status
         if ($response->successful()) {
-            return redirect()->route('wargaAsli')->with('success', " berhasil diedit");
+            return redirect()->route('wargaAsli')->with('success', 'Penduduk berhasil diedit');
         } else {
             return back()->withErrors(['message' => 'Gagal mengedit penduduk.']);
         }
@@ -281,6 +355,7 @@ public function fetchAll()
         return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
     }
 }
+
 
 
     // Delete

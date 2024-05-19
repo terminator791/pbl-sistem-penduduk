@@ -183,8 +183,8 @@ class ProfileController extends Controller
         // dd($request->all());
 
         $request->validate([
-            'foto_ketua_rt' => 'required|image|mimes:jpeg,png,jpg|max:10240',
-            'foto_ketua_rw' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'foto_ketua_rt' => 'image|mimes:jpeg,png,jpg|max:10240',
+            'foto_ketua_rw' => 'image|mimes:jpeg,png,jpg|max:10240',
         ]);
 
         $NIK = Auth::user()->NIK_penduduk;
@@ -268,6 +268,7 @@ class ProfileController extends Controller
     if (Auth::user()->level == 'RT') {
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+        // dd($id_rt);
         $list_ketua = penjabatan_RT::where('id_rt', $id_rt)
         ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
         ->orderBy('tanggal_dilantik', 'desc')
@@ -280,6 +281,9 @@ class ProfileController extends Controller
                     ->where('id_rt', '=', $id_rt);
             })
             ->get();
+
+        // Ensure id_rt is in an array format for the view
+        $id_rt = [$id_rt];
     } else {
         $id_rt = RT::pluck('id'); // Mengambil semua id RT
         $list_ketua = penjabatan_RT::whereIn('id_rt', $id_rt)

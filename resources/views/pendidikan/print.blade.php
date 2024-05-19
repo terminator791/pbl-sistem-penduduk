@@ -108,11 +108,20 @@
 
     <!-- Tempat Tanda Tangan -->
     <div class="signature">
-        <p>Semarang, 5 Mei 2024</p>
-        <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
-        <p>Nama yang Bertanda Tangan</p>
+        <p id="tanggal">{{ date("Y-m-d") }}</p>
+        <p id="nama">{{ Auth::user()->username }}</p>
     </div>
 
 </body>
+<script>
+        // Panggil fungsi fillSignature() saat dokumen selesai dimuat
+        window.onload = fillSignature;
+
+        // Fungsi untuk mengisi tempat, tanggal, dan tahun secara otomatis
+        function fillSignature() {
+            // Memanggil fungsi window.print() setelah mengisi tanda tangan
+            window.print();
+        }
+    </script>
 
 </html>

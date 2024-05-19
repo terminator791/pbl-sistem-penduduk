@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" method="POST" action="{{ route('wargaPendatang.store') }}" id="tambahDataForm" data-parsley-validate>
+                            <form class="form" method="POST" action="{{ route('wargaPendatang.store') }}" id="tambahDataForm" data-parsley-validate enctype="multipart/form-data">
                             @csrf
                                 <div class="row">
                                     <div class="col-md-6 col-12">
@@ -194,14 +194,18 @@
                                                     data-parsley-required="true">
                                                     <option disabled selected>Pilih RT</option>
                                                     @foreach ($list_RT as $RT)
-                                                        <option value="{{ $RT->id }}">{{ $RT->nama_rt }}</option> <!-- Use actual database values -->
+                                                        <option value="{{ $RT->id }}" @if (Auth::user()->level =="RT")
+                                                         selected
+                                                        @endif>{{ $RT->nama_rt }}</option> <!-- Use actual database values -->
                                                     @endforeach
                                                 </select>
                                                 <select id="id_rw" class="form-select" name="id_rw"
                                                     data-parsley-required="true">
                                                     <option disabled selected>Pilih RW</option>
                                                     @foreach ($list_RW as $RW)
-                                                        <option value="{{ $RW->id }}">{{ $RW->nama_rw }}</option> <!-- Use actual database values -->
+                                                        <option value="{{ $RW->id }}" @if (Auth::user()->level =="RT" || Auth::user()->level =="RW")
+                                                         selected
+                                                        @endif>{{ $RW->nama_rw }}</option> <!-- Use actual database values -->
                                                     @endforeach
                                                 </select>
                                             </div>

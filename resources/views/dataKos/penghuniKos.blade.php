@@ -47,7 +47,9 @@
                                 <th>Tanggal Keluar</th>
                                 <th>Deskripsi</th>
                                 <th>Status</th>
+                                @if(Auth::user()->level != 'RW')
                                 <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -57,11 +59,15 @@
                                     <td>{{  $loop->iteration }}</td>
                                     <td>{{ $p->penduduk->nama }}</td>
                                     <td>{{ $p->penduduk->tempat_lahir }}</td>
-                                    <td class="edit-tanggal-masuk" data-id="{{ $p->id }}" tanggalMasuk-data="{{ $p->tanggal_masuk }}">{{ date('d F Y', strtotime($p->tanggal_masuk)) }}</td>
-                                    <td class="edit-tanggal-keluar" data-id="{{ $p->id }}" tanggal-data="{{ $p->tanggal_keluar }}">
+                                    <td class="{{ Auth::user()->level != 'RW' ? 'edit-tanggal-masuk' : '' }}" data-id="{{ $p->id }}" tanggalMasuk-data="{{ $p->tanggal_masuk }}">
+                                        {{ date('d F Y', strtotime($p->tanggal_masuk)) }}
+                                    </td>
+                                    <td class="{{ Auth::user()->level != 'RW' ? 'edit-tanggal-keluar' : '' }}" data-id="{{ $p->id }}" tanggal-data="{{ $p->tanggal_keluar }}">
                                         {{ $p->tanggal_keluar ? date('d F Y', strtotime($p->tanggal_keluar)) : null }}
                                     </td>
-                                    <td class="edit-deskripsi" data-id="{{ $p->id }}" deskripsi-data="{{ $p->deskripsi }}">{{ $p->deskripsi }}</td>
+                                    <td class="{{ Auth::user()->level != 'RW' ? 'edit-deskripsi' : '' }}" data-id="{{ $p->id }}" deskripsi-data="{{ $p->deskripsi }}">
+                                        {{ $p->deskripsi }}
+                                    </td>
                                     <td>
                                         @php
                                             $badgeColor = '';
@@ -76,6 +82,7 @@
                                         </span>
                                     </td>
 
+                                    @if(Auth::user()->level != 'RW')
                                     <td>
                                         <!-- Tombol Toggle Edit -->
                                         <!-- <a href="{{ route('dataKos.penghuniKos.edit', $kos->id) }}"
@@ -84,9 +91,10 @@
                                         </a> -->
                                         <!-- Tombol Hapus -->
                                         <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $p->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
-                <i class="bi bi-trash-fill"></i>
-            </button>
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

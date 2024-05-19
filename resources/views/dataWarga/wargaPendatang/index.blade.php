@@ -54,7 +54,7 @@
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Status</th>
-                            @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
+                            @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT' )
                             <th>Aksi</th>
                             @endif
                         </tr>
@@ -203,7 +203,7 @@ $(document).ajaxComplete(function(event, xhr, settings) {
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <label for="current_foto_ktp" class="form-label"><strong>Foto KTP :</strong></label><br>
-                            ${warga.foto_ktp ? `<img src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP" style="max-width: 100%; max-height: 200px;">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
+                            ${warga.foto_ktp ? `<img style="width: 400px; height: 200px; text-align: center;" src="{{ asset('storage') }}/${warga.foto_ktp}" alt="Foto KTP" style="max-width: 100%; max-height: 200px;">` : `<span>Tidak ada foto KTP tersimpan.</span>`}
                         </div>
                     </div>
                 </div>

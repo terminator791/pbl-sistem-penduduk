@@ -10,7 +10,6 @@
                 </p>
             </div>
             <meta name="csrf-token" content="{{ csrf_token() }}">
-
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
@@ -65,7 +64,9 @@
                                         <th>Tanggal Selesai Menjabat</th>
                                         <th>Status</th>
                                         <th>Foto Ketua</th>
+                                        @if(Auth::user()->level != 'RT')
                                         <th>Aksi</th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -77,8 +78,8 @@
                                                             <td>{{ $counter++ }}</td>
                                                             <td>{{$ketua->NIK_ketua_rt}}</td>
                                                             <td>{{$data_nama->nama }}</td>
-                                                            <td class="edit-tanggal-dilantik" data-id="{{ $ketua->id }}" tanggalDilantik-data="{{ $ketua->tanggal_dilantik }}"> {{$ketua->tanggal_dilantik}}</td>
-                                                            <td @if($ketua->tanggal_diberhentikan !== null) class="edit-tanggal-Diberhentikan" data-id="{{ $ketua->id }}" tanggalDiberhentikan-data="{{ $ketua->tanggal_diberhentikan }}" @endif>{{ $ketua->tanggal_diberhentikan ? $ketua->tanggal_diberhentikan : 'Petahana' }}</td>
+                                                            <td class="{{ Auth::user()->level != 'RT' ? 'edit-tanggal-dilantik' : '' }}" data-id="{{ $ketua->id }}" tanggalDilantik-data="{{ $ketua->tanggal_dilantik }}">{{ $ketua->tanggal_dilantik }}</td>
+                                                            <td class="{{ $ketua->tanggal_diberhentikan !== null && Auth::user()->level != 'RT' ? 'edit-tanggal-Diberhentikan' : '' }}" data-id="{{ $ketua->id }}" tanggalDiberhentikan-data="{{ $ketua->tanggal_diberhentikan }}">{{ $ketua->tanggal_diberhentikan ? $ketua->tanggal_diberhentikan : 'Petahana' }}</td>
                                                             <td>
                                                                 @php
                                                                     $badgeColor = '';
@@ -89,16 +90,17 @@
                                                                     }
                                                                 @endphp
                                                                 <span class="badge bg-{{ $badgeColor }}">
-                                                                    {{ ($ketua->tanggal_diberhentikan == null) ? 'Aktif' : 'NonAktif' }}
+                                                                    {{ $ketua->tanggal_diberhentikan == null ? 'Aktif' : 'NonAktif' }}
                                                                 </span>
                                                             </td>
-                                                            <td style="width: 175px; height: 200px; text-align: center;" class="edit-foto" data-id="{{ $ketua->id }}" foto-data="{{ $ketua->foto_ketua_rt }}">
+                                                            <td style="width: 175px; height: 200px; text-align: center;" class="{{ Auth::user()->level != 'RT' ? 'edit-foto' : '' }}" data-id="{{ $ketua->id }}" foto-data="{{ $ketua->foto_ketua_rt }}">
                                                                 @if($ketua->foto_ketua_rt)
                                                                     <img src="/storage/{{ $ketua->foto_ketua_rt }}" alt="Foto Ketua RT" style="max-width: 100%; max-height: 100%; width: 100%; height: 100%;">
                                                                 @else
                                                                     <span>Tidak ada foto ketua RT</span>
                                                                 @endif
                                                             </td>
+                                                            @if(Auth::user()->level != 'RT')
                                                             <td>
                                                                 @if($ketua->tanggal_diberhentikan == null)
                                                                 <button class="btn btn-sm btn-primary toggle-edit" data-id="{{ $ketua->id_penjabatan }}" data-toggle="modal" data-target="#ConfirmationModal">
@@ -109,6 +111,7 @@
                                                                     <i class="bi bi-trash-fill"></i>
                                                                 </button>
                                                             </td>
+                                                            @endif
 
                                                         </tr>
                                                     @endif

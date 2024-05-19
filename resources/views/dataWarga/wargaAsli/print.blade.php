@@ -118,8 +118,8 @@
 
    <!-- Tempat Tanda Tangan -->
    <div class="signature">
-        <p id="tanggal">5 Mei 2024</p>
-        <p id="nama">Nama yang Bertanda Tangan</p>
+        <p id="tanggal">{{ date("Y-m-d") }}</p>
+        <p id="nama">{{ Auth::user()->username }}</p>
     </div>
 
     <!-- Skrip JavaScript untuk mengatur tanggal dan pencetakan -->
@@ -131,7 +131,7 @@
         function fillSignature() {
             const today = new Date();
             document.getElementById('tanggal').textContent = getFormattedDate(today);
-            document.getElementById('nama').textContent = "Nama yang Bertanda Tangan";
+            document.getElementById('nama').value;
 
             // Memanggil fungsi window.print() setelah mengisi tanda tangan
             window.print();

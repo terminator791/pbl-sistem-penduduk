@@ -15,6 +15,7 @@ use App\Models\RT;
 use App\Models\RW;
 use Illuminate\Support\Facades\Http;
 use DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class wargaPendatangController extends Controller
 {
@@ -140,9 +141,24 @@ public function fetchOne($id)
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
         $list_perkawinan = perkawinan::all();
-        $list_RT = RT::all();
+        
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
+
+        $NIK = Auth::user()->NIK_penduduk;
+
+        $userLevel = Auth::user()->level;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        
+
+        if ($userLevel === 'admin') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RW') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RT') {
+            $list_RT = RT::where('id', $id_rt)->get();
+        }
+        
         // $list_kos = kos::all();
         $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.create', compact(
@@ -191,6 +207,20 @@ public function fetchOne($id)
             $detail_pendatang->save();
         }
 
+        // Handle the foto_ktp update if a file is uploaded
+        if ($request->hasFile('foto_ktp')) {
+            // Delete the old foto_ktp if it exists
+            if ($penduduk->foto_ktp) {
+                Storage::delete('public/' . $penduduk->foto_ktp);
+            }
+
+            // Store the new foto_ktp
+            $file = $request->file('foto_ktp');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filepath = $file->storePubliclyAs('foto_ktp_pendatang', $fileName, 'public');
+            $penduduk->foto_ktp = $filepath;
+            $penduduk->save();
+        }
         
 
         return redirect()->route('wargaPendatang')->with('success', 'Penduduk added successfully!');
@@ -204,9 +234,24 @@ public function fetchOne($id)
         $list_pendidikan = pendidikan::all();
         $list_pekerjaan = pekerjaan::all();
         $list_perkawinan = perkawinan::all();
-        $list_RT = RT::all();
+        
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
+
+        $NIK = Auth::user()->NIK_penduduk;
+
+        $userLevel = Auth::user()->level;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        
+
+        if ($userLevel === 'admin') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RW') {
+            $list_RT = RT::with(['RW'])->get();
+        } elseif ($userLevel === 'RT') {
+            $list_RT = RT::where('id', $id_rt)->get();
+        }
+        
         // $list_kos = kos::all();
         $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.update', compact(
@@ -223,10 +268,18 @@ public function fetchOne($id)
     }
 
     public function update(Request $request, $id)
-    {
+{
+    // dd($request->all());
 
+    try {
         $kos = $request->input('id_kos');
         $nama_jalan_kos = kos::where('id', $kos)->value('alamat_kos');
+
+        // Check for duplicate NIK
+        $existingNIK = penduduk::where('NIK', $request->input('NIK'))->where('id', '!=', $id)->exists();
+        if ($existingNIK) {
+            return back()->withErrors(['message' => 'NIK sudah ada. Harap gunakan NIK yang berbeda.']);
+        }
 
         $penduduk = penduduk::where('id', $id)->first();
         $penduduk->NIK = $request->input('NIK');
@@ -246,30 +299,46 @@ public function fetchOne($id)
         $penduduk->no_hp = $request->input('no_hp');
         $penduduk->email = $request->input('email');
         $penduduk->update();
-    
-        if($request->has('id_kos')){
+
+        if ($request->has('id_kos')) {
             $detail_pendatang = detail_pendatang::where('NIK', $request->input('NIK'))->first();
-            if($detail_pendatang == null){
+            if ($detail_pendatang == null) {
                 $detail_pendatang = new detail_pendatang();
                 $detail_pendatang->NIK = $request->input('NIK');
                 $detail_pendatang->id_kos = $request->input('id_kos');
                 $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
                 $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-                
-                $detail_pendatang->save();
-            }
-            $detail_pendatang->NIK = $request->input('NIK');
-            $detail_pendatang->id_kos = $request->input('id_kos');
-            $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
-            $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-            $detail_pendatang->update();
-        }
-        
-        
-        
 
-        return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');
+                $detail_pendatang->save();
+            } else {
+                $detail_pendatang->NIK = $request->input('NIK');
+                $detail_pendatang->id_kos = $request->input('id_kos');
+                $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
+                $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
+                $detail_pendatang->update();
+            }
+        }
+
+        if ($request->hasFile('foto_ktp')) {
+            // Hapus foto_ktp lama jika ada
+            if ($penduduk->foto_ktp) {
+                Storage::delete('public/' . $penduduk->foto_ktp);
+            }
+
+            $file = $request->file('foto_ktp');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filepath = $file->storePubliclyAs('foto_ktp_pendatang', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/foto_ktp'
+            $penduduk->foto_ktp = $filepath;
+            $penduduk->save();
+        }
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
     }
+
+    return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');
+}
+
 
 
     // Delete
