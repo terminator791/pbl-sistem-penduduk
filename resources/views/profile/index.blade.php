@@ -4,9 +4,17 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Profile</h3>
+                 @if (Auth::user()->level == 'admin')
+                    <h3>Profile Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Profile RW 13, {{$username}}</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Profile RW 13 RT {{ $id_rt}}, {{$username}}</h3>
+                @elseif(Auth::user()->level == 'pemilik_kos')
+                    <h3>Profile {{$username}}</h3>
+                @endif
                 <p class="text-subtitle text-muted">
-                    Kec.Tembalang,Kel.Pedalangan.RT.{{ $id_rt }} RW.05
+                    Kec.Candisari, Kel.Tegalsari, RW 13
                 </p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -38,70 +46,92 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="first-name-column" class="form-label">NIK</label>
                                             <input type="text" id="NIK_penduduk" class="form-control"
-                                                   placeholder="NIK" value="{{ $NIK }}" name="NIK_penduduk" data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="last-name-column" class="form-label">Nama</label>
-                                            <input type="text" id="nama" class="form-control"
-                                                   placeholder="nama" value="{{$nama}}" name="nama" data-parsley-required="true" disabled/>
+                                                   placeholder="NIK" value="{{ $NIK }}" name="NIK_penduduk" data-parsley-required="true" readOnly/>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">User Name</label>
+                                            <label for="country-floating" class="form-label">Username</label>
                                             <input type="text" id="username" class="form-control"
                                                    name="username" placeholder="RT" value="{{$username}}" data-parsley-required="true" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT' ||  Auth::user()->level == 'RW')
-                                        <div class="form-group mandatory">
-                                            <label for="tanggal_dilantik" class="form-label"  value="04/11/2000">Tanggal Mulai Menjabat</label>
-                                            <input type="date" id="tanggal_dilantik" class="form-control"
-                                                    name="tanggal_dilantik" class="form-control">
+                                            <div class="form-group">
+                                                <label for="country-floating" class="form-label">Jabatan</label>
+                                                <input type="text" id="level" class="form-control" name="level" placeholder="email"
+                                                    value="{{ ($jabatan == 'RT' || $jabatan == 'RW') ? 'Ketua ' . $jabatan : $jabatan }}"
+                                                    data-parsley-required="true" readOnly />
+                                            </div>
                                         </div>
-                                        @endif
-                                    </div>
+                        
                                     <div class="row">
                                         <div class="col-md-6 col-12">
-                                            @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
-                                            <div class="form-group mandatory">
+                                            @if(Auth::user()->level == 'RT' || Auth::user()->level == 'RW')
+                                            <div class="form-group ">
                                                 <label for="country-floating" class="form-label">No Hp</label>
                                                 <input type="text" id="no_hp" class="form-control"
-                                                    name="country-floating" placeholder="no_hp" value="{{$no_hp}}" data-parsley-required="true" disabled/>
+                                                    name="country-floating" placeholder="no_hp" value="{{$no_hp}}" disabled/>
                                             </div>
                                                 @endif
                                         </div>
+
                                         <div class="col-md-6 col-12">
-                                            <div class="form-group mandatory">
-                                                <label for="country-floating" class="form-label">Email</label>
-                                                <input type="text" id="email" class="form-control"
-                                                    name="country-floating" placeholder="email" value="{{$email}}" data-parsley-required="true" disabled/>
+                                            @if(Auth::user()->level == 'RT')
+                                            <div class="form-group">
+                                                    <label for="id_rw" class="form-label">RW</label>
+                                                    <input type="text" id="id_rw" name="id_rw" class="form-control"
+                                                    placeholder="id_rw" value="{{$id_rw}}" name="lname-column"  disabled/>
                                             </div>
+                                                @endif
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-12">
-                                            @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
-                                            <div class="form-group mandatory">
+                                            @if(Auth::user()->level == 'RT')
+                                            <div class="form-group">
                                                     <label for="rt" class="form-label">RT</label>
                                                     <input type="text" id="Nama" class="form-control"
-                                                    placeholder="Nama" value="{{$id_rt}}" name="lname-column" data-parsley-required="true" disabled/>
+                                                    placeholder="Nama" value="{{$id_rt}}" name="lname-column"  disabled/>
                                             </div>
                                                 @endif
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                    </div>
+                                    <div class="col-md-12 col-12">
+                                            @if(Auth::user()->level == 'RT')
                                         <div class="form-group mandatory">
-                                            <label for="country-floating" class="form-label">Email</label>
-                                            <input type="text" id="level" class="form-control" name="level" placeholder="email"
-                                                value="{{ ($jabatan == 'RT' || $jabatan == 'RW') ? 'Ketua ' . $jabatan : $jabatan }}" 
-                                                data-parsley-required="true" readOnly />
+                                            <label for="foto_ketua_rt" class="form-label"><strong>foto Ketua RT</strong></label>
+                                            <input type="file" id="foto_ketua_rt" name="foto_ketua_rt" class="basic-filepond form-control">
                                         </div>
+                                        <!-- <div>
+                                            <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RT saat ini:</strong></label><br>
+                                            @if ($data_kos->foto_kos)
+                                                <img src="{{ asset('storage/' . $data_kos->foto_kos) }}" alt="Foto Ketua RT">
+                                            @else
+                                                <span>Tidak ada foto KOS tersimpan.</span>
+                                            @endif
+                                        </div> -->
+                                                @endif
+
+                                                @if(Auth::user()->level == 'RW')
+                                        <div class="form-group mandatory">
+                                            <label for="foto_ketua_rw" class="form-label"><strong>foto Ketua RW</strong></label>
+                                            <input type="file" id="foto_ketua_rw" name="foto_ketua_rw" class="basic-filepond form-control">
+                                        </div>
+                                        <div>
+                                            <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RW saat ini:</strong></label><br>
+                                            @if ($ketua_rw->foto_ketua_rw)
+                                                <img src="{{ asset('storage/' . $ketua_rw->foto_ketua_rw) }}" alt="Foto Ketua RT">
+                                            @else
+                                                <span>Tidak ada foto tersimpan.</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @endif
+
 
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit"
@@ -120,13 +150,29 @@
 
 @section('scripts')
     {{--  --}}
-    <!-- @if (session('success'))
-            Swal.fire({
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        @endif -->
+   
+
+    @if(session('success'))
+    <script>
+        Toastify({
+            text: "{{ session('success') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'green'
+        }).showToast();
+        </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        Toastify({
+            text: "{{ session('error') }}",
+            duration: 4000,
+            position: 'center',
+            backgroundColor: 'red'
+        }).showToast();
+        </script>
+    @endif
+
+        
 @endsection

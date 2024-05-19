@@ -17,11 +17,15 @@ class PendudukController extends Controller
 {
     public function index(Request $request)
     {
+        $NIK_user = Auth::user()->NIK_penduduk;
+
+        $roles = penduduk::where('NIK', $NIK_user)->first();
+        // dd($roles);
+        
         $menu = $request->query('menu', 'data_warga');
         $penduduk = penduduk::with(['pekerjaan'])->get();
-        $user = Auth::user()->NIK_penduduk;
-        $pengguna = penduduk::where('NIK',$user)->get();
-        return view('home', compact('menu', 'penduduk', 'pengguna'));
+
+        return view('home', compact('menu', 'penduduk', 'roles'));
     }
 
     public function create()

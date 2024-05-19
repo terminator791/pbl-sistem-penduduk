@@ -4,7 +4,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Pendidikan</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Pendidikan Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Pendidikan RW 13</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Pendidikan RW 13  RT {{ $id_rt}}</h3>
+                @endif
             <p class="text-subtitle text-muted">
                 Rekap data Pendidikan
             </p>
@@ -17,7 +23,7 @@
                         Data Pendidikan
                     </li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13</p>
             </nav>
         </div>
     </div>
@@ -46,7 +52,7 @@
                     <h5 class="card-title mb-0">
                         Rekap Data - {{ $pendidik->jenis_pendidikan }}
                     </h5>
-                    <a href="{{ route('kesehatan.print', $pendidik) }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('pendidikan.print', $pendidik) }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-print"></i>
                         Cetak - {{ $pendidik->jenis_pendidikan }}
                     </a>
@@ -54,7 +60,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover" id="table_{{ $pendidik->jenis_pendidikan }}">
+
+                        <table class="dataTable table table-hover"style="width:100%" id="table_{{ $pendidik->jenis_pendidikan }}">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -62,18 +69,62 @@
                                     <th>Alamat</th>
                                 </tr>
                             </thead>
+                        @if(Auth::check() && Auth::user()->level == 'admin' )
                             <tbody>
-                                @foreach($pendidik->penduduk->where('id_rt', $id_rt) as $p)
+                                @foreach($pendidik->penduduk as $p)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $p->nama }}</td>
-                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->rw->nama_rw }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
+                        @endif
+
+                        @php
+                            $nomor_iterasi_rw = 1;
+                        @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RW' )
+                            <tbody>
+                                @foreach($pendidik->penduduk as $p)
+                                    @if($p->id_rw == $id_rw)
+                                    <tr>
+                                        <td>{{ $nomor_iterasi_rw }}</td>
+                                        <td>{{ $p->nama }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->rw->nama_rw }}</td>
+                                    </tr>
+                                    @php
+                                        $nomor_iterasi_rw++;
+                                    @endphp
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        @endif
+
+
+                        @php
+                            $nomor_iterasi_rt = 1;
+                        @endphp
+                        @if(Auth::check() && Auth::user()->level == 'RT' )
+                            <tbody>
+                                @foreach($pendidik->penduduk as $p)
+                                    @if($p->id_rt == $id_rt)
+                                    <tr>
+                                        <td>{{ $nomor_iterasi_rt }}</td>
+                                        <td>{{ $p->nama }}</td>
+                                        <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->rw->nama_rw }}</td>
+                                    </tr>
+                                    @php
+                                        $nomor_iterasi_rt++;
+                                    @endphp
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        @endif
+
                         </table>
                     </div>
-                    {{ $pendidikan->links() }}
+
                 </div>
             </div>
         </section>
@@ -130,6 +181,17 @@
 @section('scripts')
 <script>
     // Script jQuery
+   // Script jQuery
+$(document).ready(function () {
+    // Loop through each table with an ID starting with "table_"
+    $('table[id^="table_"]').each(function () {
+        $(this).DataTable({ // Initialize DataTable for the current table
+
+        });
+    });
+});
+
+
     $(document).ready(function() {
         // Fungsi untuk menyimpan id jenis pendidikan ke local storage
     function saveActiveJenisPendidikanId(jenisPendidikanId) {
@@ -179,7 +241,8 @@
     $(document).ready(function(){
             $('.choices').choices();
         });
-        
+
 </script>
 
 @endsection
+

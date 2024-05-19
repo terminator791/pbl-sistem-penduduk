@@ -4,7 +4,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Warga</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Warga Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Warga RW 13</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Warga RW 13 RT {{ $id_rt}}</h3>
+                @endif
             <p class="text-subtitle text-muted">
                 Rekap data warga Pendatang
             </p>
@@ -18,7 +24,7 @@
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Warga Pendatang</li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT {{ $id_rt }}</p>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 </p>
             </nav>
         </div>
     </div>
@@ -40,7 +46,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover" id="table3">
+                <table class="table table-striped" id="table3">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -130,7 +136,7 @@ $(document).ready(function () {
             i = this.api().page.info().start; // Mengambil nomor halaman saat ini
         }
     });
-    
+
 });
 
 

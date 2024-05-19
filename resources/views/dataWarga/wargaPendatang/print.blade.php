@@ -23,14 +23,78 @@
         .fade-row td {
             text-decoration: line-through;
         }
-        th,td {
-                text-align: center;
+
+        th, td {
+            text-align: center;
+            vertical-align: middle; /* Posisi teks secara vertikal di tengah */
+        }
+
+        /* Styling untuk kop surat */
+        .letterhead {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Memusatkan secara horizontal */
+            padding: 20px;
+            position: relative; /* Menjadikan posisi relatif untuk menempatkan garis */
+            text-align: center; /* Memastikan teks terpusat */
+        }
+
+        .letterhead h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .letterhead img {
+            width: 170px; /* Ukuran default */
+            height: auto; /* Lebar akan menyesuaikan proporsi */
+            margin-right: 20px; /* Margin untuk memberi jarak antara logo dan teks */
+        }
+
+        /* Styling untuk tempat tanda tangan */
+        .signature {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
+
+        /* Styling untuk tabel */
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #dee2e6; /* Warna garis */
+            padding: .75rem; /* Padding sel */
+        }
+
+        /* Pewarnaan tiap baris tabel */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa; /* Warna latar belakang bergantian */
+        }
+
+        /* Efek shadow pada tiap baris tabel */
+        .table tbody tr:hover {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Shadow ketika dihover */
+        }
+
+        /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
+        .signature p {
+            margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
         }
     </style>
 </head>
-<body onload="window.print()"> <!-- Panggil window.print() saat halaman dimuat -->
-<div class="card-body">
-<h2>Data Warga Pendatang</h2><br>
+
+<body onload="window.print()">
+    <!-- Kop Surat -->
+    <div class="letterhead">
+        <img src="{{ asset('storage/logo_hitam_mepet.png') }}" alt="Logo" class="logo">
+        <div>
+            <h1>Data Warga Pendatang</h1>
+            <p><strong>Pemerintah Kota Semarang</strong></p>
+            <p>Jl. Pandanaran No. XX, Semarang, Telp: (024) XXXXXXX</p>
+        </div>
+    </div>
             <div class="table-responsive">
                 <table class="table table-hover" id="table3">
                     <thead>
@@ -58,7 +122,21 @@
             @endforeach
         </tbody>
     </table>
+    <div class="signature">
+        <p>Semarang, 5 Mei 2024</p>
+        <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
+        <p>Nama yang Bertanda Tangan</p>
+    </div>
+    <script>
+        // Panggil fungsi fillSignature() saat dokumen selesai dimuat
+        window.onload = fillSignature;
 
+        // Fungsi untuk mengisi tempat, tanggal, dan tahun secara otomatis
+        function fillSignature() {
+            // Memanggil fungsi window.print() setelah mengisi tanda tangan
+            window.print();
+        }
+    </script>
     <!-- Include Bootstrap JS jika diperlukan -->
     <!-- <script src="path/to/bootstrap.js"></script> -->
 </body>

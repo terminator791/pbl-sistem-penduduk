@@ -4,7 +4,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Data Warga</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Warga Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Warga RW 13</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Warga RW 13 RT {{ $id_rt}}</h3>
+                @endif
+                
                 <p class="text-subtitle text-muted">
                     Rekap data warga asli
                 </p>
@@ -16,7 +23,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Data Warga</li>
                         <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
                     </ol>
-                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT {{ $id_rt }}</p>
+                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13</p>
                 </nav>
             </div>
         </div>
@@ -37,7 +44,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover" id="table3">
+                    <table class="table table-striped" id="table3">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -50,6 +57,18 @@
                                 @endif
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Status</th>
+                                @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                                    <th>Aksi</th>
+                                @endif
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -68,7 +87,7 @@
 
         <!-- Modal Detail -->
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailModalLabel">Detail Warga</h5>
@@ -86,49 +105,85 @@
 
 @section('scripts')
     <script>
+
     $(document).ready(function () {
         var i = 1; // Inisialisasi variabel i di sini
         var dataTable = $('#table3').DataTable({
             processing: false,
-            serverSide: false, 
+            serverSide: false,
             ajax: "/wargaAsli-fetchAll",
             columns: [
-                {data: 'i', name: 'i', render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
-                }},
-                {data: 'NIK', name: 'NIK'},
-                {data: 'nama', name: 'nama'},
-                {data: 'nama_jalan', render: function(data, type, row) {
-                    return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data}`;
-                }, name: 'nama_jalan'},
-                {data: 'status_penghuni', name: 'status_penghuni', render: function(data, type, row) {
-                    let badgeColor;
-                    if (data === 'meninggal') {
-                        badgeColor = 'danger';
-                    } else if (data === 'tetap') {
-                        badgeColor = 'success';
-                    } else if (data === 'pindah') {
-                        badgeColor = 'secondary';
-                    }
-                    return `<span class="badge bg-${badgeColor}">${data}</span>`;
-                }},
-                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                @endif
-            ],
+            {data: 'i', name: 'i', render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1; // Memberikan nomor urut sesuai dengan halaman
+            }},
+            {data: 'NIK', name: 'NIK', render: function(data) {
+                return data || ''; // Jika NIK null, kembalikan string kosong
+            }},
+            {data: 'nama', name: 'nama', render: function(data) {
+                return data || ''; // Jika nama null, kembalikan string kosong
+            }},
+            {data: 'nama_jalan', render: function(data, type, row) {
+                return `RT: ${row.id_rt}, RW: ${row.id_rw}, ${data || ''}`; // Jika nama jalan null, kembalikan string kosong
+            }, name: 'nama_jalan'},
+
+            {data: 'status_penghuni', name: 'status_penghuni', render: function(data) {
+                let badgeColor;
+                if (data === 'meninggal') {
+                    badgeColor = 'danger';
+                } else if (data === 'tetap') {
+                    badgeColor = 'success';
+                } else if (data === 'pindah') {
+                    badgeColor = 'secondary';
+                }
+                return `<span class="badge bg-${badgeColor}">${data || ''}</span>`; // Jika status_penghuni null, kembalikan string kosong
+            }},
+            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+                {data: 'action', name: 'action', orderable: false, searchable: false}
+            @endif
+        ],
             "initComplete": function(settings, json) {
                 i = this.api().page.info().start; // Mengambil nomor halaman saat ini
+                
             }
             
+
         });
 
     });
+
+    // Menampilkan pesan jika tidak ada data yang tersedia
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        var table = $('#table3').DataTable();
+        var data = table.rows().data();
+        
+        if (xhr.status !== 200) {
+        // Tampilkan pesan error di konsol
+        Swal.fire({
+            title: 'Info',
+            text: xhr.responseJSON.message,
+            icon: 'info',
+            showConfirmButton: true,
+            
+        });
+    } else if (xhr.responseJSON && xhr.responseJSON.message && data.length === 0) {
+        Swal.fire({
+            title: 'Info',
+            text: "Tidak ada Data",
+            icon: 'info',
+            showConfirmButton: false,
+        });
+    }
+    });
+
+    
 
 function showWargaDetail(id) {
     fetch(`/api/v1/wargaPendatang/fetchOne/${id}`)
         .then(response => response.json())
         .then(warga => {
             const modalBody = document.getElementById('modalContent');
+            // // Manipulasi NIK di sini untuk menyensor digit tertentu
+            // const censoredNIK = warga.NIK.substr(0, 2) + 'xxxxxxxxxxx' + warga.NIK.substr(11); // Mengganti digit ke-3 hingga ke-13 dengan 'x'
             modalBody.innerHTML = `
                 <div class="container">
                     <div class="row">

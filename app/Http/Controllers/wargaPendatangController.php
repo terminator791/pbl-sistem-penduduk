@@ -50,6 +50,11 @@ public function fetchAll()
     // 2. Temukan id_rt dari tabel penduduk berdasarkan NIK pengguna
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
 
+     // 2. Temukan id_rw dari tabel penduduk berdasarkan NIK pengguna
+     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+
+     $penduduk = Penduduk::where('NIK', $NIK)->first();
+
     // 3. Ambil data dari API
     $response = Http::withHeaders([
         'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
@@ -59,14 +64,39 @@ public function fetchAll()
     if ($response->successful()) {
         $data = $response->json();
 
-        // 5. Filter data sesuai kondisi yang diinginkan
-        $filteredData = collect($data)->filter(function ($item) use ($id_rt) {
+        // 6. Tentukan level pengguna saat ini
+        $userLevel = Auth::user()->level;
+        
+          // 5. Filter data sesuai kondisi yang diinginkan
+          $filteredData_rt = collect($data)->filter(function ($item) use ($id_rt) {
             return $item['id_rt'] == $id_rt && in_array($item['status_penghuni'], ['kos', 'kontrak']);
         })->values()->all();
 
+        // 5. Filter data sesuai kondisi yang diinginkan
+        $filteredData_rw = collect($data)->filter(function ($item) use ($penduduk) {
+            return $item['id_rw'] == $penduduk->rw->nama_rw && in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        })->values()->all();
+
+        $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
+            return  in_array($item['status_penghuni'], ['kos', 'kontrak']);
+        })->values()->all();
+
+        // 7. Filter data sesuai dengan level pengguna
+        if ($userLevel === 'admin') {
+            $filteredData = $filteredData_admin;
+        } elseif ($userLevel === 'RW') {
+            $filteredData = $filteredData_rw;
+        } elseif ($userLevel === 'RT') {
+            $filteredData = $filteredData_rt;
+        }
+
+         // 8. Urutkan data berdasarkan nama sebelum mengembalikannya ke DataTables
+         $sortedData = collect($filteredData)->sortBy('nama')->values()->all();
+
         // 6. Mengembalikan data dalam format yang sesuai dengan DataTables
-return DataTables::of($filteredData)
+return DataTables::of($sortedData)
 ->addColumn('action', function ($warga) {
+    
     // Tambahkan tombol aksi di sini sesuai kebutuhan
     return '<a href="' . route('wargaPendatang.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
         '<i class="bi bi-pencil-fill text-white"></i>' .
@@ -113,7 +143,8 @@ public function fetchOne($id)
         $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
-        $list_kos = kos::all();
+        // $list_kos = kos::all();
+        $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.create', compact(
             'list_pendidikan',
             'list_pekerjaan',
@@ -127,6 +158,10 @@ public function fetchOne($id)
 
     public function store(Request $request)
     {
+
+        $kos = $request->input('id_kos');
+        $nama_jalan_kos = kos::where('id', $kos)->value('alamat_kos');
+
         $penduduk = new penduduk();
         $penduduk->NIK = $request->input('NIK');
         $penduduk->nama = $request->input('nama');
@@ -140,20 +175,23 @@ public function fetchOne($id)
         $penduduk->id_rw = $request->input('id_rw');
         $penduduk->id_status_perkawinan = $request->input('id_status_perkawinan');
         $penduduk->id_keluarga = $request->input('id_keluarga');
-        $penduduk->nama_jalan = "";
+        $penduduk->nama_jalan = $nama_jalan_kos;
         $penduduk->status_penghuni = $request->input('status_penghuni');
         $penduduk->no_hp = $request->input('no_hp');
         $penduduk->email = $request->input('email');
         $penduduk->foto_ktp = $request->input('foto_ktp');
-
         $penduduk->save();
 
-        $detail_pendatang = new detail_pendatang();
-        $detail_pendatang->NIK = $request->input('NIK');
-        $detail_pendatang->id_kos = $request->input('id_kos');
-        $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
-        $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-        $detail_pendatang->save();
+        if($request->has('id_kos')){
+            $detail_pendatang = new detail_pendatang();
+            $detail_pendatang->NIK = $request->input('NIK');
+            $detail_pendatang->id_kos = $request->input('id_kos');
+            $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
+            $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
+            $detail_pendatang->save();
+        }
+
+        
 
         return redirect()->route('wargaPendatang')->with('success', 'Penduduk added successfully!');
     }
@@ -169,7 +207,8 @@ public function fetchOne($id)
         $list_RT = RT::all();
         $list_RW = RW::all();
         $list_keluarga = keluarga::all();
-        $list_kos = kos::all();
+        // $list_kos = kos::all();
+        $list_kos = Kos::where('status', '!=', 0)->get();
         return view('dataWarga.wargaPendatang.update', compact(
             'penduduk',
             'list_pendidikan',
@@ -185,6 +224,10 @@ public function fetchOne($id)
 
     public function update(Request $request, $id)
     {
+
+        $kos = $request->input('id_kos');
+        $nama_jalan_kos = kos::where('id', $kos)->value('alamat_kos');
+
         $penduduk = penduduk::where('id', $id)->first();
         $penduduk->NIK = $request->input('NIK');
         $penduduk->nama = $request->input('nama');
@@ -198,29 +241,32 @@ public function fetchOne($id)
         $penduduk->id_rw = $request->input('id_rw');
         $penduduk->id_status_perkawinan = $request->input('id_status_perkawinan');
         $penduduk->id_keluarga = $request->input('id_keluarga');
-        $penduduk->nama_jalan = "";
+        $penduduk->nama_jalan = $nama_jalan_kos;
         $penduduk->status_penghuni = $request->input('status_penghuni');
         $penduduk->no_hp = $request->input('no_hp');
         $penduduk->email = $request->input('email');
-
-        
-
-        $detail_pendatang = detail_pendatang::where('NIK', $request->input('NIK'))->first();
-        if($detail_pendatang == null){
-            $detail_pendatang = new detail_pendatang();
+        $penduduk->update();
+    
+        if($request->has('id_kos')){
+            $detail_pendatang = detail_pendatang::where('NIK', $request->input('NIK'))->first();
+            if($detail_pendatang == null){
+                $detail_pendatang = new detail_pendatang();
+                $detail_pendatang->NIK = $request->input('NIK');
+                $detail_pendatang->id_kos = $request->input('id_kos');
+                $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
+                $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
+                
+                $detail_pendatang->save();
+            }
             $detail_pendatang->NIK = $request->input('NIK');
             $detail_pendatang->id_kos = $request->input('id_kos');
             $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
             $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
-            $detail_pendatang->save();
+            $detail_pendatang->update();
         }
-        $detail_pendatang->NIK = $request->input('NIK');
-        $detail_pendatang->id_kos = $request->input('id_kos');
-        $detail_pendatang->tanggal_masuk = $request->input('tanggal_masuk');
-        $detail_pendatang->tanggal_keluar = $request->input('tanggal_keluar');
         
-        $penduduk->update();
-        $detail_pendatang->update();
+        
+        
 
         return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');
     }

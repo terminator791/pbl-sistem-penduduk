@@ -15,8 +15,23 @@ class KejadianController extends Controller
     {
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
 
-        $list_penduduk = Penduduk::where('id_rt', $id_rt)->get();
+        $userLevel = Auth::user()->level;
+    
+    $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
+    $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
+    $list_penduduk_admin = Penduduk::all();
+
+
+    if ($userLevel === 'admin') {
+        $list_penduduk = $list_penduduk_admin;
+    } elseif ($userLevel === 'RW') {
+        $list_penduduk = $list_penduduk_rw;
+    } elseif ($userLevel === 'RT') {
+        $list_penduduk = $list_penduduk_rt;
+    }
+    
         $kejadian = kejadian::with(['penduduk', 'jenis_kejadian'])->get();
         $list_jenis_kejadian = jenis_kejadian::all();
 
@@ -39,18 +54,25 @@ class KejadianController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $kejadian = new kejadian();
+        // Create a new kejadian instance
+        $kejadian = new Kejadian();
         $kejadian->NIK_penduduk = $request->input('NIK_penduduk');
         $kejadian->jenis_kejadian = $request->input('id_jenis_kejadian');
         $kejadian->tanggal_kejadian = $request->input('tanggal_kejadian');
         $kejadian->tempat_kejadian = $request->input('tempat_kejadian');
         $kejadian->deskripsi_kejadian = $request->input('deskripsi_kejadian');
+        if ($request->hasFile('foto_kejadian')) {
+            $file = $request->file('foto_kejadian');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filepath = $file->storeAs('foto_kejadian', $fileName, 'public'); // Store in 'storage/app/public/foto_kejadian'
+            $kejadian->foto_kejadian = $filepath;
+        }
 
         $kejadian->save();
 
-        return redirect()->route('kejadian')->with('success', 'kejadian added successfully!');
+        return redirect()->route('kejadian')->with('success', 'Kejadian added successfully!');
     }
+
 
 
     /**
@@ -72,5 +94,17 @@ class KejadianController extends Controller
 
         // Kembalikan view print dengan data kejadian
         return view('kejadian.print', compact('kejadian', 'jenis_kejadian'));
+    }
+
+    public function toggle_status(Request $request, $id)
+    {
+        $kejadian = kejadian::findOrFail($id);
+
+        // Mengubah status menjadi kebalikan dari nilai sebelumnya
+        $kejadian->status = !$kejadian->status;
+
+        $kejadian->update();
+
+        return redirect()->route('kejadian')->with('success', 'berhasil mengganti status!');
     }
 }

@@ -53,7 +53,7 @@
                                             <label for="jenis_kelamin" class="form-label"><strong>Jenis
                                                     Kelamin</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
+                                                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" data-parsley-required="true">
                                                     <option disabled>Pilih Jenis Kelamin</option>
                                                     <option value="pria"
                                                         {{ $penduduk->jenis_kelamin == 'pria' ? 'selected' : '' }}>Laki-laki
@@ -75,7 +75,7 @@
                                     </div>
                                     <!-- Kolom 4 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="agama" name="agama">
@@ -101,17 +101,17 @@
                                     </div>
                                     <!-- Kolom 5 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="tempat_lahir" class="form-label"><strong>Tempat
                                                     Lahir</strong></label>
                                             <input type="text" id="tempat_lahir" class="form-control"
-                                                placeholder="Tempat Lahir" name="tempat_lahir" data-parsley-required="true"
+                                                placeholder="Tempat Lahir" name="tempat_lahir" 
                                                 value="{{ $penduduk->tempat_lahir }}" />
                                         </div>
                                     </div>
                                     <!-- Kolom 6 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_pendidikan"
                                                 class="form-label"><strong>Pendidikan</strong></label>
                                             <fieldset class="form-group">
@@ -129,7 +129,7 @@
                                     </div>
                                     <!-- Kolom 7 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="tanggal_lahir" class="form-label"><strong>Tanggal
                                                     Lahir</strong></label>
                                             <input type="date" id="tanggal_lahir" class="form-control"
@@ -138,7 +138,7 @@
                                     </div>
                                     <!-- Kolom 8 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_pekerjaan"
                                                 class="form-label"><strong>Pekerjaan</strong></label>
                                             <fieldset class="form-group">
@@ -156,7 +156,7 @@
                                     </div>
                                     <!-- Kolom 9 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_keluarga" class="form-label"><strong>Status Hubungan
                                                     Keluarga</strong></label>
                                             <fieldset class="form-group">
@@ -174,7 +174,7 @@
                                     </div>
                                     <!-- Kolom 10 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="id_status_perkawinan" class="form-label"><strong>Status
                                                     Perkawinan</strong></label>
                                             <fieldset class="form-group">
@@ -197,7 +197,7 @@
                                             <label for="status_penghuni" class="form-label"><strong>Status
                                                     Tinggal</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="status_penghuni" name="status_penghuni">
+                                                <select class="form-select" id="status_penghuni" name="status_penghuni" data-parsley-required="true">
                                                     <option disabled selected>Pilih Status Tinggal</option>
 
                                                     <option value="kos"
@@ -212,7 +212,7 @@
                                     </div>
                                     <!-- Kolom 12 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group">
                                             <label for="last-name-column" class="form-label">Nama Kos/Kontrak</label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="id_kos" name="id_kos">
@@ -253,7 +253,7 @@
                                                 </select>
                                                 <select id="id_rw" class="form-select" name="id_rw"
                                                     data-parsley-required="true">
-                                                    <option visabled selected>Pilih RW</option>
+                                                    <option disabled selected>Pilih RW</option>
                                                     @foreach ($list_RW as $RW)
                                                         <option value="{{ $RW->id }}"
                                                             {{ $penduduk->id_rw == $RW->id ? 'selected' : '' }}>
@@ -266,19 +266,19 @@
                                     </div>
                                     <!-- Kolom 14 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="no_hp" class="form-label"><strong>Nomor HP</strong></label>
                                             <input type="text" id="no_hp" class="form-control"
-                                                placeholder="Nomor HP" name="no_hp" data-parsley-required="true"
+                                                placeholder="Nomor HP" name="no_hp" 
                                                 value="{{ $penduduk->no_hp }}" />
                                         </div>
                                     </div>
                                     <!-- Kolom 15 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="email" class="form-label"><strong>Email</strong></label>
                                             <input type="text" id="email" class="form-control"
-                                                placeholder="Email" name="email" data-parsley-required="true"
+                                                placeholder="Email" name="email" 
                                                 value="{{ $penduduk->email }}" />
                                         </div>
                                     </div>
@@ -320,6 +320,21 @@
         //         birthdateInput.value = formattedDate;
         //     });
         // });
+
+        $(document).ready(function () {
+    // Ketika nilai pada form id_kos berubah
+    $('#id_kos').on('change', function() {
+        // Jika nilai id_kos tidak kosong
+        if ($(this).val()) {
+            // Aktifkan input tanggal_masuk dan buat wajib diisi
+            $('#tanggal_masuk').prop('required', true).removeAttr('disabled');
+        } else {
+            // Jika nilai id_kos kosong, nonaktifkan input tanggal_masuk dan hapus kewajiban
+            $('#tanggal_masuk').prop('required', false).attr('disabled', 'disabled').val('');
+        }
+    });
+  
+});
 
         document.addEventListener("DOMContentLoaded", function() {
             var resetButton = document.querySelector('button[type="reset"]');

@@ -13,6 +13,6 @@ class pendidikan extends Model
     protected $fillable = ['pendidikan'];
 
     public function penduduk(){
-        return $this->hasMany(penduduk::class, 'id');
+        return $this->hasMany(penduduk::class, 'id_pendidikan');
     }
 }

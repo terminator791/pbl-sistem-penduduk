@@ -28,6 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/tambah-pengurus', [ProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile/store-pengurus', [ProfileController::class, 'store'])->name('profile.store');
     Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/ganti_sandi_profile', [ProfileController::class, 'ganti_sandi_profile'])->name('profile.ganti_sandi_profile');
+    Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
+    Route::get('/kelola_akun', [ProfileController::class, 'kelola_akun'])->name('profile.kelola_akun');
+    Route::get('/toggle-status-user/{id}', [ProfileController::class, 'toggle_status'])->name('profile.toggle_status');
+    Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
+    Route::get('/delete_akun/{id}', [ProfileController::class, 'delete_akun'])->name('profile.delete_akun');
+
+    Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos
     Route::get('/dataKos-print', [dataKosController::class, 'print'])->name('dataKos.print');
@@ -35,11 +43,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [dataKosController::class, 'index'])->name('dataKos');
         Route::post('/store-kos', [dataKosController::class, 'store'])->name('dataKos.store');
         Route::get('/edit-data-kos/{id}', [dataKosController::class, 'edit'])->name('dataKos.edit');
+        Route::get('/toggle-status-data-kos/{id}', [dataKosController::class, 'toggle_status'])->name('dataKos.toggle_status');
         Route::post('/update-data-kos/{id}', [dataKosController::class, 'update'])->name('dataKos.update');
         Route::get('/hapus-kos/{id}', [dataKosController::class, 'delete'])->name('dataKos.delete');
         Route::get('/tambah-kos', [dataKosController::class, 'create'])->name('dataKos.create');
         Route::get('/penghuni-kos/{id}', [dataKosController::class, 'penghuni'])->name('dataKos.penghuniKos');
         Route::get('/penghuni-kos/edit-data-penghuni/{id}', [dataKosController::class, 'edit'])->name('dataKos.penghuniKos.edit');
+        Route::get('/penghuni-kos/update-data-penghuni/{id}', [dataKosController::class, 'updatePenghuni'])->name('dataKos.penghuniKos.update');
         Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
 
@@ -77,6 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/daftar_kesehatan', [KesehatanController::class, 'create']);
         Route::post('/kesehatan/store-kesehatan', [KesehatanController::class, 'store'])->name("kesehatan.store");
         Route::get('/kesehatan/hapus-kesehatan/{id}', [KesehatanController::class, 'delete'])->name('kesehatan.delete');
+        Route::get('/toggle-status-kesehatan/{id}', [KesehatanController::class, 'toggle_status'])->name('kesehatan.toggle_status');
     });
     Route::get('/kesehatan/{penyakit}/print', [KesehatanController::class, 'print'])->name('kesehatan.print');
 
@@ -84,6 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/kejadian', [KejadianController::class, 'index'])->name('kejadian');
     Route::middleware('LevelMiddleware')->group(function (){
         Route::post('/kejadian/store-kejadian', [KejadianController::class, 'store'])->name("kejadian.store");
+        Route::get('/toggle-status-kejadian/{id}', [KejadianController::class, 'toggle_status'])->name('kejadian.toggle_status');
         Route::get('/kejadian/hapus-kejadian/{id}', [KejadianController::class, 'delete'])->name('kejadian.delete');
     });
     Route::get('/kejadian/{jenis_kejadian}/print', [KejadianController::class, 'print'])->name('kejadian.print');
@@ -95,6 +107,7 @@ Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidi
 Route::get('/pendidikan/tambah-pendidikan/{id}', [PendidikanController::class, 'create'])->name('pendidikan.create');
 Route::post('/pendidikan/store-pendidikan/{id}', [PendidikanController::class, 'store'])->name('pendidikan.store');
 Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'delete'])->name('pendidikan.delete');
+Route::get('/pendidikan/{pendidikan}/print', [PendidikanController::class, 'print'])->name('pendidikan.print');
 
 // Bantuan
     Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
@@ -107,11 +120,15 @@ Route::get('/pendidikan/hapus-pendidikan/{id}', [PendidikanController::class, 'd
     Route::get('/daftar_bantuan', [BantuanController::class, 'create']);
     Route::post('/tambah_bantuan', [BantuanController::class, 'store'])->name("bantuan.add");
 
-//penjabatan rt
+    //penjabatan rt
     Route::middleware('LevelMiddleware')->group(function (){
         Route::get('/daftar-rt', [ProfileController::class, 'tampil'])->name('jabatan');
-    });
+        Route::get('/toggle_tanggal_RT/{id}', [ProfileController::class, 'toggle_tanggal'])->name('toggle_tanggal_RT');
+        Route::get('/delete_ketua/{id}', [ProfileController::class, 'delete_ketua'])->name('delete_ketua');
+        Route::post('/update-foto-ketua/{id}', [ProfileController::class, 'updateFotoKetua'])->name('update-foto-ketua');
 
+
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -98,6 +98,84 @@
         </div>
         <div id="main" class="background-light">
             <style>
+                /* Pagination Style */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 0.75rem;
+    margin-left: 2px;
+    font-size: 0.875rem;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+    background-color: transparent; /* Ubah latar belakang menjadi transparan */
+    transition: background-color 0.3s, color 0.3s; /* Tambahkan efek transisi */
+    border-radius: 0.25rem; /* Tambahkan sedikit border-radius */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #f0f0f0; /* Ubah latar belakang saat hover */
+    color: #333; /* Ubah warna teks saat hover */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    color: #6c757d;
+    background-color: transparent;
+    cursor: not-allowed;
+    border-color: #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_paginate .ellipsis {
+    padding: 0.5rem 0.75rem;
+    margin-left: 2px;
+    font-size: 0.875rem;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+    background-color: transparent;
+}
+
+.dataTables_wrapper .dataTables_paginate .pagination {
+    margin-top: 1rem;
+}
+
+/* Responsive Styling */
+@media screen and (max-width: 768px) {
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 0.75rem; /* Kurangi ukuran font saat layar kecil */
+        padding: 0.25rem 0.5rem; /* Sesuaikan padding */
+        margin-left: 0; /* Hilangkan margin kiri */
+    }
+}
+
+/* Search Input Style */
+.dataTables_filter input {
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 4px 8px; /* Padding */
+    width: 100px; /* Width of the input */
+    margin-bottom: 10px; /* Margin bottom for spacing */
+    font-size: 14px; /* Font size */
+    outline: none; /* Remove outline */
+}
+
+.dataTables_filter input:focus {
+    border-color: #007bff; /* Border color on focus */
+    box-shadow: 0 0 25px rgba(0, 123, 255, 0.5); /* Box shadow on focus */
+}
+
+/* table.dataTable tbody th,
+    table.dataTable tbody td {
+        text-align: center;
+    } */
+    table.dataTable thead th,
+    table.dataTable tfoot th {
+        text-align: center;
+    }
                 .background-light {
                     background-color: #D5E3F0; /* Warna biru muda untuk light mode */
                 }
@@ -105,6 +183,39 @@
                 .background-dark {
                     background-color: purple-violet; /* Warna purple-violet untuk dark mode */
                 }
+
+                                /* Custom Modal Styles */
+                .modal-content {
+                    border-radius: 20px; /* Mengatur border-radius untuk modal */
+                    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1); /* Menambahkan shadow */
+                    background-color: #fff; /* Mengatur warna latar belakang modal */
+                }
+
+                .modal-header {
+                    background-color: #f0f4f7; /* Mengatur warna latar belakang header modal */
+                    border-top-left-radius: 20px; /* Mengatur border-radius atas kiri */
+                    border-top-right-radius: 20px; /* Mengatur border-radius atas kanan */
+                }
+
+                .modal-title {
+                    font-weight: bold; /* Mengatur ketebalan font judul modal */
+                }
+
+                .modal-body {
+                    color: #444; /* Mengatur warna teks konten modal */
+                }
+
+                .btn-close {
+                    color: #999; /* Mengatur warna ikon close modal */
+                    font-size: 1.5rem; /* Mengatur ukuran font ikon close */
+                    opacity: 0.7; /* Mengatur kecerahan ikon close */
+                }
+
+                .btn-close:hover {
+                    color: #666; /* Mengubah warna ikon close saat dihover */
+                    opacity: 1; /* Meningkatkan kecerahan ikon close saat dihover */
+                }
+
             </style>
 
             <header class="mb-3">

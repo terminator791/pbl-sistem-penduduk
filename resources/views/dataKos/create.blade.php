@@ -27,11 +27,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Tambah Data Bangunan Kos</h4>
+                    <h4 class="card-title">Tambah Data Kos</h4>
                 </div>
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" method="POST" action="{{ route('dataKos.store') }}" data-parsley-validate>
+                        <form class="form" method="POST" action="{{ route('dataKos.store') }}" data-parsley-validate enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 col-12">
@@ -39,10 +39,12 @@
                                         <label for="nama_kos" class="form-label">Nama Kos</label>
                                         <input type="text" id="nama_kos" class="form-control" placeholder="Nama kos" name="nama_kos" data-parsley-required="true" />
                                     </div>
+                                @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RW' ||  Auth::user()->level == 'RT')
                                     <div class="form-group d-flex align-items-center">
                                         <input type="checkbox" id="enable-dropdown" class="form-check-input me-2">
-                                        <label for="enable-dropdown" class="form-label mb-0">Pemilik merupakan warga asli?</label>
+                                        <label for="enable-dropdown" name="enable-dropdown" class="form-label mb-0">Pemilik merupakan warga asli?</label>
                                     </div>
+                                @endif    
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group" id="nik-dropdown-container" style="display: none;">
@@ -54,16 +56,23 @@
                                         </select>
                                     </div>
                                 </div>
+                            
                                 <div class="col-md-6 col-12">
-                                    <div class="form-group mandatory">
-                                        <label for="pemilik_kos" class="form-label">Pemilik</label>
-                                        <input type="text" id="pemilik_kos" class="form-control" placeholder="Pemilik" name="pemilik_kos" data-parsley-required="true" />
-                                    </div>
+                                <div class="form-group mandatory">
+                                    <label for="pemilik_kos" class="form-label">Pemilik</label>
+                                    <input type="text" id="pemilik_kos" class="form-control" placeholder="Pemilik" name="pemilik_kos" data-parsley-required="true"  
+                                    @if(Auth::check() && Auth::user()->level == 'pemilik_kos')  
+                                        value="{{ $penduduk->pemilik_kos }}" readonly 
+                                    @endif/>
+                                </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group mandatory">
                                         <label for="NIK_pemilik_kos" class="form-label">NIK pemilik kos</label>
-                                        <input type="text" id="NIK_pemilik_kos" class="form-control" placeholder="NIK_pemilik_kos" name="NIK_pemilik_kos" data-parsley-required="true" />
+                                        <input type="text" id="NIK_pemilik_kos" class="form-control" placeholder="NIK_pemilik_kos" name="NIK_pemilik_kos" data-parsley-required="true"
+                                            @if(Auth::check() && Auth::user()->level == 'pemilik_kos')  
+                                            value="{{ $penduduk->NIK_pemilik_kos }}" readonly 
+                                        @endif />
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -95,6 +104,12 @@
                                     <div class="form-group">
                                         <label for="email_pemilik" class="form-label">Email pemilik</label>
                                         <input type="text" id="email_pemilik" class="form-control" placeholder="Email pemilik" name="email_pemilik" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group mandatory">
+                                            <label for="foto_kos" class="form-label"><strong>File KOS</strong></label>
+                                            <input type="file" id="foto_kos" name="foto_kos" class="basic-filepond form-control">
                                     </div>
                                 </div>
                                 <div class="row">

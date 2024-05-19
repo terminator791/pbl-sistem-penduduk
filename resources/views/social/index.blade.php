@@ -4,7 +4,7 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Data Kesehatan</h3>
+            <h3>Data Kesehatan Admin</h3>
             <p class="text-subtitle text-muted">
                 Rekap data Kesehatan
             </p>
@@ -30,11 +30,11 @@
 <ul class="nav nav-pills mb-2">
     @foreach($list_bantuan as $nama_bantuan)
     <li class="nav-item">
-        <a class="nav-link @if($loop->first) active @endif" 
-                id="{{ str_replace(' ', '-', $nama_bantuan->jenis_bantuan) }}-tab" 
-                data-bs-toggle="tab" 
-                href="#{{ str_replace(' ', '-', $nama_bantuan->jenis_bantuan) }}" 
-                ole="tab" aria-controls="{{ $nama_bantuan->jenis_bantuan }}" 
+        <a class="nav-link @if($loop->first) active @endif"
+                id="{{ str_replace(' ', '-', $nama_bantuan->jenis_bantuan) }}-tab"
+                data-bs-toggle="tab"
+                href="#{{ str_replace(' ', '-', $nama_bantuan->jenis_bantuan) }}"
+                ole="tab" aria-controls="{{ $nama_bantuan->jenis_bantuan }}"
                 aria-selected="{{ $loop->first ? 'true' : 'false' }}"
                 data-jenis_bantuan-id="{{ $nama_bantuan->id }}">
             <i data-feather="user" class="font-medium-3 me-50"></i>
@@ -126,8 +126,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="id_bantuan" class="form-label">Bantuan :</label>
-                        <select name="id_bantuan" id="id_bantuan" class="form-select"> 
-                            
+                        <select name="id_bantuan" id="id_bantuan" class="form-select">
+
                         </select>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
             // Memperbarui pilihan pada dropdown "Penyakit"
             var bantuanId = $(this).data('jenis_bantuan-id'); // Mengambil data penyakit-id dari elemen nav-link yang di-klik
             var namaBantuan = $(this).text().trim();
-            
+
             $('#id_bantuan').html('<option value="' + bantuanId + '">' + namaBantuan + '</option>');
 
             var jenisBantuanId = $(this).data('jenis_bantuan-id');

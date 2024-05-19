@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -38,19 +40,49 @@ class LoginRequest extends FormRequest
      * @throws \Illuminate\Validation\ValidationException
      */
     public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
+{
+    $this->ensureIsNotRateLimited();
+    $credentials = $this->only('NIK_penduduk', 'password');
+    $credentials['status_akun'] = 1;
 
-        if (! Auth::attempt($this->only('NIK_penduduk', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+    $users = User::where('NIK_penduduk', $credentials['NIK_penduduk'])->get();
+    
+    if ($users->isEmpty()){
+        throw ValidationException::withMessages([
+            'NIK_penduduk' => 'Akun tidak terdaftar',
+        ]);
+    }
+    
 
+    $authenticated = false;
+
+    foreach ($users as $user) {
+        if ($user->status_akun == 0) {
             throw ValidationException::withMessages([
-                'NIK_penduduk' => trans('auth.failed'),
+                'NIK_penduduk' => trans('Akun anda sedang dinonaktifkan, coba hubungi Admin!'),
             ]);
         }
+        if (Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user, $this->boolean('remember'));
+            $authenticated = true;
+            break;
+        }
 
-        RateLimiter::clear($this->throttleKey());
     }
+
+    if (!$authenticated) {
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            // 'NIK_penduduk' => trans('auth.failed'),
+            'NIK_penduduk' => 'Password yang anda masukkan salah',
+            
+        ]);
+    }
+
+    RateLimiter::clear($this->throttleKey());
+}
+
 
     /**
      * Ensure the login request is not rate limited.

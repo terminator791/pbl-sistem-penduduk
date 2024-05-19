@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('NIK_penduduk')->nullable();
             $table->enum('level', ['admin', 'RW', 'RT', 'pemilik_kos']);
             $table->string('password');
+            $table->boolean('status_akun')->default(true);
             $table->timestamps();
         });
     }
