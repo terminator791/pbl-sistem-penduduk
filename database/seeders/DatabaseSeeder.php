@@ -7,7 +7,6 @@ use App\Models\bantuan;
 use App\Models\detail_pendatang;
 use App\Models\jenis_kejadian;
 use App\Models\jenis_penyakit;
-use App\Models\kamar_kos;
 use App\Models\keluarga;
 use App\Models\kesehatan;
 use App\Models\kos;
@@ -853,6 +852,7 @@ class DatabaseSeeder extends Seeder
         kos::create([
             'id_rt' => 1,
             'pemilik_kos' => 'iqbal bagus',
+            'NIK_pemilik_kos' => '3317120041795',
             'nama_kos' => 'Baskoro 69',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
             'no_hp_pemilik' => '0895423630500',
@@ -864,6 +864,7 @@ class DatabaseSeeder extends Seeder
         kos::create([
             'id_rt' => 2,
             'pemilik_kos' => 'iqbal bagus',
+            'NIK_pemilik_kos' => '3317120041795',
             'nama_kos' => 'Baskoro 70',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
             'no_hp_pemilik' => '0895423630500',
@@ -874,6 +875,7 @@ class DatabaseSeeder extends Seeder
         kos::create([
             'id_rt' => 2,
             'pemilik_kos' => 'Rifqi',
+            'NIK_pemilik_kos' => '3317120041797',
             'nama_kos' => 'Norma House',
             'alamat_kos' => 'Jalan Nirwana Sari No. 30',
             'no_hp_pemilik' => '08213131231',
@@ -881,26 +883,11 @@ class DatabaseSeeder extends Seeder
             'status' => true,
         ],);
 
-        kamar_kos::create([
-            'nama_kamar' => 'A1',
-            'kapasitas' => 2,
-        ],);
-        kamar_kos::create([
-            'nama_kamar' => 'A2',
-        ],);
-        kamar_kos::create([
-            'nama_kamar' => 'B1',
-            'kapasitas' => 2,
-        ],);
-        kamar_kos::create([
-            'nama_kamar' => 'B2',
-        ],);
 
         detail_pendatang::create([
             'NIK' => '3317120041795',
             'id_kos' => 1,
             'tanggal_masuk' => $tanggal_lahir,
-            'id_kamar' => 1,
         ],);
 
         detail_pendatang::create([
@@ -908,7 +895,6 @@ class DatabaseSeeder extends Seeder
             'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
             'deskripsi' => 'kamar-03',
-            'id_kamar' => 2,
         ],);
 
         detail_pendatang::create([
@@ -916,7 +902,6 @@ class DatabaseSeeder extends Seeder
             'id_kos' => 2,
             'tanggal_masuk' => $tanggal_lahir,
             'tanggal_keluar' => $tanggal_lahir,
-            'id_kamar' => 3,
             'deskripsi' => 'kamar-B1',
         ],);
         penjabatan_RT::create([
@@ -926,7 +911,7 @@ class DatabaseSeeder extends Seeder
             'tanggal_dilantik'=> $today,
         ],);
         User::create([
-            'username' => 'iqbal',
+            'username' => 'admin',
             'NIK_penduduk' => '3317120041795',
             'password' => 'iqbal',
             'level' => 'admin',
@@ -942,6 +927,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'username' => 'prasetyo',
             'NIK_penduduk' => '3317120041797',
+            'id_penjabatan_users' => 2024051901,
             'password' => 'iqbal',
             'level' => 'RT',
         ],);

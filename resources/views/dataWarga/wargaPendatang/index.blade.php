@@ -139,6 +139,32 @@ $(document).ready(function () {
 
 });
 
+// Menampilkan pesan jika tidak ada data yang tersedia
+$(document).ajaxComplete(function(event, xhr, settings) {
+        var table = $('#table3').DataTable();
+        var data = table.rows().data();
+        
+        if (xhr.status !== 200) {
+            var table = $('#table3').DataTable();
+            table.clear().draw();
+        // Tampilkan pesan error di konsol
+        var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message.substring(0, 200) + '...' : 'Failed to fetch data';
+        Swal.fire({
+            title: 'Info',
+            text: errorMessage,
+            icon: 'info',
+            showConfirmButton: true
+        });
+    } else if (xhr.responseJSON && xhr.responseJSON.message && data.length === 0) {
+        Swal.fire({
+            title: 'Info',
+            text: "Tidak ada Data",
+            icon: 'info',
+            showConfirmButton: false,
+        });
+    }
+    });
+
 
 
     // Perbarui event listener untuk tombol "toggle-detail"

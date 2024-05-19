@@ -32,6 +32,16 @@
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     {{-- Start Table --}}
     <section id="multiple-column-form">
         <div class="row match-height">
@@ -62,7 +72,7 @@
                                     <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="country-floating" class="form-label">Jabatan</label>
-                                                <input type="text" id="level" class="form-control" name="level" placeholder="email"
+                                                <input type="text" id="level" class="form-control" name="level" placeholder="jabatan"
                                                     value="{{ ($jabatan == 'RT' || $jabatan == 'RW') ? 'Ketua ' . $jabatan : $jabatan }}"
                                                     data-parsley-required="true" readOnly />
                                             </div>
@@ -71,16 +81,27 @@
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             @if(Auth::user()->level == 'RT' || Auth::user()->level == 'RW')
-                                            <div class="form-group ">
+                                            <div class="form-group mandatory">
                                                 <label for="country-floating" class="form-label">No Hp</label>
                                                 <input type="text" id="no_hp" class="form-control"
-                                                    name="country-floating" placeholder="no_hp" value="{{$no_hp}}" disabled/>
+                                                    name="no_hp" placeholder="no_hp" value="{{$no_hp}}" />
                                             </div>
                                                 @endif
                                         </div>
 
                                         <div class="col-md-6 col-12">
-                                            @if(Auth::user()->level == 'RT')
+                                            @if(Auth::user()->level == 'RT' || Auth::user()->level == 'RW')
+                                            <div class="form-group mandatory">
+                                                    <label for="id_rw" class="form-label">email</label>
+                                                    <input type="text" id="email" name="email" class="form-control"
+                                                    placeholder="email" value="{{$email}}"  />
+                                            </div>
+                                                @endif
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            @if(Auth::user()->level == 'RT' || Auth::user()->level == 'RW')
                                             <div class="form-group">
                                                     <label for="id_rw" class="form-label">RW</label>
                                                     <input type="text" id="id_rw" name="id_rw" class="form-control"
@@ -88,8 +109,7 @@
                                             </div>
                                                 @endif
                                         </div>
-                                    </div>
-                                    <div class="row">
+
                                         <div class="col-md-6 col-12">
                                             @if(Auth::user()->level == 'RT')
                                             <div class="form-group">
@@ -106,14 +126,14 @@
                                             <label for="foto_ketua_rt" class="form-label"><strong>foto Ketua RT</strong></label>
                                             <input type="file" id="foto_ketua_rt" name="foto_ketua_rt" class="basic-filepond form-control">
                                         </div>
-                                        <!-- <div>
+                                        <div>
                                             <label for="current_foto_ketua_rt" class="form-label"><strong>Foto Ketua RT saat ini:</strong></label><br>
-                                            @if ($data_kos->foto_kos)
-                                                <img src="{{ asset('storage/' . $data_kos->foto_kos) }}" alt="Foto Ketua RT">
+                                            @if ($ketua_rt->foto_ketua_rt)
+                                                <img src="{{ asset('storage/' . $ketua_rt->foto_ketua_rt) }}" alt="Foto Ketua RT">
                                             @else
-                                                <span>Tidak ada foto KOS tersimpan.</span>
+                                                <span>Tidak ada foto tersimpan.</span>
                                             @endif
-                                        </div> -->
+                                        </div>
                                                 @endif
 
                                                 @if(Auth::user()->level == 'RW')
@@ -146,6 +166,7 @@
         </div>
     </section>
     {{-- End Table --}}
+
 @endsection
 
 @section('scripts')

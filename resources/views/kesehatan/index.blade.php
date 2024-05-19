@@ -42,7 +42,7 @@ $icons = [
     'fa-solid fa-heartbeat fa-lg text-danger',
     'fa-solid fa-pills fa-lg text-warning',
     'fa-solid fa-syringe fa-lg text-info',
-    // tambahkan lebih banyak ikon sesuai kebutuhan
+   
 ];
 @endphp
 <style>

@@ -602,7 +602,6 @@ class ComposerStaticInit1321afa68ea7afba2407483f9876f00e
         'App\\Models\\jenis_bantuan' => __DIR__ . '/../..' . '/app/Models/jenis_bantuan.php',
         'App\\Models\\jenis_kejadian' => __DIR__ . '/../..' . '/app/Models/jenis_kejadian.php',
         'App\\Models\\jenis_penyakit' => __DIR__ . '/../..' . '/app/Models/jenis_penyakit.php',
-        'App\\Models\\kamar_kos' => __DIR__ . '/../..' . '/app/Models/kamar_kos.php',
         'App\\Models\\kejadian' => __DIR__ . '/../..' . '/app/Models/kejadian.php',
         'App\\Models\\keluarga' => __DIR__ . '/../..' . '/app/Models/keluarga.php',
         'App\\Models\\kesehatan' => __DIR__ . '/../..' . '/app/Models/kesehatan.php',

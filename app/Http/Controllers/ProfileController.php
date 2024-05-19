@@ -28,6 +28,8 @@ class ProfileController extends Controller
     public function index(){
         $NIK = Auth::user()->NIK_penduduk;
         $username = Auth::user()->username;
+        $id_penjabatan_users = Auth::user()->id_penjabatan_users;
+
         $nama = penduduk::where('NIK', $NIK)->value('nama');
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
         $id_rw = penduduk::where('NIK', $NIK)->value('id_rw');
@@ -35,10 +37,11 @@ class ProfileController extends Controller
         $email = penduduk::where('NIK', $NIK)->value('email');
         $jabatan = Auth::user()->level;
 
-        $ketua_rw = RW::where('ketua_rw', $nama)->first();
+        $ketua_rw = RW::first();
+        $ketua_rt = penjabatan_RT::where('id_penjabatan', $id_penjabatan_users)->first();
 
         $list_RT = RT::all();
-        return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'id_rw', 'ketua_rw']));
+        return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'id_rw', 'ketua_rw', 'ketua_rt']));
     }
     
      public function edit(Request $request): View
@@ -122,6 +125,7 @@ class ProfileController extends Controller
 
         // Membuat id_penjabatan dengan angka unik hari ini
         $id_penjabatan = $today->format('Ymd') . str_pad($countToday + 1, 2, '0', STR_PAD_LEFT);
+        $NewUser = new User();
 
         if($request->input('level') == 'RW'){
             $NIK_rw = $request->input('nama');
@@ -157,17 +161,17 @@ class ProfileController extends Controller
                 $filepath = $file->storePubliclyAs('foto_ketua_rt', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/'
                 $penjabatan->foto_ketua_rt = $filepath;
             }
+            $NewUser->id_penjabatan_users = $id_penjabatan;
             $penjabatan->save();
         }
 
 
-        $user = new User();
-        $user->username = $request->input('username');
-        $user->NIK_penduduk = $request->input('nama');
-        $user->level = $request->input('level');
-        $user->password = $request->input('nama');
+        $NewUser->username = $request->input('username');
+        $NewUser->NIK_penduduk = $request->input('nama');
+        $NewUser->level = $request->input('level');
+        $NewUser->password = $request->input('nama');
 
-        $user->save();
+        $NewUser->save();
 
         return redirect()->route('profile.create')->with('success', 'Berhasil Dibuat!');
     }
@@ -177,9 +181,22 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         // dd($request->all());
+
+        $request->validate([
+            'foto_ketua_rt' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'foto_ketua_rw' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+        ]);
+
         $NIK = Auth::user()->NIK_penduduk;
         $level = Auth::user()->level;
-        // $id = penduduk::where('NIK', $NIK)->value('id');
+        $id_penjabatan_users = Auth::user()->id_penjabatan_users;
+
+        //penduduk
+        $penduduk = penduduk::where('NIK', $NIK)->first();
+        $penduduk->no_hp = $request->input('no_hp');
+        $penduduk->email = $request->input('email');
+        $penduduk->save();
+        
 
         $user = User::where('NIK_penduduk' , $NIK)->where('level', $level)->first();
         // $penjabatan = User::where('NIK_penduduk' , $NIK)->first();
@@ -196,11 +213,26 @@ class ProfileController extends Controller
             $fileName = time() . '_' . $file->getClientOriginalName();
             
             $filepath = $file->storePubliclyAs('foto_ketua_rw', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/'
+            
+            if ($penjabatan->foto_ketua_rw) {
+                Storage::disk('public')->delete($penjabatan->foto_ketua_rw);
+            }
+
             $penjabatan->foto_ketua_rw = $filepath;
             $penjabatan->save();
 
-        }else {
-            // Handle kesalahan jika file tidak valid
+        }elseif ($request->hasFile('foto_ketua_rt')){
+            $penjabatan = penjabatan_RT::where('id_penjabatan', $id_penjabatan_users)->first();
+            $file = $request->file('foto_ketua_rt');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            
+            $filepath = $file->storePubliclyAs('foto_ketua_rt', $fileName, 'public'); // Simpan di dalam folder 'storage/app/public/'
+            // Delete old photo if exists
+            if ($penjabatan->foto_ketua_rt) {
+                Storage::disk('public')->delete($penjabatan->foto_ketua_rt);
+            }
+            $penjabatan->foto_ketua_rt = $filepath;
+            $penjabatan->save();
         }
 
         // dd($user);

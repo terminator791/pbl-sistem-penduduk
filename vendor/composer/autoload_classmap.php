@@ -59,7 +59,6 @@ return array(
     'App\\Models\\jenis_bantuan' => $baseDir . '/app/Models/jenis_bantuan.php',
     'App\\Models\\jenis_kejadian' => $baseDir . '/app/Models/jenis_kejadian.php',
     'App\\Models\\jenis_penyakit' => $baseDir . '/app/Models/jenis_penyakit.php',
-    'App\\Models\\kamar_kos' => $baseDir . '/app/Models/kamar_kos.php',
     'App\\Models\\kejadian' => $baseDir . '/app/Models/kejadian.php',
     'App\\Models\\keluarga' => $baseDir . '/app/Models/keluarga.php',
     'App\\Models\\kesehatan' => $baseDir . '/app/Models/kesehatan.php',

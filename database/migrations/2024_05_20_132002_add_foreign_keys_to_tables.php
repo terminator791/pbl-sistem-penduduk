@@ -13,26 +13,27 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
+            $table->foreign('id_penjabatan_users')->references('id_penjabatan')->on('penjabatan_rt')->onDelete('set null');
         });
 
         Schema::table('tabel_rt', function (Blueprint $table) {
-            $table->foreign('id_rw')->references('id')->on('tabel_rw');
+            $table->foreign('id_rw')->references('id')->on('tabel_rw')->onDelete('set null');
         });
 
         Schema::table('penduduk', function (Blueprint $table) {
-            $table->foreign('id_pendidikan')->references('id')->on('pendidikan');
-            $table->foreign('id_pekerjaan')->references('id')->on('pekerjaan');
-            $table->foreign('id_status_perkawinan')->references('id')->on('perkawinan');
-            $table->foreign('id_keluarga')->references('id')->on('keluarga');
-            $table->foreign('id_rt')->references('id')->on('tabel_rt');
-            $table->foreign('id_rw')->references('id_rw')->on('tabel_rt');
-            $table->foreign('id_bantuan')->references('id')->on('bantuan');
+            $table->foreign('id_pendidikan')->references('id')->on('pendidikan')->onDelete('set null');
+            $table->foreign('id_pekerjaan')->references('id')->on('pekerjaan')->onDelete('set null');
+            $table->foreign('id_status_perkawinan')->references('id')->on('perkawinan')->onDelete('set null');
+            $table->foreign('id_keluarga')->references('id')->on('keluarga')->onDelete('set null');
+            $table->foreign('id_rt')->references('id')->on('tabel_rt')->onDelete('set null');
+            $table->foreign('id_rw')->references('id_rw')->on('tabel_rt')->onDelete('set null');
+            $table->foreign('id_bantuan')->references('id')->on('bantuan')->onDelete('set null');
         });
 
         Schema::table('detail_pendatang', function (Blueprint $table) { 
             $table->foreign('NIK')->references('NIK')->on('penduduk');
             $table->foreign('id_kos')->references('id')->on('tabel_kos');
-            $table->foreign('id_kamar')->references('id')->on('kamar_kos');
+
         });
 
 

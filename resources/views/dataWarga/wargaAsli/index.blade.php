@@ -157,13 +157,16 @@
         var data = table.rows().data();
         
         if (xhr.status !== 200) {
+            var table = $('#table3').DataTable();
+            table.clear().draw();
+
         // Tampilkan pesan error di konsol
+        var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message.substring(0, 200) + '...' : 'Failed to fetch data';
         Swal.fire({
             title: 'Info',
-            text: xhr.responseJSON.message,
+            text: errorMessage,
             icon: 'info',
-            showConfirmButton: true,
-            
+            showConfirmButton: true
         });
     } else if (xhr.responseJSON && xhr.responseJSON.message && data.length === 0) {
         Swal.fire({
