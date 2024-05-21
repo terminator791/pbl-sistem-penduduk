@@ -117,6 +117,13 @@
             </div>
 
         </div>
+@if(Auth::user()->level != 'RW')
+<div class="text mt-3">  
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik kolom yang ingin diganti untuk mengganti/mengupdate data</p>   
+    <p>Klik  <span  class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></span></i> untuk menghapus penghuni kos</p>
+</div>
+@endif
 
     </section>
     {{-- End Table --}}

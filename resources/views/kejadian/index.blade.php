@@ -124,6 +124,11 @@
         @endforeach
     </div>
     @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')
+
+    <div class="text mt-3">
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik  <span  class="btn btn-sm btn-primary"><i class="bi bi-check text-white"></span></i> untuk mengganti status menjadi <span class="badge bg-success">Selesai</span> atau <span class="badge bg-warning">Proses</span>.</p>
+</div>
         <!-- Floating Toggle -->
         <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
             <button type="button" class="btn btn-primary rounded-pill btn-lg toggle-data" data-bs-toggle="modal"

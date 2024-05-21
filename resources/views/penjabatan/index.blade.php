@@ -129,6 +129,13 @@
             </div>
         @endforeach
     </div>
+    @if(Auth::user()->level != 'RT')
+<div class="text mt-3">  
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik  <span  class="btn btn-sm btn-primary"><i class="bi bi-exclamation-triangle text-white"></span></i> untuk memberhentikan ketua rt yang sedang menjabat</p>
+    <p>Klik kolom tanggal dilantik/foto ketua untuk mengganti/mengupdate data</p>   
+</div>
+@endif
 
 
     <div class="modal fade" id="ConfirmationModal" tabindex="-1" aria-labelledby="ConfirmationModalLabel" aria-hidden="true">

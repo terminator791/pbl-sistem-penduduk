@@ -94,9 +94,9 @@ public function fetchAll()
                     '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
                     '<i class="bi bi-pencil-fill text-white"></i>' .
                     '</a>&nbsp;&nbsp;' . // Spasi di sini
-                    '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-secondary toggle-edit" data-toggle="modal">' .
-                    '<i class="bi fi-br-skull-crossbones"></i>' .
-                    '</a>&nbsp;&nbsp;' . // Spasi di sini
+                    // '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-secondary toggle-edit" data-toggle="modal">' .
+                    // '<i class="bi fi-br-skull-crossbones"></i>' .
+                    // '</a>&nbsp;&nbsp;' . // Spasi di sini
                     '<a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(' . $warga['id'] . ')">' .
                     '<i class="bi bi-trash-fill"></i>' .
                     '</a>&nbsp;&nbsp;' . // Spasi di sini

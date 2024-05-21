@@ -126,6 +126,9 @@ Route::get('/pendidikan/{pendidikan}/print', [PendidikanController::class, 'prin
         Route::get('/toggle_tanggal_RT/{id}', [ProfileController::class, 'toggle_tanggal'])->name('toggle_tanggal_RT');
         Route::get('/delete_ketua/{id}', [ProfileController::class, 'delete_ketua'])->name('delete_ketua');
         Route::post('/update-foto-ketua/{id}', [ProfileController::class, 'updateFotoKetua'])->name('update-foto-ketua');
+        // routes/web.php
+        Route::post('change_password', [ProfileController::class, 'changePassword'])->name('change_password');
+
 
 
     });

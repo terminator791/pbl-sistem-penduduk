@@ -74,6 +74,14 @@
                 </div>
             </div>
         </div>
+<div class="text mt-3">
+    @if(Auth::user()->level != 'RW')
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik  <span  class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengedit informasi warga</p>
+    <p>Klik  <span  class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></span></i> untuk menghapus warga</p>
+    <p>Klik  <span  class="btn btn-sm btn-primary"><i class="bi bi-eye-fill text-white"></span></i> untuk menampilkan informasi warga</p>
+    @endif
+</div>
     </section>
 
     @if(Auth::user()->level == 'admin' || Auth::user()->level == 'RT')

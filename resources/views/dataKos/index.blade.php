@@ -212,6 +212,17 @@
             </div>
         </div>
 
+<div class="text mt-3">
+    @if(Auth::user()->level != 'RW')
+    <p>HARAP DIPERHATIKAN! </p>
+    <p>Klik  <span  class="btn btn-sm btn-primary"><i class="bi bi-exclamation-triangle text-white"></span></i> untuk mengganti status menjadi <span class="badge bg-success">Aktif</span> atau <span class="badge bg-danger">NonAktif</span>.</p>
+    <p>Klik  <span  class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengedit informasi kos</p>
+    <p>Klik  <span  class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></span></i> untuk menghapus kos</p>
+    <p>Klik  <span  class="btn btn-sm btn-info"><i class="bi bi-eye-fill text-white"></span></i> untuk menampilkan informasi kos</p>
+    @endif
+</div>
+
+
     </section>
     {{-- End Table --}}
     @if(Auth::user()->level != 'RW')

@@ -238,9 +238,9 @@ $icons = [
 @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'RT' )
 <div class="text mt-3">
     <p>HARAP DIPERHATIKAN! </p>
-    <p>Klik sekali untuk mengganti status menjadi <span class="badge bg-success">sembuh</span> atau <span class="badge bg-danger">sakit</span>.</p>
-    <p>Klik lama untuk mengganti status menjadi <span class="badge bg-secondary">meninggal</span>.</p>
-    </div>
+    <p>Klik  <span  class="btn btn-sm btn-warning toggle-edit"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengganti status menjadi <span class="badge bg-success">sembuh</span> atau <span class="badge bg-danger">sakit</span>.</p>
+    <p>Tahan  <span  class="btn btn-sm btn-warning toggle-edit"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengganti status menjadi <span class="badge bg-secondary">meninggal</span>.</p>
+</div>
 
 <!-- Floating Toggle -->
 <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">

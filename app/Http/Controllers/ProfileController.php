@@ -381,6 +381,20 @@ public function ganti_sandi_profile(){
     return view('profile.ganti_sandi',compact(['NIK', 'username','jabatan', 'password', 'id_rt']));
 }
 
+public function changePassword(Request $request)
+{
+    $request->validate([
+        'new_password' => 'required|string|min:6',
+        'confirm_password' => 'required|string|same:new_password',
+    ]);
+
+    $user = User::findOrFail($request->user_id);
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return redirect()->back()->with('success', 'Kata sandi berhasil diubah');
+}
+
 public function ganti_sandi(Request $request){
 
     // dd($request->all());
