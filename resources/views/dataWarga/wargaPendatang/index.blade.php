@@ -245,4 +245,19 @@ $(document).ajaxComplete(function(event, xhr, settings) {
     });
 </script>
 @endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
+
+
 @endsection

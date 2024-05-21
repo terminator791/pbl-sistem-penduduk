@@ -27,6 +27,8 @@
 @section('title', 'Data Warga')
 
 @section('content')
+
+
     @if(Auth::user()->level == 'RW' || Auth::user()->level == 'admin')
         <ul class="nav nav-pills mb-2">
             @foreach($id_rt as $rt)
@@ -436,5 +438,19 @@ function showToast(message) {
             });
         </script>
     @endif
+
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
+
 
 @endsection

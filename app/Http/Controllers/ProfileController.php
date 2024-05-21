@@ -53,6 +53,8 @@ class ProfileController extends Controller
 
     public function toggle_tanggal(Request $request, $id)
 {
+    try{
+
     // Temukan data ketua RT berdasarkan ID
     $ketua_rt = penjabatan_RT::where('id_penjabatan', $id)->first();
     $NIK_ketua_rt = penjabatan_RT::where('id_penjabatan', $id)->value('NIK_ketua_rt');
@@ -70,6 +72,11 @@ class ProfileController extends Controller
 
     // Redirect dengan pesan sukses
     return redirect()->route('jabatan')->with('success', 'Berhasil mengganti status!');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal mengganti status: ' . $e->getMessage()]);
+}
+
 }
 
 
@@ -116,6 +123,12 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     { 
+        try {
+
+            $request->validate([
+                'foto_ketua' => 'image|mimes:jpeg,png,jpg|max:10240',
+            ]);
+
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
 
@@ -174,6 +187,11 @@ class ProfileController extends Controller
         $NewUser->save();
 
         return redirect()->route('profile.create')->with('success', 'Berhasil Dibuat!');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit Data Profile: ' . $e->getMessage()]);
+    }
+
     }
 
 
@@ -181,6 +199,8 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         // dd($request->all());
+
+        try{
 
         $request->validate([
             'foto_ketua_rt' => 'image|mimes:jpeg,png,jpg|max:10240',
@@ -239,6 +259,11 @@ class ProfileController extends Controller
         $user->update();
 
         return redirect()->route('profile')->with('success', 'User Updated successfully!');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit Data Profile: ' . $e->getMessage()]);
+    }
+
     }
 
     /**
@@ -265,6 +290,8 @@ class ProfileController extends Controller
     // menampilkan daftar RT yang pernah menjabat
     public function tampil()
 {
+    try{
+
     if (Auth::user()->level == 'RT') {
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
@@ -300,11 +327,20 @@ class ProfileController extends Controller
             ->get();
     }
     return view('penjabatan.index', compact('id_rt', 'list_ketua', 'nama_ketua'));
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal Menampilkan Data: ' . $e->getMessage()]);
+}
+
 }
 
 public function updateKetua(Request $request, $id)
 {
-    
+    try{
+
+        $request->validate([
+            'foto_ketua' => 'image|mimes:jpeg,png,jpg|max:10000',
+        ]);
 
     // Ambil data penduduk berdasarkan id_ yang diberikan
     $ketua = penjabatan_RT::where('id', $id)->first();
@@ -323,12 +359,16 @@ public function updateKetua(Request $request, $id)
     
     $ketua->save();
 
-    
-
     return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal mengedit Data: ' . $e->getMessage()]);
+}
+
 }
 
 public function ganti_sandi_profile(){
+    
     $NIK = Auth::user()->NIK_penduduk;
     $username = Auth::user()->username;
     $jabatan = Auth::user()->level;
@@ -345,6 +385,8 @@ public function ganti_sandi(Request $request){
 
     // dd($request->all());
     // Validasi input dari formulir
+    try{
+
     $request->validate([
         'password_lama' => 'required',
         'password_baru' => 'required', // Misalnya, membutuhkan minimal 8 karakter untuk kata sandi baru
@@ -364,6 +406,11 @@ public function ganti_sandi(Request $request){
 
     // Redirect pengguna ke halaman profile atau ke halaman lain yang sesuai
     return redirect()->route('profile')->with('success', 'Kata sandi berhasil diperbarui.');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal Mengganti Sandi: ' . $e->getMessage()]);
+}
+
 }
 
 
@@ -381,10 +428,16 @@ public function check_password(Request $request){
 
 public function delete_ketua($id)
 {
+    try{
     $ketua_rt = penjabatan_RT::where('id_penjabatan', $id);
     $ketua_rt->delete();
 
     return redirect()->route('jabatan')->with('success', 'Deleted successfully!');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal Menghapus Data: ' . $e->getMessage()]);
+}
+
 }
 
 public function kelola_akun()
@@ -403,6 +456,8 @@ public function kelola_akun()
 
 public function toggle_status(Request $request, $id)
 {
+    try{
+
     $user = User::findOrFail($id);
 
     // Mengubah status menjadi kebalikan dari nilai sebelumnya
@@ -411,20 +466,34 @@ public function toggle_status(Request $request, $id)
     $user->update();
 
     return redirect()->route('profile.kelola_akun')->with('success', 'berhasil mengganti status!');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal mengganti Status: ' . $e->getMessage()]);
+}
+
 }
 
 public function delete_akun($id)
 {
+    try{
+
     $user = User::findOrFail($id);
     $user->delete();
 
     return redirect()->route('profile.kelola_akun')->with('success', 'Deleted successfully!');
+
+} catch (\Exception $e) {
+    return back()->withErrors(['message' => 'Gagal menghapus Akun: ' . $e->getMessage()]);
+}
+
 }
 
 public function updateFotoKetua(Request $request, $id)
 {
+    try{
+
     $request->validate([
-        'foto_ketua' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'foto_ketua' => 'image|mimes:jpeg,png,jpg|max:10000',
     ]);
 
     $ketua = penjabatan_RT::find($id);
@@ -446,10 +515,12 @@ public function updateFotoKetua(Request $request, $id)
     // Set a session flash message
     session()->flash('message', 'Foto berhasil diubah');
     return response()->json(['message' => 'Foto berhasil diubah'], 200);
-}
 
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit Data: ' . $e->getMessage()]);
+    }
 
-
+ }
 
 
 }

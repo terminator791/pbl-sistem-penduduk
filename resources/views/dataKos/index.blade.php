@@ -55,7 +55,7 @@
                                 <th>Jumlah Penghuni</th>
                                 <th>Alamat Kos</th>
                                 <th>Status</th>
-                                @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'pemilik_kos')
+                                @if(Auth::check() && Auth::user()->level == 'admin' ||  Auth::user()->level == 'pemilik_kos' || Auth::user()->level == 'RT')
                                 <th>Aksi</th>
                                 @endif
                             </tr>
@@ -77,17 +77,34 @@
                                         @endif
                                     </td>
                                     <td>
+                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}"
+                                        class="btn btn-sm
+                                                @if($kos->status)
+                                                    btn-secondary
+                                                @else
+                                                    btn-primary
 
-
+                                                @endif">
+                                            <i class="bi bi-exclamation-triangle text-white"></i>
+                                        </a>
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
                                             class="btn btn-sm btn-warning toggle-edit">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>
                                         <!-- Tombol Hapus -->
+                                        <!-- <a href="#" class="btn btn-sm btn-danger toggle-delete"
+                                            onclick="confirmDelete(event, {{ $kos->id }})">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a> -->
                                         <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
+
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
+                                            onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
+                                            <i class="bi bi-eye-fill text-white"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -154,6 +171,36 @@
                                         @else
                                             <span class="badge bg-danger">Non Aktif</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}"
+                                        class="btn btn-sm
+                                                @if($kos->status)
+                                                    btn-secondary
+                                                @else
+                                                    btn-primary
+
+                                                @endif">
+                                            <i class="bi bi-exclamation-triangle text-white"></i>
+                                        </a>
+                                        <!-- Tombol Toggle Edit -->
+                                        <a href="{{ route('dataKos.edit', $kos->id) }}"
+                                            class="btn btn-sm btn-warning toggle-edit">
+                                            <i class="bi bi-pencil-fill text-white"></i>
+                                        </a>
+                                        <!-- Tombol Hapus -->
+                                        <!-- <a href="#" class="btn btn-sm btn-danger toggle-delete"
+                                            onclick="confirmDelete(event, {{ $kos->id }})">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a> -->
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
+                                            onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
+                                            <i class="bi bi-eye-fill text-white"></i>
+                                        </a>
                                     </td>
 
                                 </tr>
@@ -331,4 +378,19 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
         }).showToast();
         </script>
     @endif
+
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
+
+
 @endsection

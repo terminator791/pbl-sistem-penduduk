@@ -25,6 +25,19 @@
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
     {{-- Start Table --}}
     <section id="multiple-column-form">
         <div class="row match-height">
@@ -70,7 +83,7 @@
                                     </div>
                                     <!-- Kolom 4 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
+                                        <div class="form-group ">
                                             <label for="agama" class="form-label"><strong>Agama</strong></label>
                                             <fieldset class="form-group">
                                                 <select class="form-select" id="agama" name="agama">

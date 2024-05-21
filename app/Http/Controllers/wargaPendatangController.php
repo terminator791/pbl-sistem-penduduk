@@ -174,8 +174,8 @@ public function fetchOne($id)
 
     public function store(Request $request)
     {
-
-        $kos = $request->input('id_kos');
+        try {
+            $kos = $request->input('id_kos');
         $nama_jalan_kos = kos::where('id', $kos)->value('alamat_kos');
 
         $penduduk = new penduduk();
@@ -224,11 +224,18 @@ public function fetchOne($id)
         
 
         return redirect()->route('wargaPendatang')->with('success', 'Penduduk added successfully!');
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
+        }
+
     }
 
     // Update
     public function edit($id)
     {
+        
+        
         $penduduk = penduduk::with('detail_pendatang')->findOrFail($id);
         $detail_pendatang = $penduduk->detail_pendatang()->first();
         $list_pendidikan = pendidikan::all();
@@ -332,14 +339,14 @@ public function fetchOne($id)
             $penduduk->save();
         }
 
+        return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');
+
     } catch (\Exception $e) {
         return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
     }
 
-    return redirect()->route('wargaPendatang')->with('success', 'Penduduk updated successfully!');
+    
 }
-
-
 
     // Delete
     public function delete(Request $request, $id)

@@ -55,6 +55,11 @@ class KejadianController extends Controller
     public function store(Request $request)
     {
         // Create a new kejadian instance
+        try{
+            $request->validate([
+                'foto_kejadian' => 'image|mimes:jpeg,png,jpg|max:10240',
+            ]);
+
         $kejadian = new Kejadian();
         $kejadian->NIK_penduduk = $request->input('NIK_penduduk');
         $kejadian->jenis_kejadian = $request->input('id_jenis_kejadian');
@@ -71,6 +76,11 @@ class KejadianController extends Controller
         $kejadian->save();
 
         return redirect()->route('kejadian')->with('success', 'Kejadian added successfully!');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal memasukkan data: ' . $e->getMessage()]);
+    }
+
     }
 
 

@@ -28,18 +28,23 @@ class dataKosController extends Controller
         $list_penduduk_rt = Penduduk::where('id_rt', $id_rt)->get();
         $list_penduduk_kos = kos::where('NIK_pemilik_kos', $NIK)->get();
 
+        
+
         if ($userLevel === 'admin') {
             $list_penduduk = $list_penduduk_admin;
+            $list_RT = RT::all();
         } elseif ($userLevel === 'RW') {
             $list_penduduk = $list_penduduk_rw;
+            $list_RT = RT::all();
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
+            $list_RT = RT::where('id', $id_rt)->get();
         } elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_kos;
         }
 
         $data_kos = kos::all();
-        $list_RT = RT::all();
+        
         return view('dataKos.create', compact( 'data_kos', 'list_RT', 'list_penduduk'));
     }
 
@@ -80,6 +85,7 @@ public function penghuni($id)
 public function updatePenghuni(Request $request, $id)
 {
     // dd($request->all());
+    try {
 
     // Ambil data penduduk berdasarkan id_ yang diberikan
     $penghuni = detail_pendatang::where('id', $id)->with('penduduk')->first();
@@ -99,12 +105,21 @@ public function updatePenghuni(Request $request, $id)
     
 
     return redirect()->back()->with('success', 'Data penghuni berhasil diperbarui.');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit Data Penghuni: ' . $e->getMessage()]);
+    }
 }
 
 
     public function store(Request $request)
     {
         // dd($request->all());
+        try {
+
+            $request->validate([
+                'foto_kos' => 'image|mimes:jpeg,png,jpg|max:10240',
+            ]);
 
         $pemilik_kos_asli_NIK = $request->input('NIK_pemilik_kos_asli');
         $pemilik_kos_asli = penduduk::where('NIK', $pemilik_kos_asli_NIK)->first();
@@ -163,6 +178,10 @@ public function updatePenghuni(Request $request, $id)
 
     // Redirect kembali ke halaman 'wargaAsli'
     return redirect()->route('dataKos')->with('success', 'kos ' . $data_kos->nama_kos .'berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Gagal mengedit Data Kos: ' . $e->getMessage()]);
+        }
     }
 
     // Update
@@ -190,6 +209,13 @@ public function updatePenghuni(Request $request, $id)
     public function update(Request $request, $id)
     {
         // dd($request->all());
+
+        try {
+
+            $request->validate([
+                'foto_kos' => 'image|mimes:jpeg,png,jpg|max:10240',
+            ]);
+
         $data_kos = kos::findOrFail($id);
 
         $data_kos->id_rt = $request->input('id_rt');
@@ -214,6 +240,11 @@ public function updatePenghuni(Request $request, $id)
         $data_kos->update();
 
         return redirect()->route('dataKos')->with('success', 'data_kos added successfully!');
+
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit Data Kos: ' . $e->getMessage()]);
+    }
+
     }
 
     public function toggle_status(Request $request, $id)
@@ -255,7 +286,8 @@ public function updatePenghuni(Request $request, $id)
         $user = User::where('NIK_penduduk', $NIK_pemilik_kos)->where('level', 'pemilik_kos')->first();
         
         if($user) {
-            $user->delete();
+            // $user->delete();
+            $user->status_akun = 0;
             if (Auth::user()->level == 'pemilik_kos'){
                 return redirect()->route('login')->with('warning', 'Akun tidak akan bisa digunakan lagi karena tidak adanya kos yang ada di akun ini, Hubungi Admin lebih lanjut!');
             }

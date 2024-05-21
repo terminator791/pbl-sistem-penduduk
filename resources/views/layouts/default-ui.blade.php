@@ -168,6 +168,15 @@
     box-shadow: 0 0 25px rgba(0, 123, 255, 0.5); /* Box shadow on focus */
 }
 
+    .alert ul {
+        margin-bottom: 0;
+    }
+    .alert-heading {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+
 /* table.dataTable tbody th,
     table.dataTable tbody td {
         text-align: center;

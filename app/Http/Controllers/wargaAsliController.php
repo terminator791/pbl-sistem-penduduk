@@ -94,6 +94,9 @@ public function fetchAll()
                     '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
                     '<i class="bi bi-pencil-fill text-white"></i>' .
                     '</a>&nbsp;&nbsp;' . // Spasi di sini
+                    '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-secondary toggle-edit" data-toggle="modal">' .
+                    '<i class="bi fi-br-skull-crossbones"></i>' .
+                    '</a>&nbsp;&nbsp;' . // Spasi di sini
                     '<a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(' . $warga['id'] . ')">' .
                     '<i class="bi bi-trash-fill"></i>' .
                     '</a>&nbsp;&nbsp;' . // Spasi di sini
@@ -248,6 +251,12 @@ public function simpan(Request $request)
 {
     // dd($request->all());
     try {
+        // Validate that the NIK is unique except for the current record
+        $existingNIK = Penduduk::where('NIK', $request->input('NIK'))->where('id', '!=', $request->NIK)->exists();
+        if ($existingNIK) {
+            return back()->withErrors(['message' => 'NIK sudah ada. Harap gunakan NIK yang berbeda.']);
+        }
+
         // Handle the foto_ktp upload if a file is uploaded
         $filePath = null;
         if ($request->hasFile('foto_ktp')) {
@@ -315,6 +324,7 @@ public function simpan(Request $request)
 
     public function update(Request $request, $id)
 {
+
     try {
         // Validate that the NIK is unique except for the current record
         $existingNIK = Penduduk::where('NIK', $request->input('NIK'))->where('id', '!=', $id)->exists();

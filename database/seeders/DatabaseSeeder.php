@@ -852,7 +852,7 @@ class DatabaseSeeder extends Seeder
         kos::create([
             'id_rt' => 1,
             'pemilik_kos' => 'iqbal bagus',
-            'NIK_pemilik_kos' => '3317120041795',
+            'NIK_pemilik_kos' => '3317120041798',
             'nama_kos' => 'Baskoro 69',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
             'no_hp_pemilik' => '0895423630500',
@@ -864,7 +864,7 @@ class DatabaseSeeder extends Seeder
         kos::create([
             'id_rt' => 2,
             'pemilik_kos' => 'iqbal bagus',
-            'NIK_pemilik_kos' => '3317120041795',
+            'NIK_pemilik_kos' => '3317120041798',
             'nama_kos' => 'Baskoro 70',
             'alamat_kos' => 'Jalan Galang Sewu No. 1',
             'no_hp_pemilik' => '0895423630500',

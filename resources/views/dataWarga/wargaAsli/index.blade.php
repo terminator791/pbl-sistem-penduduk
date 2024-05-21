@@ -16,6 +16,7 @@
                     Rekap data warga asli
                 </p>
             </div>
+            <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
             <div class="col-12 col-md-6 order-md-8 order-last">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
@@ -264,4 +265,19 @@ function showWargaDetail(id) {
             });
         @endif
     </script>
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
+
+
 @endsection
