@@ -64,13 +64,17 @@ class PendidikanController extends Controller
         }
     }
 
-    public function print(pendidikan $penyakit)
+    public function print(pendidikan $pendidikan)
     {
+        // dd($pendidikan->penduduk->pluck('id_pendidikan'));
+        $NIK = Auth::user()->NIK_penduduk;
+        $penduduk = penduduk::where('NIK', $NIK)->first();
         // Ambil data kesehatan berdasarkan kategori penyakit
-        $pendidikan = penduduk::where('id_pendidikan', $penyakit->id)->get();
+        $pendidikan = penduduk::whereIn('id_pendidikan', $pendidikan->penduduk->pluck('id_pendidikan'))->get();
+        // dd($pendidikan->penduduk->pluck('id_pendidikan'));
 
         // Kembalikan view print dengan data kesehatan
-        return view('pendidikan.print', compact('pendidikan', 'pendidikan'));
+        return view('pendidikan.print', compact('pendidikan', 'pendidikan','penduduk'));
     }
 
     public function delete(Request $request, $id)

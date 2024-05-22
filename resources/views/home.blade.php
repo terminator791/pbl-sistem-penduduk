@@ -113,14 +113,339 @@
         <div class="col-lg-6 mb-4">
             <div class="card text-center shadow-lg">
                 <div class="card-body">
-                <a href="{{ route('profile') }}" class="text-decoration-none">
-                    <div class="icon-box bg-red mb-4">
-                        <i class="bi-person-fill"></i>
-                    </div>
-                    <h5 class="card-title text-muted mb-3">Profil</h5>
-                    <p class="card-text">Lihat dan ubah profil Anda di sini.</p>
+                    <a href="{{ route('profile') }}" class="text-decoration-none">
+                        <div class="icon-box bg-red mb-4">
+                            <i class="bi-person-fill"></i>
+                        </div>
+                        <h5 class="card-title text-muted mb-3">Profil</h5>
+                        <p class="card-text">Lihat dan ubah profil Anda di sini.</p>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Chart Section -->
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-6 mb-4">
+        <div class="card text-center shadow-lg">
+            <div class="card-body">
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title text-muted mb-3">Pendidikan Seluruh Penduduk</h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title text-muted mb-3">Pendidikan Penduduk RW {{ $id_rw }}</h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title text-muted mb-3">Pendidikan Penduduk RT {{ $id_rt }}</h5>
+                @endif
+                
+                <canvas id="educationalChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card text-center shadow-lg">
+            <div class="card-body">
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title text-muted mb-3">kesehatan Seluruh Penduduk</h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RW {{ $id_rw }}</h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RT {{ $id_rt }}</h5>
+                @endif
+                
+                <canvas id="kesehatanChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card text-center shadow-lg">
+            <div class="card-body">
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title text-muted mb-3">Bantuan Seluruh Penduduk</h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RW {{ $id_rw }}</h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RT {{ $id_rt }}</h5>
+                @endif
+                
+                <canvas id="sosialChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card text-center shadow-lg">
+            <div class="card-body">
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title text-muted mb-3">Bantuan Seluruh Penduduk</h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RW {{ $id_rw }}</h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RT {{ $id_rt }}</h5>
+                @endif
+                
+                <canvas id="kejadianChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+    <div class="card text-center shadow-lg">
+        <div class="card-body">
+            @if (Auth::user()->level == 'admin')
+                <h5 class="card-title text-muted mb-3">kos Seluruh Penduduk</h5>
+            @elseif (Auth::user()->level == 'RW')
+                <h5 class="card-title text-muted mb-3">kos Penduduk RW {{ $id_rw }}</h5>
+            @elseif(Auth::user()->level == 'RT')
+                <h5 class="card-title text-muted mb-3">kos Penduduk RT {{ $id_rt }}</h5>
+            @endif
+            <div class="form-group">
+                <label for="yearSelect">Select Year:</label>
+                <select class="form-control" id="yearSelect">
+                    @foreach ($years as $year)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <canvas id="kosChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    
+</div>
+    <!-- Include Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var labels = {!! json_encode($labels_pendidikan) !!};
+        var data = {!! json_encode($data_pendidikan) !!};
+
+        var ctx = document.getElementById('educationalChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Penduduk',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var labels = {!! json_encode($labels_kesehatan) !!};
+        var data = {!! json_encode($data_kesehatan) !!};
+
+        var ctx = document.getElementById('kesehatanChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Penduduk',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var labels = {!! json_encode($labels_sosial) !!};
+        var data = {!! json_encode($data_sosial) !!};
+
+        var ctx = document.getElementById('sosialChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Penduduk',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var labels = {!! json_encode($labels_kejadian) !!};
+        var data = {!! json_encode($data_kejadian) !!};
+
+        var ctx = document.getElementById('kejadianChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Penduduk',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('kosChart').getContext('2d');
+    var kosChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Jumlah Penghuni',
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    document.getElementById('yearSelect').addEventListener('change', function() {
+        var selectedYear = this.value;
+        fetch('{{ route("chart.fetchData") }}?year=' + selectedYear)
+            .then(response => response.json())
+            .then(data => {
+                kosChart.data.labels = data.labels;
+                kosChart.data.datasets[0].data = data.data;
+                kosChart.update();
+            });
+    });
+});
+
+</script>
 @endsection

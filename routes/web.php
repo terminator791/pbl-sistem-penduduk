@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
+Route::get('/chart_fetch',[PendudukController::class, 'fetchData'])->name('chart.fetchData');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');

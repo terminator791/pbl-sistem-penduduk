@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Data Sosial</li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT </p>
             </nav>
         </div>
     </div>

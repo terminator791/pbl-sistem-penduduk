@@ -8,40 +8,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Tambahkan CSS jika diperlukan -->
     <style>
-        /* Aturan CSS */
         .fade-row {
             opacity: 0.5;
-            /* Sesuaikan dengan tingkat opasitas yang diinginkan */
             transition: opacity 0.3s ease;
-            /* Animasi perubahan opasitas */
         }
 
         .fade-row:hover {
             opacity: 1;
-            /* Opasitas kembali ke normal saat dihover */
         }
 
         .fade-row td {
             text-decoration: line-through;
         }
 
-        th,
-        td {
+        th, td {
             text-align: center;
+            vertical-align: middle;
         }
 
-        /* Styling untuk kop surat */
         .letterhead {
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Memusatkan secara horizontal */
             padding: 20px;
             position: relative;
-            /* Menjadikan posisi relatif untuk menempatkan garis */
             text-align: center;
-            /* Memastikan teks terpusat */
         }
 
         .letterhead h1 {
@@ -52,25 +44,34 @@
 
         .letterhead img {
             width: 170px;
-            /* Ukuran default */
             height: auto;
-            /* Lebar akan menyesuaikan proporsi */
             margin-right: 20px;
-            /* Margin untuk memberi jarak antara logo dan teks */
         }
 
-        /* Styling untuk tempat tanda tangan */
         .signature {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            /* Memusatkan secara horizontal ke kanan */
-            padding: 20px;
             position: absolute;
             bottom: 0;
             right: 0;
+            margin-bottom: 30px;
+            margin-right: 50px;
+            text-align: right;
+        }
+
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #dee2e6;
+            padding: .75rem;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .signature p {
+            margin-bottom: 90px;
         }
     </style>
 </head>
@@ -107,10 +108,17 @@
     </table>
 
     <!-- Tempat Tanda Tangan -->
+    @if (Auth::user()->level == "admin")
     <div class="signature">
         <p id="tanggal">{{ date("Y-m-d") }}</p>
-        <p id="nama">{{ Auth::user()->username }}</p>
+        <p id="nama">Admin</p>
     </div>
+    @elseif (Auth::user()->level == "RT" || Auth::user()->level == "RW")
+    <div class="signature">
+        <p id="tanggal">{{ date("Y-m-d") }}</p>
+        <p id="nama">{{ $penduduk->nama }}</p>
+    </div>
+    @endif
 
 </body>
 <script>
