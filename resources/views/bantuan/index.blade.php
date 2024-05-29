@@ -1,6 +1,16 @@
 @extends('layouts.default-ui')
 
 @section('heading')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="user-info" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; background-color: #435ebe; padding: 5px 10px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <i class="fas fa-user" style="margin-right: 5px; font-size: 18px; color: white;"></i>
+        <p style="margin: 0; font-size: 14px; color: white;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
+</div>
+
+<br>
+
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
@@ -23,11 +33,33 @@
 @section('title', 'Data Warga')
 
 @section('content')
+@php
+$icons = [
+    'fa-solid fa-credit-card',
+    'fa-solid fa-users',
+    'fa-solid fa-house-user',
+    'fa-solid fa-hand-holding-dollar',
+    'fa-solid fa-user-tie',
+    'fa-solid fa-child',
+    'fa-solid fa-wheelchair',
+    'fa-solid fa-money-bill-wave',
+    'fa-solid fa-person-dress',
+    'fa-solid fa-person',
+    'fa-solid fa-hospital-user',
+    'fa-solid fa-cart-shopping'
+    // tambahkan lebih banyak ikon sesuai kebutuhan
+];
+@endphp
+
 <ul class="nav nav-pills mb-2">
     @foreach($list_bantuan as $bantuan)
+    @php
+        $icon = $icons[$loop->index % count($icons)]; // Menggunakan modulus untuk mengulang jika ikon lebih sedikit dari penyakit
+    @endphp
+
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $bantuan->jenis_bantuan }}-tab" data-bs-toggle="tab" href="#{{ $bantuan->jenis_bantuan }}" role="tab" aria-controls="{{ $bantuan->jenis_bantuan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-bantuan-id="{{ $bantuan->id }}">
-            <i class="fa-solid fa-user-group" class="font-medium-3 me-50"></i>
+            <i class="{{ $icon }}" class="font-medium-3 me-50"></i>
             <span class="fw-bold">{{ $bantuan->jenis_bantuan }}</span>
         </a>
     </li>

@@ -1,6 +1,12 @@
 @extends('layouts.default-ui')
 
 @section('heading')
+<div id="user-info" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; background-color: #435ebe; padding: 5px 10px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <i class="fas fa-user" style="margin-right: 5px; font-size: 18px; color: white;"></i>
+        <p style="margin: 0; font-size: 14px; color: white;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
+    </div>
+    <br>
+
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
@@ -12,9 +18,7 @@
                     <h3>Data Warga RW 13 RT {{ $id_rt}}</h3>
                 @endif
                 
-                <p class="text-subtitle text-muted">
-                    Rekap data warga asli
-                </p>
+                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13</p>
             </div>
             <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
             <div class="col-12 col-md-6 order-md-8 order-last">
@@ -24,7 +28,6 @@
                         <li class="breadcrumb-item active" aria-current="page">Data Warga</li>
                         <li class="breadcrumb-item active" aria-current="page">Warga Asli</li>
                     </ol>
-                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13</p>
                 </nav>
             </div>
         </div>

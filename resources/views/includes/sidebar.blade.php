@@ -1,12 +1,12 @@
 <div class="sidebar-menu">
     <ul class="menu">
-        @if(Auth::user()->level != 'pemilik_kos')
         <li class="sidebar-item {{ Request::is('home') ? 'active' : '' }}">
             <a href="{{ route('home') }}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
                 <span>Dasbor</span>
             </a>
         </li>
+        @if(Auth::user()->level != 'pemilik_kos')
        
         <li class="sidebar-item has-sub {{ Request::is('wargaAsli', 'wargaPendatang') ? 'active open' : '' }}">
             <a href="#" class="sidebar-link">

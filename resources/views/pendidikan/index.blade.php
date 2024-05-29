@@ -1,6 +1,15 @@
 @extends('layouts.default-ui')
 
 @section('heading')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+
+<div id="user-info" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; background-color: #435ebe; padding: 5px 10px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <i class="fas fa-user" style="margin-right: 5px; font-size: 18px; color: white;"></i>
+        <p style="margin: 0; font-size: 14px; color: white;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
+</div>
+
+<br>
+
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
@@ -32,11 +41,28 @@
 @section('title', 'Data Warga')
 
 @section('content')
+
+@php
+$icons = [
+    'fa-solid fa-chalkboard-user',
+    'fa-solid fa-book-open-reader',
+    'fa-solid fa-school',
+    'fa-solid fa-laptop-code',
+    'fa-solid fa-graduation-cap',
+    'fa-solid fa-user-graduate',
+    // tambahkan lebih banyak ikon sesuai kebutuhan
+];
+@endphp
+
+
 <ul class="nav nav-pills mb-2">
     @foreach($pendidikan as $pendidik)
+    @php
+        $icon = $icons[$loop->index % count($icons)]; // Menggunakan modulus untuk mengulang jika ikon lebih sedikit dari penyakit
+    @endphp
     <li class="nav-item">
         <a class="nav-link @if($loop->first) active @endif" id="{{ $pendidik->jenis_pendidikan }}-tab" data-bs-toggle="tab" href="#{{ $pendidik->jenis_pendidikan }}" role="tab" aria-controls="{{ $pendidik->jenis_pendidikan }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-penyakit-id="{{ $pendidik->id }}">
-            <i class="fa-solid fa-user-graduate fa-lg" class="font-medium-3 me-50"></i>
+            <i class="{{ $icon }}" class="font-medium-3 me-50"></i>
             <span class="fw-@if($loop->first)bold @endif">{{ $pendidik->jenis_pendidikan }}</span>
         </a>
     </li>
@@ -181,38 +207,38 @@
 @section('scripts')
 <script>
     // Script jQuery
-   // Script jQuery
-$(document).ready(function () {
-    // Loop through each table with an ID starting with "table_"
-    $('table[id^="table_"]').each(function () {
-        $(this).DataTable({ // Initialize DataTable for the current table
+    $(document).ready(function () {
+        // Loop through each table with an ID starting with "table_"
+        $('table[id^="table_"]').each(function () {
+            $(this).DataTable({ // Initialize DataTable for the current table
 
+            });
         });
-    });
-});
 
-
-    $(document).ready(function() {
         // Fungsi untuk menyimpan id jenis pendidikan ke local storage
-    function saveActiveJenisPendidikanId(jenisPendidikanId) {
-        localStorage.setItem('activeJenisPendidikanId', jenisPendidikanId);
-    }
+        function saveActiveJenisPendidikanId(jenisPendidikanId) {
+            localStorage.setItem('activeJenisPendidikanId', jenisPendidikanId);
+        }
 
-    // Fungsi untuk mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
-    function getSavedActiveJenisPendidikanId() {
-        return localStorage.getItem('activeJenisPendidikanId');
-    }
+        // Fungsi untuk mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
+        function getSavedActiveJenisPendidikanId() {
+            return localStorage.getItem('activeJenisPendidikanId');
+        }
 
-    // Inisialisasi tab aktif
-    var activeJenisPendidikanId = getSavedActiveJenisPendidikanId(); // Mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
-    if (activeJenisPendidikanId) {
-        $('.nav-link[data-penyakit-id="' + activeJenisPendidikanId + '"]').tab('show'); // Menampilkan tab dengan id jenis pendidikan terakhir yang diakses
-    }
+        // Inisialisasi tab aktif
+        var activeJenisPendidikanId = getSavedActiveJenisPendidikanId(); // Mendapatkan id jenis pendidikan terakhir yang diakses dari local storage
+        if (activeJenisPendidikanId) {
+            $('.nav-link[data-penyakit-id="' + activeJenisPendidikanId + '"]').tab('show'); // Menampilkan tab dengan id jenis pendidikan terakhir yang diakses
+        }
 
         // Inisialisasi nilai penyakit pada load halaman pertama kali
         var initialPenyakit = $('.nav-link.active').data('penyakit-id'); // Mengambil data penyakit-id dari elemen nav-link aktif
         var namaPenyakit = $('.nav-link.active').text().trim();
         $('#id_pendidikan').html('<option value="' + initialPenyakit + '" selected>' + namaPenyakit + '</option>');
+
+        // Set initial action for the form
+        var selectedNIK = $('#NIK_penduduk').val();
+        $('#form-tambah-pendidikan').attr('action', '{{ route('pendidikan.store', '') }}/' + selectedNIK);
 
         $('.nav-link').on('click', function() {
             $('.nav-link span').removeClass('fw-bold');
@@ -224,7 +250,7 @@ $(document).ready(function () {
             $('#id_pendidikan').html('<option value="' + penyakitId + '" selected>' + namaPenyakit + '</option>');
 
             var jenisPendidikanId = $(this).data('penyakit-id');
-        saveActiveJenisPendidikanId(jenisPendidikanId); // Menyimpan id jenis pendidikan ke local storage setiap kali tab diubah
+            saveActiveJenisPendidikanId(jenisPendidikanId); // Menyimpan id jenis pendidikan ke local storage setiap kali tab diubah
         });
 
         $('#NIK_penduduk').on('change', function() {
@@ -237,25 +263,22 @@ $(document).ready(function () {
         $('.print-button').on('click', function() {
             window.print();
         });
+
+        // Initialize the Choices plugin
+        $('.choices').choices();
     });
-    $(document).ready(function(){
-            $('.choices').choices();
+
+    @if ($errors->any())
+        Swal.fire({
+            title: 'Error!',
+            @foreach ($errors->all() as $error)
+                text: '{{ $error }}',
+            @endforeach
+            icon: 'error',
+            showConfirmButton: true,
         });
+    @endif
 
 </script>
 
-@if ($errors->any())
-    <script>
-        Swal.fire({
-                title: 'Error!',
-                @foreach ($errors->all() as $error)
-                    text: '{{ $error }}',
-                @endforeach
-                icon: 'error',
-                showConfirmButton: true,
-            });
-    </script>
-@endif
-
 @endsection
-

@@ -468,6 +468,7 @@ public function kelola_akun()
     return view('profile.kelola_akun', compact('users', 'uniqueLevels', 'list_users_admin', 'list_users_RT', 'list_users_RW', 'list_users_pemilik_kos'));
 }
 
+
 public function toggle_status(Request $request, $id)
 {
     try{

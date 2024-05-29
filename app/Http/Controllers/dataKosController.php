@@ -33,14 +33,18 @@ class dataKosController extends Controller
         if ($userLevel === 'admin') {
             $list_penduduk = $list_penduduk_admin;
             $list_RT = RT::all();
+
         } elseif ($userLevel === 'RW') {
             $list_penduduk = $list_penduduk_rw;
             $list_RT = RT::all();
+
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
             $list_RT = RT::where('id', $id_rt)->get();
+
         } elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_kos;
+            // $list_RT = RT::where('id', $id_rt)->get();
         }
 
         $data_kos = kos::all();

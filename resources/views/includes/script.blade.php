@@ -33,4 +33,4 @@
 
 <!-- TOAST -->
 <script src="{{ asset('dist/assets/extensions/toastify-js/src/toastify.js')}}"></script>
-<script src="{{ asset('dist/assets/static/js/pages/toastify.js')}}"></script>
+<script src="{{ asset('dist/assets/chart.js')}}"></script>

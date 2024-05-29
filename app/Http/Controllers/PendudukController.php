@@ -46,6 +46,8 @@ class PendudukController extends Controller
             $list_penduduk = $list_penduduk_rw;
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
+        }elseif ($userLevel === 'pemilik_kos') {
+            $list_penduduk = $list_penduduk_admin;
         }
 
         // Ambil NIK penduduk yang relevan berdasarkan level user
@@ -64,21 +66,23 @@ class PendudukController extends Controller
                 $data_pendidikan[] = $item->penduduk_count;
             }
 
-            //KESEHATANCHART
-            $jenis_penyakit = jenis_penyakit::all();
-            // Get the count of residents for each disease type
-            $data_kesehatan = [];
-            foreach ($jenis_penyakit as $penyakit) {
-                $count = kesehatan::where('id_penyakit', $penyakit->id)
-                    ->whereHas('penduduk', function ($query) use ($nik_penduduk) {
-                        $query->whereIn('NIK', $nik_penduduk);
-                    })
-                    ->count();
-                $data_kesehatan[$penyakit->nama_penyakit] = $count;
-            }
-            // Prepare labels and data for the chart
-            $labels_kesehatan = $jenis_penyakit->pluck('nama_penyakit');
-            $data_kesehatan = array_values($data_kesehatan);
+            // //KESEHATANCHART
+            // $jenis_penyakit = jenis_penyakit::all();
+            // // Get the count of residents for each disease type
+            // $data_kesehatan = [];
+            // foreach ($jenis_penyakit as $penyakit) {
+            //     $count = kesehatan::where('id_penyakit', $penyakit->id)
+            //         ->whereHas('penduduk', function ($query) use ($nik_penduduk) {
+            //             $query->whereIn('NIK', $nik_penduduk);
+            //         })
+            //         ->count();
+            //     $data_kesehatan[$penyakit->nama_penyakit] = $count;
+            // }
+            // // Prepare labels and data for the chart
+            // $labels_kesehatan = $jenis_penyakit->pluck('nama_penyakit');
+            // $data_kesehatan = array_values($data_kesehatan);
+
+            $maxValue_kesehatan = kesehatan::all()->count();
 
             //SOSIALCHART
             $SosialLevels = bantuan::withCount(['penduduk' => function ($query) use ($nik_penduduk) {
@@ -105,72 +109,268 @@ class PendudukController extends Controller
                     ->count();
                 $data_kejadian[$kejadian->jenis_kejadian] = $count;
             }
+            $maxValue_kejadian = kejadian::all()->count();
+
             // Prepare labels and data for the chart
             $labels_kejadian = $jenis_kejadian->pluck('jenis_kejadian');
             $data_kejadian = array_values($data_kejadian);
 
             $years = detail_pendatang::distinct()->selectRaw('YEAR(tanggal_masuk) as year')->pluck('year')->toArray();
+            $years_kesehatan = kesehatan::distinct()->selectRaw('YEAR(tanggal_terdampak) as year')->pluck('year')->toArray();
+            $years_kejadian = kejadian::distinct()->selectRaw('YEAR(tanggal_kejadian) as year')->pluck('year')->toArray();
 
-        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw', 'labels_kesehatan', 'data_kesehatan', 'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years'));
+        // Calculate the maximum value from all years
+        $maxValue = detail_pendatang::all()->count();
+        // Calculate the maximum value from all years
+        $maxpenduduk = penduduk::all()->count();
+
+
+        // Mendefinisikan semua agama yang mungkin
+        $allAgamas = ['islam', 'kristen', 'hindhu', 'Budha', 'konghucu', 'katolik', 'belum terdaftar'];
+
+        // Mendapatkan penduduk yang bukan berstatus 'kos' atau 'kontrak'
+        $warga_asli = penduduk::whereNotIn('status_penghuni', ['kos', 'kontrak'])->get();
+
+        // Mengelompokkan penduduk berdasarkan agama dan menghitung jumlahnya
+        $jumlah_penghuni_berdasarkan_agama = $warga_asli->groupBy(function ($item) {
+            return $item->agama ?? 'belum terdaftar';
+        })->map(function ($group) {
+            return $group->count();
+        });
+
+
+        // Inisialisasi array dengan semua agama dan set nilai awalnya ke 0
+        $agamaCounts = array_fill_keys($allAgamas, 0);
+
+        // Mengupdate jumlah penghuni berdasarkan hasil pengelompokan
+        foreach ($jumlah_penghuni_berdasarkan_agama as $agama => $jumlah) {
+            $agamaCounts[$agama] = $jumlah;
+        }
+
+        // Mendapatkan penduduk yang bukan berstatus 'kos' atau 'kontrak'
+        $warga_pendatang = penduduk::whereIn('status_penghuni', ['kos', 'kontrak'])->get();
+
+        // Mengelompokkan penduduk berdasarkan agama dan menghitung jumlahnya
+        $jumlah_warga_pendatang_berdasarkan_agama = $warga_pendatang->groupBy(function ($item) {
+            return $item->agama ?? 'belum terdaftar';
+        })->map(function ($group) {
+            return $group->count();
+        });
+
+        // Inisialisasi array dengan semua agama dan set nilai awalnya ke 0
+        $agamaCounts2 = array_fill_keys($allAgamas, 0);
+
+        // Mengupdate jumlah penghuni berdasarkan hasil pengelompokan
+        foreach ($jumlah_warga_pendatang_berdasarkan_agama as $agama2 => $jumlah) {
+            $agamaCounts2[$agama2] = $jumlah;
+        }
+
+        
+        // dd($agamaCounts2);
+
+        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw',  'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years', 'maxValue', 'allAgamas', 'agamaCounts', 'agamaCounts2', 'maxpenduduk', 'years_kesehatan', 'maxValue_kesehatan', 'years_kejadian', 'maxValue_kejadian'));
     }
+
+    public function fetchKesehatanData(Request $request)
+{
+    $year = $request->input('year');
+
+    // Ambil data kesehatan per tahun
+    $jenis_penyakit = jenis_penyakit::all();
+    $data_kesehatan = [];
+    foreach ($jenis_penyakit as $penyakit) {
+        $count = Kesehatan::where('id_penyakit', $penyakit->id)
+            ->whereHas('penduduk', function ($query) use ($year) {
+                $query->whereYear('tanggal_terdampak', $year);
+            })
+            ->count();
+        $data_kesehatan[$penyakit->nama_penyakit] = $count;
+    }
+
+    return response()->json(['labels' => array_keys($data_kesehatan), 'data' => array_values($data_kesehatan)]);
+}
+
+public function fetchKejadianData(Request $request)
+{
+    $year = $request->input('year');
+
+    // Ambil data kesehatan per tahun
+    $jenis_penyakit = jenis_kejadian::all();
+    $data_kesehatan = [];
+    foreach ($jenis_penyakit as $penyakit) {
+        $count = kejadian::where('jenis_kejadian', $penyakit->id)
+            ->whereHas('penduduk', function ($query) use ($year) {
+                $query->whereYear('tanggal_kejadian', $year);
+            })
+            ->count();
+        $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+    }
+
+    return response()->json(['labels' => array_keys($data_kesehatan), 'data' => array_values($data_kesehatan)]);
+}
+
+
 
     public function fetchData(Request $request)
 {
     $year = $request->input('year');
 
-// Determine the latest year and month from detail_pendatang table
-$latestEntry = detail_pendatang::selectRaw('YEAR(tanggal_masuk) as year, MONTH(tanggal_masuk) as month')
-    ->orderBy('tanggal_masuk', 'desc')
-    ->first();
+    // Determine the latest year and month from both tanggal_masuk and tanggal_keluar columns
+    $latestMasukEntry = detail_pendatang::selectRaw('YEAR(tanggal_masuk) as year, MONTH(tanggal_masuk) as month')
+        ->orderBy('tanggal_masuk', 'desc')
+        ->first();
 
-$latestYear = $latestEntry->year;
-$latestMonth = $latestEntry->month;
+    $latestKeluarEntry = detail_pendatang::selectRaw('YEAR(tanggal_keluar) as year, MONTH(tanggal_keluar) as month')
+        ->whereNotNull('tanggal_keluar')
+        ->orderBy('tanggal_keluar', 'desc')
+        ->first();
 
-// Fetch the cumulative count of inhabitants up to the end of the previous year
-$previousYear = $year - 1;
-$previousYearCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
-    ->whereYear('tanggal_masuk', '<=', $previousYear)
-    ->count();
-
-// Fetch data from the database based on the selected year
-$monthlyCounts = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
-    ->selectRaw('MONTH(tanggal_masuk) as month, COUNT(*) as count')
-    ->whereYear('tanggal_masuk', $year)
-    ->groupBy('month')
-    ->orderBy('month', 'asc')
-    ->get();
-
-// Initialize arrays for labels and data
-$labels = [];
-$data = [];
-$cumulativeCount = $previousYearCount;
-
-// Populate arrays with fetched data
-for ($month = 1; $month <= 12; $month++) {
-    $monthLabel = date('F', mktime(0, 0, 0, $month, 1));
-    $labels[] = $monthLabel;
-
-    // Check if the selected year is the latest year and the month is after the latest month
-    if ($year == $latestYear && $month > $latestMonth) {
-        // Data after the latest month should be null if the selected year is the latest year
-        $data[] = null;
-    } else {
-        // Otherwise, continue adding data
-        $monthData = $monthlyCounts->firstWhere('month', $month);
-        if ($monthData) {
-            $cumulativeCount += $monthData->count;
+    if ($latestMasukEntry && $latestKeluarEntry) {
+        if ($latestMasukEntry->tanggal_masuk > $latestKeluarEntry->tanggal_keluar) {
+            $latestYear = $latestMasukEntry->year;
+            $latestMonth = $latestMasukEntry->month;
+        } else {
+            $latestYear = $latestKeluarEntry->year;
+            $latestMonth = $latestKeluarEntry->month;
         }
-        $data[] = $cumulativeCount;
+    } elseif ($latestMasukEntry) {
+        $latestYear = $latestMasukEntry->year;
+        $latestMonth = $latestMasukEntry->month;
+    } elseif ($latestKeluarEntry) {
+        $latestYear = $latestKeluarEntry->year;
+        $latestMonth = $latestKeluarEntry->month;
+    } else {
+        // Handle case where there are no entries
+        $latestYear = null;
+        $latestMonth = null;
     }
+
+    // Fetch the cumulative count of inhabitants up to the end of the previous year
+    $previousYear = $year - 1;
+    $previousYearInCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+        ->whereYear('tanggal_masuk', '<=', $previousYear)
+        ->count();
+
+    $previousYearOutCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+        ->whereNotNull('tanggal_keluar')
+        ->whereYear('tanggal_keluar', '<=', $previousYear)
+        ->count();
+
+    $previousYearCount = $previousYearInCount - $previousYearOutCount;
+
+    // Fetch data from the database based on the selected year
+    $monthlyInCounts = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+        ->selectRaw('MONTH(tanggal_masuk) as month, COUNT(*) as count')
+        ->whereYear('tanggal_masuk', $year)
+        ->groupBy('month')
+        ->orderBy('month', 'asc')
+        ->get();
+
+    $monthlyOutCounts = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+        ->selectRaw('MONTH(tanggal_keluar) as month, COUNT(*) as count')
+        ->whereYear('tanggal_keluar', $year)
+        ->groupBy('month')
+        ->orderBy('month', 'asc')
+        ->get();
+
+    // Initialize arrays for labels and data
+    $labels = [];
+    $data = [];
+    $cumulativeCount = $previousYearCount;
+
+    // Populate arrays with fetched data
+    for ($month = 1; $month <= 12; $month++) {
+        $monthLabel = date('F', mktime(0, 0, 0, $month, 1));
+        $labels[] = $monthLabel;
+
+        // Check if the selected year is the latest year and the month is after the latest month
+        if ($year == $latestYear && $month > $latestMonth) {
+            // Data after the latest month should be null if the selected year is the latest year
+            $data[] = null;
+        } else {
+            // Otherwise, continue adding data
+            $monthInData = $monthlyInCounts->firstWhere('month', $month);
+            $monthOutData = $monthlyOutCounts->firstWhere('month', $month);
+
+            if ($monthInData) {
+                $cumulativeCount += $monthInData->count;
+            }
+            if ($monthOutData) {
+                $cumulativeCount -= $monthOutData->count;
+            }
+
+            $data[] = $cumulativeCount;
+        }
+    }
+
+    // If you need to prepare the response as JSON
+    return response()->json([
+        'labels' => $labels,
+        'data' => $data
+    ]);
 }
 
-// If you need to prepare the response as JSON
-return response()->json([
-    'labels' => $labels,
-    'data' => $data
-]);
 
-}
+
+
+//     public function fetchData(Request $request)
+// {
+//     $year = $request->input('year');
+
+//     // Determine the latest year and month from detail_pendatang table
+//     $latestEntry = detail_pendatang::selectRaw('YEAR(tanggal_masuk) as year, MONTH(tanggal_masuk) as month')
+//         ->orderBy('tanggal_masuk', 'desc')
+//         ->first();
+
+//     $latestYear = $latestEntry->year;
+//     $latestMonth = $latestEntry->month;
+
+//     // Fetch the cumulative count of inhabitants up to the end of the previous year
+//     $previousYear = $year - 1;
+//     $previousYearCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+//         ->whereYear('tanggal_masuk', '<=', $previousYear)
+//         ->count();
+
+//     // Fetch data from the database based on the selected year
+//     $monthlyCounts = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
+//         ->selectRaw('MONTH(tanggal_masuk) as month, COUNT(*) as count')
+//         ->whereYear('tanggal_masuk', $year)
+//         ->groupBy('month')
+//         ->orderBy('month', 'asc')
+//         ->get();
+
+//     // Initialize arrays for labels and data
+//     $labels = [];
+//     $data = [];
+//     $cumulativeCount = $previousYearCount;
+
+//     // Populate arrays with fetched data
+//     for ($month = 1; $month <= 12; $month++) {
+//         $monthLabel = date('F', mktime(0, 0, 0, $month, 1));
+//         $labels[] = $monthLabel;
+
+//         // Check if the selected year is the latest year and the month is after the latest month
+//         if ($year == $latestYear && $month > $latestMonth) {
+//             // Data after the latest month should be null if the selected year is the latest year
+//             $data[] = null;
+//         } else {
+//             // Otherwise, continue adding data
+//             $monthData = $monthlyCounts->firstWhere('month', $month);
+//             if ($monthData) {
+//                 $cumulativeCount += $monthData->count;
+//             }
+//             $data[] = $cumulativeCount;
+//         }
+//     }
+//         // If you need to prepare the response as JSON
+//         return response()->json([
+//             'labels' => $labels,
+//             'data' => $data
+//         ]);
+
+// }
+
+
 
 
     public function fetchData_pertumbuhan_kos(Request $request)

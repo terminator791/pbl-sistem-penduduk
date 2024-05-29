@@ -1,6 +1,15 @@
 @extends('layouts.default-ui')
 
 @section('heading')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="user-info" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; background-color: #435ebe; padding: 5px 10px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <i class="fas fa-user" style="margin-right: 5px; font-size: 18px; color: white;"></i>
+        <p style="margin: 0; font-size: 14px; color: white;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
+</div>
+
+<br>
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
@@ -23,15 +32,30 @@
 @section('title', 'Data Warga')
 
 @section('content')
+@php
+$icons = [
+    'fi fi-sr-house-flood',
+    'fi fi-sr-heat',
+    'fi fi-sr-house-chimney-crack',
+    'fi fi-sr-volcano',
+    'fi fi-sr-house-tsunami',
+    'fi fi fi-sr-thunderstorm',
+    // tambahkan lebih banyak ikon sesuai kebutuhan
+];
+@endphp
+
     <ul class="nav nav-pills mb-2">
         @foreach($list_jenis_kejadian as $jenis_kejadian)
+        @php
+        $icon = $icons[$loop->index % count($icons)]; // Menggunakan modulus untuk mengulang jika ikon lebih sedikit dari penyakit
+        @endphp
             <li class="nav-item">
                 <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $jenis_kejadian->jenis_kejadian }}-tab"
                    data-bs-toggle="tab" href="#{{ $jenis_kejadian->jenis_kejadian }}" role="tab"
                    aria-controls="{{ $jenis_kejadian->jenis_kejadian }}"
                    aria-selected="{{ $loop->first ? 'true' : 'false' }}"
                    data-jenis_kejadian-id="{{ $jenis_kejadian->id }}">
-                    <i class="fa-solid fa-bolt fa-lg font-medium-3 me-50"></i>
+                    <i class="{{ $icon }}"></i>
                     <span class="{{ $loop->first ? 'fw-bold' : '' }}">{{ $jenis_kejadian->jenis_kejadian }}</span>
                 </a>
             </li>
@@ -146,7 +170,7 @@
                         <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data kejadian</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form method="POST" action="{{ route('kejadian.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('kejadian.store') }}"  id="tambahDataForm" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -233,6 +257,26 @@
 
             $(".choices").choices();
         });
+
+        // Function to handle form submission
+    $(document).ready(function() {
+        $('#tambahDataForm').submit(function(event) {
+            // Cek apakah tanggal_terdampak tidak diisi
+            if ($('#tanggal_kejadian').val() === '') {
+                // Tampilkan toast
+                showToast("Tanggal tanggal kejadian harus diisi!");
+                // Hentikan pengiriman form
+                event.preventDefault();
+            }
+        });
+    });
+        function showToast(message) {
+        Toastify({
+            text: message,
+            duration: 2000, // Duration in milliseconds (3 seconds in this example)
+            close: true // Show close button or not
+        }).showToast();
+    }
 
         
     </script>

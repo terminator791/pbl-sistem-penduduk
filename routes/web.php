@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home',[PendudukController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 Route::get('/chart_fetch',[PendudukController::class, 'fetchData'])->name('chart.fetchData');
+Route::get('/fetchKesehatanData',[PendudukController::class, 'fetchKesehatanData'])->name('chart.fetchKesehatanData');
+Route::get('/fetchKejadianData',[PendudukController::class, 'fetchKejadianData'])->name('chart.fetchKejadianData');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');

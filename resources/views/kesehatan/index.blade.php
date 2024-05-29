@@ -2,6 +2,13 @@
 
 @section('heading')
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+
+<div id="user-info" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; background-color: #435ebe; padding: 5px 10px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+        <i class="fas fa-user" style="margin-right: 5px; font-size: 18px; color: white;"></i>
+        <p style="margin: 0; font-size: 14px; color: white;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
+    </div>
+    <br>
+    
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
@@ -37,12 +44,12 @@
 
 @php
 $icons = [
-    "fa-solid fi-sr-ribbon fa-lg text-danger",
-    'fa-solid fa-stethoscope fa-lg text-success',
-    'fa-solid fa-heartbeat fa-lg text-danger',
-    'fa-solid fa-pills fa-lg text-warning',
-    'fa-solid fa-syringe fa-lg text-info',
-   
+    'fa-solid fa-ribbon',
+    'fa-solid fa-virus',
+    'fa-solid fa-child',
+    'fa-solid fa-droplet',
+    'fa-solid fa-heart-pulse',
+    // tambahkan lebih banyak ikon sesuai kebutuhan
 ];
 @endphp
 <style>
