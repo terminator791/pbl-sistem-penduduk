@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PendudukImport;
 use App\Models\keluarga;
 use App\Models\pekerjaan;
 use App\Models\pendidikan;
@@ -11,7 +12,10 @@ use App\Models\RT;
 use App\Models\RW;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File; // Import Facade File
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Excel;
+
+// Import Facade File
 
 class PendudukController extends Controller
 {
@@ -21,7 +25,7 @@ class PendudukController extends Controller
 
         $roles = penduduk::where('NIK', $NIK_user)->first();
         // dd($roles);
-        
+
         $menu = $request->query('menu', 'data_warga');
         $penduduk = penduduk::with(['pekerjaan'])->get();
 
@@ -72,5 +76,24 @@ class PendudukController extends Controller
         $penduduk->save();
 
         return redirect()->route('dashboard')->with('success', 'Penduduk berhasil ditambahkan!');
+    }
+
+    public function import(Request $request){
+        //validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        //menangkap file excel
+        $file = $request->file('file');
+
+        //membuat nama file
+        $nama_file = time() . $file->getClientOriginalName();
+
+        //upload ke folder file_penduduk di folder public
+        $file->move('file_penduduk', $nama_file);
+
+        Excel::import(new PendudukImport, public_path("/file_penduduk/$nama_file"));
+        return redirect('/wargaAsli');
     }
 }

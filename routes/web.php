@@ -52,8 +52,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/penghuni-kos/update-data-penghuni/{id}', [dataKosController::class, 'updatePenghuni'])->name('dataKos.penghuniKos.update');
         Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
     });
-
-
+//im[prt excel data warga
+    Route::middleware(['Admin'])->group(function (){
+       Route::post('/import-data', [PendudukController::class, 'import'])->name('Import Data Penduduk');
+    });
 // Data Warga Asli
     Route::middleware(['LevelMiddleware'])->group(function (){
         //Middleware agar hanya Ketua RT yang berhak mengubah data warga asli

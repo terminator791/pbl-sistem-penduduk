@@ -11,7 +11,7 @@
                 @elseif(Auth::user()->level == 'RT')
                     <h3>Data Warga RW 13 RT {{ $id_rt}}</h3>
                 @endif
-                
+
                 <p class="text-subtitle text-muted">
                     Rekap data warga asli
                 </p>
@@ -41,6 +41,7 @@
                     <i class="fas fa-print"></i>
                     Cetak
                 </a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Import Data Warga</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -84,7 +85,37 @@
             </a>
         </div>
         <!-- End Floating Toggle -->
+        {{-- Modal Import --}}
+        <div class="modal fade" id="import" tabindex="-1" aria-labelledby="importlabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{route('Import Data Penduduk')}}" method="post" enctype="multipart/form-data">
+                        <div class="modal-header bg-primary text-white">
+                            <h1 class="modal-title fs-5" id="importlabel">Import Data Penduduk</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <b>
+                                <p>Catatan</p>
+                            </b>
+                            <p>Pastikan data sudah terisi dengan benar</p>
+                            <p>Pastikan sudah mengedit data perkawinan dan pendidikan agar menyesuaikan program</p>
+                            <p>Jika sudah melakukan Import jangan melakukan import lagi</p>
+                            <p>agar tidak ada data duplikat!!!1</p>
+                            <input class="form-control" type="file" name="file">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
 
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        {{-- Modal Import END --}}
         <!-- Modal Detail -->
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered ">
@@ -143,9 +174,9 @@
         ],
             "initComplete": function(settings, json) {
                 i = this.api().page.info().start; // Mengambil nomor halaman saat ini
-                
+
             }
-            
+
 
         });
 
@@ -155,7 +186,7 @@
     $(document).ajaxComplete(function(event, xhr, settings) {
         var table = $('#table3').DataTable();
         var data = table.rows().data();
-        
+
         if (xhr.status !== 200) {
         // Tampilkan pesan error di konsol
         Swal.fire({
@@ -163,7 +194,7 @@
             text: xhr.responseJSON.message,
             icon: 'info',
             showConfirmButton: true,
-            
+
         });
     } else if (xhr.responseJSON && xhr.responseJSON.message && data.length === 0) {
         Swal.fire({
@@ -175,7 +206,7 @@
     }
     });
 
-    
+
 
 function showWargaDetail(id) {
     fetch(`/api/v1/wargaPendatang/fetchOne/${id}`)
