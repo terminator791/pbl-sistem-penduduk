@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'RW' => \App\Http\Middleware\RW::class,
         'RT' => \App\Http\Middleware\RT::class,
         'Kos' => \App\Http\Middleware\Kos::class,
+        'Admin' => \App\Http\Middleware\Admin::class,
         'LevelMiddleware' => \App\Http\Middleware\LevelMiddleware::class,
 
     ];

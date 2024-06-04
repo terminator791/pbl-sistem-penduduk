@@ -33,11 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/ganti_sandi_profile', [ProfileController::class, 'ganti_sandi_profile'])->name('profile.ganti_sandi_profile');
     Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
-    Route::get('/kelola_akun', [ProfileController::class, 'kelola_akun'])->name('profile.kelola_akun');
-    Route::get('/toggle-status-user/{id}', [ProfileController::class, 'toggle_status'])->name('profile.toggle_status');
-    Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
-    Route::get('/delete_akun/{id}', [ProfileController::class, 'delete_akun'])->name('profile.delete_akun');
-
+    Route::middleware(['Admin'])->group(function(){
+        Route::get('/kelola_akun', [ProfileController::class, 'kelola_akun'])->name('profile.kelola_akun');
+        Route::get('/toggle-status-user/{id}', [ProfileController::class, 'toggle_status'])->name('profile.toggle_status');
+        Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
+        Route::get('/delete_akun/{id}', [ProfileController::class, 'delete_akun'])->name('profile.delete_akun');
+    
+    });
+   
     Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Data Kos

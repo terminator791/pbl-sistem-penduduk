@@ -7,6 +7,9 @@
 </div>
 
 <br>
+@endsection
+
+@section('content')
 
 <div class="page-title">
     <div class="row">
@@ -19,7 +22,7 @@
                     <h3>Data Warga RW 13 RT {{ $id_rt}}</h3>
                 @endif
             <p class="text-subtitle text-muted">
-                Rekap data warga Pendatang
+                Kec.Candisari, Kel.Tegalsari, RW 13
             </p>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
@@ -31,14 +34,11 @@
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Warga Pendatang</li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 </p>
+                <!-- <p class="text-muted mt-2 order-md-2"> </p> -->
             </nav>
         </div>
     </div>
 </div>
-@endsection
-
-@section('content')
 {{-- Start Table --}}
 <section class="section">
     <div class="card">

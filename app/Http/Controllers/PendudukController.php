@@ -13,6 +13,7 @@ use App\Models\kos;
 use App\Models\pekerjaan;
 use App\Models\pendidikan;
 use App\Models\penduduk;
+use App\Models\penjabatan_RT;
 use App\Models\perkawinan;
 use App\Models\RT;
 use App\Models\RW;
@@ -40,14 +41,31 @@ class PendudukController extends Controller
         $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
         $list_penduduk_admin = Penduduk::all();
 
+        $ketuaRTs = penjabatan_RT::whereNull('tanggal_diberhentikan')
+        ->join('penduduk', 'penjabatan_RT.NIK_ketua_rt', '=', 'penduduk.NIK')
+        ->select('penjabatan_RT.*', 'penduduk.nama AS nama_ketua_rt')
+        ->get();
+
+        $list_ketua_rt = penjabatan_RT::where('id_rt', $id_rt)
+        ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
+        ->orderBy('tanggal_dilantik', 'desc')
+        ->get();
+
+    
+        $list_ketua_all = penjabatan_RT::all();
+
         if ($userLevel === 'admin') {
             $list_penduduk = $list_penduduk_admin;
+            $list_ketua = $list_ketua_all;
         } elseif ($userLevel === 'RW') {
             $list_penduduk = $list_penduduk_rw;
+            $list_ketua = $list_ketua_all;
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
+            $list_ketua = $list_ketua_rt;
         }elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_admin;
+            $list_ketua = penjabatan_RT::all();
         }
 
         // Ambil NIK penduduk yang relevan berdasarkan level user
@@ -65,22 +83,6 @@ class PendudukController extends Controller
                 $labels_pendidikan[] = $item->jenis_pendidikan;
                 $data_pendidikan[] = $item->penduduk_count;
             }
-
-            // //KESEHATANCHART
-            // $jenis_penyakit = jenis_penyakit::all();
-            // // Get the count of residents for each disease type
-            // $data_kesehatan = [];
-            // foreach ($jenis_penyakit as $penyakit) {
-            //     $count = kesehatan::where('id_penyakit', $penyakit->id)
-            //         ->whereHas('penduduk', function ($query) use ($nik_penduduk) {
-            //             $query->whereIn('NIK', $nik_penduduk);
-            //         })
-            //         ->count();
-            //     $data_kesehatan[$penyakit->nama_penyakit] = $count;
-            // }
-            // // Prepare labels and data for the chart
-            // $labels_kesehatan = $jenis_penyakit->pluck('nama_penyakit');
-            // $data_kesehatan = array_values($data_kesehatan);
 
             $maxValue_kesehatan = kesehatan::all()->count();
 
@@ -168,7 +170,7 @@ class PendudukController extends Controller
         
         // dd($agamaCounts2);
 
-        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw',  'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years', 'maxValue', 'allAgamas', 'agamaCounts', 'agamaCounts2', 'maxpenduduk', 'years_kesehatan', 'maxValue_kesehatan', 'years_kejadian', 'maxValue_kejadian'));
+        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw',  'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years', 'maxValue', 'allAgamas', 'agamaCounts', 'agamaCounts2', 'maxpenduduk', 'years_kesehatan', 'maxValue_kesehatan', 'years_kejadian', 'maxValue_kejadian', 'list_ketua', 'ketuaRTs'));
     }
 
     public function fetchKesehatanData(Request $request)

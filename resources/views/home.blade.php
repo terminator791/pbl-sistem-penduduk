@@ -123,8 +123,8 @@
         }
 
         .carousel-item img {
-            max-width: 220px;
-            max-height: 220px;
+            max-width: 200px;
+            max-height: 200px;
             margin-bottom: 5px;
         }
 
@@ -238,38 +238,21 @@
         <div style="margin-bottom: 50px;" class="carousel-inner text-center">
             <!-- Items -->
             <div class="carousel-item active">
+            @foreach($ketuaRTs as $index => $ketuaRT)
                 <div class="item-container">
-                    <img src="{{ asset('storage/iqball.png') }}" alt="Ketua RT 1">
-                    <h5 class="carousel-caption-custom">Ketua RT 01</h5>
-                    <p class="carousel-caption-custom">Moh Iqbal Bagus</p>
+                    @if($ketuaRT->foto_ketua_rt != null)
+                        <img src="{{ asset('storage/' . $ketuaRT->foto_ketua_rt) }}" alt="Ketua RT {{ $ketuaRT->rt }}">
+                    @else
+                        <p class="carousel-caption-custom">Tidak ada foto</p>
+                    @endif
+                    <h5 class="carousel-caption-custom">Ketua RT {{ sprintf('%02d', $ketuaRT->id_rt) }}</h5>
+                    <p class="carousel-caption-custom">Dilantik pada {{ date('Y', strtotime($ketuaRT->tanggal_dilantik)) }}</p>
+                    <p class="carousel-caption-custom">{{ $ketuaRT->nama_ketua_rt }}</p>
                 </div>
-                <div class="item-container">
-                    <img src="{{ asset('storage/rifqi.png') }}" alt="Ketua RT 2">
-                    <h5 class="carousel-caption-custom">Ketua RT 02</h5>
-                    <p class="carousel-caption-custom">Rifqi Haezul Ma'ali</p>
-                </div>
-                <div class="item-container">
-                    <img src="{{ asset('storage/alma.png') }}" alt="Ketua RT 3">
-                    <h5 class="carousel-caption-custom">Ketua RT 03</h5>
-                    <p class="carousel-caption-custom">Selvi Al-Makaari</p>
-                </div>
-                <div class="item-container">
-                    <img src="{{ asset('storage/arya.png') }}" alt="Ketua RT 4">
-                    <h5 class="carousel-caption-custom">Ketua RT 04</h5>
-                    <p class="carousel-caption-custom">Arya Damar S</p>
-                </div>
-                <div class="item-container">
-                    <img src="{{ asset('storage/husain.png') }}" alt="Ketua RT 5">
-                    <h5 class="carousel-caption-custom">Ketua RT 05</h5>
-                    <p class="carousel-caption-custom">Hussain Tamam</p>
-                </div>
-                <div class="item-container">
-                    <img src="{{ asset('storage/cira.png') }}" alt="Ketua RT 6">
-                    <h5 class="carousel-caption-custom">Ketua RT 06</h5>
-                    <p class="carousel-caption-custom">Rucirasatti N</p>
-                </div>
+                @endforeach
             </div>
         </div>
+    </div>
 
     &nbsp;&nbsp;&nbsp;
     <h3 class="text-center">Statistik Data Umum</h3>

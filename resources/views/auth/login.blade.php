@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: url('{{ asset("storage/background.jpg") }}') no-repeat center center fixed;
+            /* background: url('{{ asset("storage/background.jpg") }}') no-repeat center center fixed; */
             background-size: cover;
             color: #333;
             
@@ -20,6 +20,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            outline-color: blue 9px;
+            /* outline-style: outset 5px #007bff;
+            outline-style: 500px #007bff ; */
+
+            
         }
         #auth-left {
             background: #fff;
@@ -38,7 +43,7 @@
             color: #333;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .form-control {
             height: 60px;

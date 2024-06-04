@@ -1,3 +1,4 @@
+
 <div class="sidebar-menu">
     <ul class="menu">
         <li class="sidebar-item {{ Request::is('home') ? 'active' : '' }}">
@@ -75,7 +76,7 @@
             <li class="submenu-item {{ Route::currentRouteName() == 'profile.ganti_sandi_profile' ? 'active' : '' }}">
                 <a href="{{ route('profile.ganti_sandi_profile') }}" class="submenu-link">Ganti sandi</a>
             </li>
-            @if(Auth::user()->level == 'admin')
+            @if(Auth::user()->level == 'admin' || Auth::user()->level != 'pemilik_kos' )
             <li class="submenu-item {{ Route::currentRouteName() == 'profile.kelola_akun' ? 'active' : ''  }}">
                 <a href="{{ route('profile.kelola_akun') }}" class="submenu-link">Kelola Akun</a>
             </li>

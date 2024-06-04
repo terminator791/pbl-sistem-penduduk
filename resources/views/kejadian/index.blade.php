@@ -10,11 +10,18 @@
 </div>
 
 <br>
-    <div class="page-title">
+
+@endsection
+
+@section('title', 'Data Warga')
+
+@section('content')
+
+<div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Data kejadian Admin</h3>
-                <p class="text-subtitle text-muted">Rekap data Kejadian</p>
+                <p class="text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -22,16 +29,12 @@
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dasbor</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Data Kejadian</li>
                     </ol>
-                    <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13 , RT 6</p>
+                    <!-- <p class="text-muted mt-2 order-md-2"></p> -->
                 </nav>
             </div>
         </div>
     </div>
-@endsection
 
-@section('title', 'Data Warga')
-
-@section('content')
 @php
 $icons = [
     'fi fi-sr-house-flood',

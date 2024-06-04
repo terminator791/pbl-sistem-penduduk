@@ -44,7 +44,7 @@ class dataKosController extends Controller
 
         } elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_kos;
-            // $list_RT = RT::where('id', $id_rt)->get();
+            $list_RT = RT::all();
         }
 
         $data_kos = kos::all();

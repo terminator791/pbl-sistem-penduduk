@@ -21,7 +21,7 @@
                     <h3>Data Pendidikan RW 13  RT {{ $id_rt}}</h3>
                 @endif
             <p class="text-subtitle text-muted">
-                Rekap data Pendidikan
+                Kec.Candisari, Kel.Tegalsari, RW 13
             </p>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
@@ -32,7 +32,7 @@
                         Data Pendidikan
                     </li>
                 </ol>
-                <p class="text-muted mt-2 order-md-2">Kec.Candisari, Kel.Tegalsari, RW 13</p>
+                <!-- <p class="text-muted mt-2 order-md-2"></p> -->
             </nav>
         </div>
     </div>

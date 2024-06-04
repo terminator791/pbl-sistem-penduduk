@@ -1,4 +1,4 @@
-  // Autoload the jQuery bindings
+w  // Autoload the jQuery bindings
   // We know that all of the modules exist above this, so we're safe
   var select2 = S2.require('jquery.select2');
 
