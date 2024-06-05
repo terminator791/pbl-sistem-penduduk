@@ -48,15 +48,6 @@
             margin-right: 20px;
         }
 
-        .signature {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 30px;
-            margin-right: 50px;
-            text-align: right;
-        }
-
         .table-bordered th, .table-bordered td {
             border: 1px solid #dee2e6;
             padding: .75rem;
@@ -70,8 +61,17 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         }
 
+        .signature {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
+        /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
         .signature p {
-            margin-bottom: 90px;
+            margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
         }
     </style>
 </head>
@@ -93,6 +93,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
+                <th>Pendidikan</th>
                 <th>Alamat</th>
             </tr>
         </thead>
@@ -101,6 +102,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $p->nama }}</td>
+                <td>{{ $p->pendidikan ? $p->pendidikan->jenis_pendidikan : 'N/A' }}</td>
                 <td>{{ $p->nama_jalan }}, RT {{ $p->id_rt }}, RW {{ $p->id_rw }}</td>
             </tr>
             @endforeach
@@ -116,7 +118,7 @@
     @elseif (Auth::user()->level == "RT" || Auth::user()->level == "RW")
     <div class="signature">
         <p id="tanggal">{{ date("Y-m-d") }}</p>
-        <p id="nama">{{ $penduduk->nama }}</p>
+        <p id="nama"><span id="nama_pengguna">{{ $nama_pengguna }}</span></p>
     </div>
     @endif
 

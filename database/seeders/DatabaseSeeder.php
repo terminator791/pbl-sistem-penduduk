@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $tanggal_lahir = Carbon::createFromFormat('Y-m-d', '2004-06-15');
         $today = Carbon::today();
         $countToday = penjabatan_RT::whereDate('created_at', $today)->count();
-        $id_penjabatan = $today->format('Ymd') . str_pad($countToday + 1, 2, '0', STR_PAD_LEFT);
+        // $id_penjabatan = $today->format('Ymd') . str_pad($countToday + 1, 2, '0', STR_PAD_LEFT);
 
         keluarga::create([
             'status_keluarga' => 'kepala keluarga'
@@ -905,7 +905,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'kamar-B1',
         ],);
         penjabatan_RT::create([
-            'id_penjabatan' => $id_penjabatan,
+            'id_penjabatan' => 2024051901,
             'id_rt' => 1,
             'NIK_ketua_Rt' => '3317120041797',
             'tanggal_dilantik'=> $today,

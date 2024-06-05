@@ -359,10 +359,39 @@ public function fetchOne($id)
     //print
     public function print()
     {
-        $penduduk = Penduduk::with(['pekerjaan'])
+
+        // Ambil NIK pengguna yang saat ini login
+        $NIK = Auth::user()->NIK_penduduk;
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $penduduk_all = Penduduk::with(['pekerjaan'])
             ->where('status_penghuni', 'kos')
             ->orWhere('status_penghuni', 'kontrak')
             ->get();
-        return view('dataWarga.wargaPendatang.print', compact('penduduk'));
+
+        $penduduk_rt = Penduduk::with(['pekerjaan'])
+            ->where('status_penghuni', 'kos')
+            ->where('id_rt', $id_rt)
+            ->orWhere('status_penghuni', 'kontrak')
+            ->get();
+
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+            $penduduk = $penduduk_all;
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+            $penduduk = $penduduk_all;
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+            $penduduk = $penduduk_rt;
+        }else{
+            $nama_pengguna = "";
+            $penduduk = $penduduk_all;
+        }
+
+        return view('dataWarga.wargaPendatang.print', compact('penduduk', 'nama_pengguna'));
     }
 }

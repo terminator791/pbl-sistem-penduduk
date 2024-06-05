@@ -117,11 +117,11 @@
                                     </div>
                                     <!-- Kolom 6 -->
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group mandatory">
                                             <label for="id_pendidikan"
                                                 class="form-label"><strong>Pendidikan</strong></label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
+                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan" data-parsley-required="true">
                                                     <option disabled selected>Pilih Pendidikan</option>
                                                     @foreach ($list_pendidikan as $pendidikan)
                                                         <option value="{{ $pendidikan->id }}">
@@ -317,6 +317,19 @@
     $(document).ready(function(){
             $('.select2').select2();
         });
+
+        @if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
 </script>
 
 @endsection

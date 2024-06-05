@@ -142,6 +142,9 @@ $icons = [
                                         <button  class="btn btn-sm btn-warning toggle-edit" data-id="{{ $p->id }}" data-status="{{ $p->status }}">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </button>
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $p->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
                                         </td>
                                         <!-- <td>
                                             <a href="{{ route('kesehatan.delete', $p->id) }}" class="btn btn-sm btn-danger toggle-delete" data-toggle="modal">

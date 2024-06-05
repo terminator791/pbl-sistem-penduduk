@@ -183,6 +183,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -212,6 +213,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

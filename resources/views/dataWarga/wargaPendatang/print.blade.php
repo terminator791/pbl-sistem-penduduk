@@ -52,16 +52,6 @@
             margin-right: 20px; /* Margin untuk memberi jarak antara logo dan teks */
         }
 
-        /* Styling untuk tempat tanda tangan */
-        .signature {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
-            margin-right: 50px;
-            text-align: right; /* Memastikan teks terletak di kanan */
-        }
-
         /* Styling untuk tabel */
         .table-bordered th, .table-bordered td {
             border: 1px solid #dee2e6; /* Warna garis */
@@ -78,6 +68,14 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Shadow ketika dihover */
         }
 
+        .signature {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
         /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
         .signature p {
             margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
@@ -126,7 +124,7 @@
         
         <p>{{ date("Y-m-d") }}</p>
         <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
-        <p>{{ Auth::user()->username }}</p>
+        <p id="nama"><span id="nama_pengguna">{{ $nama_pengguna }}</span></p>
     </div>
     <script>
         // Panggil fungsi fillSignature() saat dokumen selesai dimuat

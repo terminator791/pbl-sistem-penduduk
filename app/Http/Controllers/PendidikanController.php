@@ -67,14 +67,45 @@ class PendidikanController extends Controller
     public function print(pendidikan $pendidikan)
     {
         // dd($pendidikan->penduduk->pluck('id_pendidikan'));
+        // Ambil NIK pengguna yang saat ini login
         $NIK = Auth::user()->NIK_penduduk;
-        $penduduk = penduduk::where('NIK', $NIK)->first();
-        // Ambil data kesehatan berdasarkan kategori penyakit
-        $pendidikan = penduduk::whereIn('id_pendidikan', $pendidikan->penduduk->pluck('id_pendidikan'))->get();
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+
+        // Dapatkan id_rt berdasarkan NIK
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $pendidikan_all = penduduk::whereIn('id_pendidikan', $pendidikan->penduduk->pluck('id_pendidikan'))
+                    ->with('pendidikan')
+                    ->get();
+
+        // Ambil data pendidikan berdasarkan id_rt
+        $pendidikan_rt = Penduduk::where('id_rt', $id_rt)
+                            ->whereIn('id_pendidikan', $pendidikan->penduduk->pluck('id_pendidikan'))
+                            ->with('pendidikan')
+                            ->get();
+
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+            $pendidikan = $pendidikan_all;
+
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+            $pendidikan = $pendidikan_all;
+
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+            $pendidikan = $pendidikan_rt;
+        }else{
+            $nama_pengguna = "";
+            $pendidikan = $pendidikan_all;
+        }
+
         // dd($pendidikan->penduduk->pluck('id_pendidikan'));
 
         // Kembalikan view print dengan data kesehatan
-        return view('pendidikan.print', compact('pendidikan', 'pendidikan','penduduk'));
+        return view('pendidikan.print', compact('pendidikan', 'pendidikan', 'nama_pengguna'));
     }
 
     public function delete(Request $request, $id)

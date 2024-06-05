@@ -297,7 +297,8 @@ class ProfileController extends Controller
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
         // dd($id_rt);
         $list_ketua = penjabatan_RT::where('id_rt', $id_rt)
-        ->orderBy('nama', 'desc')
+        ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
+        ->orderBy('tanggal_dilantik', 'desc')
         ->get();
         $nama_ketua = DB::table('penduduk')
             ->whereExists(function ($query) use ($id_rt) {

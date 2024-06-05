@@ -15,8 +15,6 @@ class KesehatanController extends Controller
     //
     public function index()
 {
-
-
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -133,10 +131,44 @@ if ($request->has('long_press')) {
     //print
     public function print(jenis_penyakit $penyakit)
     {
+        // Ambil NIK pengguna yang saat ini login
+        $NIK = Auth::user()->NIK_penduduk;
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
         // Ambil data kesehatan berdasarkan kategori penyakit
-        $kesehatan = kesehatan::where('id_penyakit', $penyakit->id)->with('penduduk')->get();
+        $kesehatan_all = kesehatan::where('id_penyakit', $penyakit->id)->with('penduduk')->with('jenis_penyakit')->get();
+
+        $kesehatan_rt = kesehatan::where('id_penyakit', $penyakit->id)
+                        ->whereHas('penduduk', function($query) use ($id_rt) {
+                            $query->where('id_rt', $id_rt);
+                        })
+                        ->with('penduduk')
+                        ->with('jenis_penyakit')
+                        ->get();
+
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+            $kesehatan = $kesehatan_all;
+
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+            $kesehatan = $kesehatan_all;
+
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+            $kesehatan = $kesehatan_rt;
+
+        }else{
+            $nama_pengguna = "";
+            $kesehatan = $kesehatan_all;
+        }
+        
 
         // Kembalikan view print dengan data kesehatan
-        return view('kesehatan.print', compact('kesehatan', 'penyakit'));
+        return view('kesehatan.print', compact('kesehatan', 'penyakit', 'nama_pengguna'));
     }
 }

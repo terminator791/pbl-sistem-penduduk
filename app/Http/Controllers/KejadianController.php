@@ -99,11 +99,27 @@ class KejadianController extends Controller
     //print
     public function print(jenis_kejadian $jenis_kejadian)
     {
+        // Ambil NIK pengguna yang saat ini login
+        $NIK = Auth::user()->NIK_penduduk;
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+    
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+        }else{
+            $nama_pengguna = "";
+        }
+
         // Ambil data kejadian berdasarkan kategori jenis_kejadian
         $kejadian = kejadian::where('jenis_kejadian', $jenis_kejadian->id)->with('penduduk')->get();
-
+        
         // Kembalikan view print dengan data kejadian
-        return view('kejadian.print', compact('kejadian', 'jenis_kejadian'));
+        return view('kejadian.print', compact('kejadian', 'jenis_kejadian', 'nama_pengguna'));
     }
 
     public function toggle_status(Request $request, $id)

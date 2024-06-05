@@ -109,10 +109,10 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group mandatory">
                                             <label for="last-name-column" class="form-label">Pendidikan</label>
                                             <fieldset class="form-group">
-                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan">
+                                                <select class="form-select" id="id_pendidikan" name="id_pendidikan" data-parsley-required="true">
                                                     <option disabled selected>Pilih Pendidikan</option>
                                                     @foreach ($list_pendidikan as $pendidikan)
                                                         <option value="{{ $pendidikan->id }}">{{ $pendidikan->jenis_pendidikan }}</option> <!-- Use actual database values -->

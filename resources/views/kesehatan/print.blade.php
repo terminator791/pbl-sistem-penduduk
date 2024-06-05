@@ -53,16 +53,6 @@
             margin-right: 20px; /* Margin untuk memberi jarak antara logo dan teks */
         }
 
-        /* Styling untuk tempat tanda tangan */
-        .signature {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
-            margin-right: 50px;
-            text-align: right; /* Memastikan teks terletak di kanan */
-        }
-
         /* Styling untuk tabel */
         .table-bordered th, .table-bordered td {
             border: 1px solid #dee2e6; /* Warna garis */
@@ -79,6 +69,14 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Shadow ketika dihover */
         }
 
+        .signature {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
         /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
         .signature p {
             margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
@@ -103,8 +101,10 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
+                <th>Penyakit</th>
                 <th>Alamat</th>
                 <th>Tanggal Terdampak</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -112,8 +112,10 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $p->penduduk->nama }}</td>
+                <td>{{ $p->jenis_penyakit->nama_penyakit }}</td>
                 <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->id_rw }}</td>
                 <td>{{ $p->tanggal_terdampak }}</td>
+                <td>{{ $p->status }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -122,7 +124,7 @@
     <!-- Tempat Tanda Tangan -->
     <div class="signature">
         <p id="tanggal">{{ date("Y-m-d") }}</p>
-        <p id="nama">{{ Auth::user()->username }}</p>
+        <p id="nama"><span id="nama_pengguna">{{ $nama_pengguna }}</span></p>
     </div>
 
     <!-- Skrip JavaScript untuk mengatur tanggal dan pencetakan -->

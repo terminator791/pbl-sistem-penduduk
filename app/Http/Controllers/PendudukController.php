@@ -46,26 +46,46 @@ class PendudukController extends Controller
         ->select('penjabatan_RT.*', 'penduduk.nama AS nama_ketua_rt')
         ->get();
 
-        $list_ketua_rt = penjabatan_RT::where('id_rt', $id_rt)
-        ->orderByRaw('tanggal_diberhentikan IS NULL DESC')
-        ->orderBy('tanggal_dilantik', 'desc')
-        ->get();
-
+        $ketuaRT = penjabatan_RT::whereNull('tanggal_diberhentikan')
+    ->join('penduduk', 'penjabatan_RT.NIK_ketua_rt', '=', 'penduduk.NIK')
+    ->select('penjabatan_RT.*', 'penduduk.nama AS nama_ketua_rt')
+    ->where('penjabatan_RT.id_rt', $id_rt)
+    ->get();
     
         $list_ketua_all = penjabatan_RT::all();
 
+        $NIK = Auth::user()->NIK_penduduk;
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+
         if ($userLevel === 'admin') {
             $list_penduduk = $list_penduduk_admin;
-            $list_ketua = $list_ketua_all;
+            $list_ketua_rt = $ketuaRTs;
         } elseif ($userLevel === 'RW') {
             $list_penduduk = $list_penduduk_rw;
-            $list_ketua = $list_ketua_all;
+            $list_ketua_rt = $ketuaRTs;
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
-            $list_ketua = $list_ketua_rt;
+            $list_ketua_rt = $ketuaRT;
         }elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_admin;
-            $list_ketua = penjabatan_RT::all();
+            $list_ketua_rt = $ketuaRTs;
+        }
+
+
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+        
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+        
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+          
+        }else{
+            $nama_pengguna = Auth::user()->username;
+           
         }
 
         // Ambil NIK penduduk yang relevan berdasarkan level user
@@ -170,12 +190,13 @@ class PendudukController extends Controller
         
         // dd($agamaCounts2);
 
-        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw',  'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years', 'maxValue', 'allAgamas', 'agamaCounts', 'agamaCounts2', 'maxpenduduk', 'years_kesehatan', 'maxValue_kesehatan', 'years_kejadian', 'maxValue_kejadian', 'list_ketua', 'ketuaRTs'));
+        return view('home', compact('menu', 'roles', 'labels_pendidikan', 'data_pendidikan', 'id_rt', 'id_rw',  'labels_sosial', 'data_sosial', 'labels_kejadian', 'data_kejadian', 'years', 'maxValue', 'allAgamas', 'agamaCounts', 'agamaCounts2', 'maxpenduduk', 'years_kesehatan', 'maxValue_kesehatan', 'years_kejadian', 'maxValue_kejadian', 'list_ketua_rt', 'ketuaRTs','nama_pengguna'));
     }
 
     public function fetchKesehatanData(Request $request)
 {
     $year = $request->input('year');
+    
 
     // Ambil data kesehatan per tahun
     $jenis_penyakit = jenis_penyakit::all();
@@ -450,5 +471,24 @@ public function fetchKejadianData(Request $request)
         $penduduk->save();
 
         return redirect()->route('dashboard')->with('success', 'Penduduk berhasil ditambahkan!');
+    }
+
+    public function import(Request $request){
+        //validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        //menangkap file excel
+        $file = $request->file('file');
+
+        //membuat nama file
+        $nama_file = time() . $file->getClientOriginalName();
+
+        //upload ke folder file_penduduk di folder public
+        $file->move('file_penduduk', $nama_file);
+
+        Excel::import(new PendudukImport, public_path("/file_penduduk/$nama_file"));
+        return redirect('/wargaAsli');
     }
 }

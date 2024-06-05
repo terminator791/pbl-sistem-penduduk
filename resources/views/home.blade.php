@@ -9,13 +9,14 @@
         <h3 class="text-center">Selamat Datang {{ Auth::user()->level }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
     @elseif (Auth::user()->level == 'RW')
-        <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ Auth::user()->level }} di Dasbor Tegalsari</h3>
+        <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ $nama_pengguna }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
     @elseif(Auth::user()->level == 'RT')
-        <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ Auth::user()->username }} di Dasbor Tegalsari</h3>
+        <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ $nama_pengguna }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13 RT {{ $roles->id_rt }}</p>
     @elseif(Auth::user()->level == 'pemilik_kos')
-        <h3 class="text-center">Selamat Datang , {{ Auth::user()->username }} di Dasbor Pemilik Kos Tegalsari</h3>
+    &nbsp;&nbsp;&nbsp;
+        <h3 class="text-center">Selamat Datang , {{ $nama_pengguna }} di Dasbor Pemilik Kos Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
     @endif
 
@@ -238,7 +239,7 @@
         <div style="margin-bottom: 50px;" class="carousel-inner text-center">
             <!-- Items -->
             <div class="carousel-item active">
-            @foreach($ketuaRTs as $index => $ketuaRT)
+            @foreach($list_ketua_rt as $index => $ketuaRT)
                 <div class="item-container">
                     @if($ketuaRT->foto_ketua_rt != null)
                         <img src="{{ asset('storage/' . $ketuaRT->foto_ketua_rt) }}" alt="Ketua RT {{ $ketuaRT->rt }}">
@@ -318,6 +319,7 @@
         </div>
     </div>
 
+@if (Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
     <div class="col-lg-6 mb-4">
         <div class="card text-center shadow-lg">
             <div class="card-body">
@@ -367,6 +369,7 @@
         </div>
     </div>
 
+
     &nbsp;&nbsp;&nbsp;
     <h3 class="text-center">Statistik Data Kos</h3>
 
@@ -394,6 +397,7 @@
         </div>
     </div>
 </div>
+@endif
 
     
 </div>

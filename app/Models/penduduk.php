@@ -21,7 +21,7 @@ class penduduk extends Model
     }
 
     public function pendidikan(){
-        return $this->belongsTo(pendidikan::class, 'id');
+        return $this->belongsTo(pendidikan::class, 'id_pendidikan');
     }
 
     public function pekerjaan(){
@@ -30,7 +30,7 @@ class penduduk extends Model
 
     public function bantuan()
     {
-        return $this->belongsTo(bantuan::class, 'id');
+        return $this->belongsTo(bantuan::class, 'id_bantuan');
     }
 
     public function rw(){

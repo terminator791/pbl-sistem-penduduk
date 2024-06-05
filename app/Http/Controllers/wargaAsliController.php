@@ -217,6 +217,8 @@ public function fetchAll()
             $list_RT = RT::with(['RW'])->get();
         } elseif ($userLevel === 'RT') {
             $list_RT = RT::where('id', $id_rt)->get();
+        }else{
+            $list_RT = RT::with(['RW'])->get();
         }
 
         return view('dataWarga.wargaAsli.create', compact(
@@ -392,9 +394,42 @@ public function simpan(Request $request)
     //print
     public function print()
     {
-        $penduduk = penduduk::with(['pekerjaan'])
+         // Ambil NIK pengguna yang saat ini login
+         $NIK = Auth::user()->NIK_penduduk;
+    
+         // Temukan data penduduk berdasarkan NIK pengguna
+         $pengguna = penduduk::where('NIK', $NIK)->first();
+         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+         $penduduk_rt = penduduk::with(['pekerjaan'])
         ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
+        ->where('id_rt', $id_rt)
+        ->orderBy('nama', 'asc')
         ->get();
-        return view('dataWarga.wargaAsli.print', compact('penduduk'));
+
+        $penduduk_all = penduduk::with(['pekerjaan'])
+        ->whereNotIn('status_penghuni', ['kos', 'kontrak'])
+        ->orderBy('nama', 'asc')
+        ->get();
+
+        
+ 
+         if (Auth::user()->level === 'admin') {
+             $nama_pengguna = "Admin";
+             $penduduk = $penduduk_all;
+         }elseif (Auth::user()->level === 'RW') {
+             $nama_pengguna = $pengguna->nama;
+             $penduduk = $penduduk_all;
+         } elseif (Auth::user()->level === 'RT') {
+             $nama_pengguna = $pengguna->nama;
+             $penduduk = $penduduk_rt;
+         }else{
+             $nama_pengguna = "";
+             $penduduk = $penduduk_all;
+         }
+
+         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        return view('dataWarga.wargaAsli.print', compact('penduduk', 'nama_pengguna'));
     }
 }

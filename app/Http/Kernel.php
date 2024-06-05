@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'Kos' => \App\Http\Middleware\Kos::class,
         'Admin' => \App\Http\Middleware\Admin::class,
         'LevelMiddleware' => \App\Http\Middleware\LevelMiddleware::class,
+        'check.level' => \App\Http\Middleware\CheckUserLevel::class,
 
     ];
 }

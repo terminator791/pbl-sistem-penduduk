@@ -53,17 +53,7 @@
             margin-right: 20px; /* Margin untuk memberi jarak antara logo dan teks */
         }
 
-        /* Styling untuk tempat tanda tangan */
-        .signature {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin-bottom: 20px;
-            margin-right: 50px;
-            text-align: right; /* Memastikan teks terletak di kanan */
-        }
-
-        /* Styling untuk tabel */
+       /* Styling untuk tabel */
         .table-bordered th, .table-bordered td {
             border: 1px solid #dee2e6; /* Warna garis */
             padding: .75rem; /* Padding sel */
@@ -78,69 +68,90 @@
         .table tbody tr:hover {
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Shadow ketika dihover */
         }
+        
+        .signature {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
+        /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
+        .signature p {
+            margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
+        }
     </style>
 </head>
 
 <body>
-<!-- Kop Surat -->
-<div class="container-fluid"> <!-- Tambahkan class container-fluid di sini -->
+    <!-- Kop Surat -->
     <div class="letterhead">
         <img src="{{ asset('storage/logo_hitam_mepet.png') }}" alt="Logo" class="logo">
         <div>
-            <h1>Data Kejadian - {{ $jenis_kejadian->jenis_kejadian }}</h1>
+            <h1>Data Kejadian - Cetak</h1>
             <p><strong>Pemerintah Kota Semarang</strong></p>
             <p>Jl. Pandanaran No. XX, Semarang, Telp: (024) XXXXXXX</p>
         </div>
     </div>
-</div>
 
-<!-- Tabel Data -->
-<div class="container-fluid"> <!-- Tambahkan class container-fluid di sini -->
+    <!-- Tabel Data -->
     <table class="table table-hover table-bordered table-striped" id="table3">
         <thead>
-        <tr>
-            <th>No</th>
-            <th>Tanggal</th>
-            <th>Tempat</th>
-            <th>Deskripsi</th>
-            <th>Pelapor</th>
-        </tr>
+            <tr>
+                <th>No</th>
+                <th>Pelapor</th>
+                <th>Tanggal</th>
+                <th>Tempat</th>
+                <th>Deskripsi</th>
+                <th>Bukti</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach($kejadian as $p)
+            @foreach($kejadian as $p)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $p->penduduk->nama }}</td>
                 <td>{{ $p->tanggal_kejadian }}</td>
                 <td>{{ $p->tempat_kejadian }}</td>
                 <td>{{ $p->deskripsi_kejadian }}</td>
-                <td>{{ $p->penduduk->nama }}</td>
+                <td>
+                    @if($p->foto_kejadian)
+                        <img src="{{ asset('storage/' . $p->foto_kejadian) }}" alt="Bukti" style="width: 200px; height: 100px; object-fit: cover;">
+                    @else
+                        Tidak ada foto
+                    @endif
+                </td>
+                <td>{{ $p->status == 1 ? 'Proses' : 'Selesai' }}</td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
-</div>
 
-<!-- Tempat Tanda Tangan -->
-<div class="container-fluid"> <!-- Tambahkan class container-fluid di sini -->
-    <div class="signature">
-        <p>Semarang, 5 Mei 2024</p>
-        <p>Tanda Tangan:</p>
-        <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
-        <p>Nama yang Bertanda Tangan</p>
+     <!-- Tempat Tanda Tangan -->
+   <div class="signature">
+        <p id="tanggal">{{ date("Y-m-d") }}</p>
+        <p id="nama"><span id="nama_pengguna">{{ $nama_pengguna }}</span></p>
     </div>
-</div>
 
-<!-- Skrip JavaScript untuk mengatur tanggal dan pencetakan -->
-<script>
-    // Panggil fungsi fillSignature() saat dokumen selesai dimuat
-    window.onload = fillSignature;
+    <!-- Skrip JavaScript untuk mengatur tanggal dan pencetakan -->
+    <script>
+        // Panggil fungsi fillSignature() saat dokumen selesai dimuat
+        window.onload = fillSignature;
 
-    // Fungsi untuk mengisi tempat, tanggal, dan tahun secara otomatis
-    function fillSignature() {
-        // Memanggil fungsi window.print() setelah mengisi tanda tangan
-        window.print();
-    }
-</script>
+        // Fungsi untuk mengisi tempat, tanggal, dan tahun secara otomatis
+        // Fungsi untuk mendapatkan format tanggal yang sesuai (dd mmmm yyyy)
+        function getFormattedDate(date) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        function fillSignature() {
+            // Memanggil fungsi window.print() setelah mengisi tanda tangan
+            window.print();
+        }
+    </script>
 </body>
 
 </html>

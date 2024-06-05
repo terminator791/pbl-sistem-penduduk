@@ -75,7 +75,7 @@
                                     <td class="direct">{{ $loop->iteration }}</td>
                                     <td class="direct">{{ $kos->nama_kos }}</td>
                                     <td class="direct">{{ $kos->pemilik_kos }}</td>
-                                    <td class="direct2" style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td>
+                                    <td class="direct2" style="text-align: center;" title ="Klik untuk melihat detail penghuni kos">{{ $jumlah_penghuni[$kos->id] }}</td>
                                     <td class="direct">{{ $kos->alamat_kos }}</td>
                                     <td class="direct">
                                         @if ($kos->status)
@@ -93,12 +93,12 @@
                                                     btn-primary
 
                                                 @endif">
-                                            <i class="bi bi-exclamation-triangle text-white"></i>
+                                            <i class="bi bi-exclamation-triangle text-white" title ="Klik untuk mengaktifkan dan Nonaktifkan kos"></i>
                                         </a>
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
-                                            class="btn btn-sm btn-warning toggle-edit">
-                                            <i class="bi bi-pencil-fill text-white"></i>
+                                            class="btn btn-sm btn-warning toggle-edit" >
+                                            <i class="bi bi-pencil-fill text-white" title ="Klik untuk mengedit kos"></i>
                                         </a>
                                         <!-- Tombol Hapus -->
                                         <!-- <a href="#" class="btn btn-sm btn-danger toggle-delete"
@@ -106,10 +106,10 @@
                                             <i class="bi bi-trash-fill"></i>
                                         </a> -->
                                         <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
-                                            <i class="bi bi-trash-fill"></i>
+                                            <i class="bi bi-trash-fill" title ="Klik untuk menghapus kos"></i>
                                         </button>
 
-                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail"  title ="Klik untuk melihat info kos"
                                             onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
                                             <i class="bi bi-eye-fill text-white"></i>
                                         </a>
@@ -122,9 +122,9 @@
                                     <td class="direct">{{ $loop->iteration }}</td>
                                     <td class="direct">{{ $kos->nama_kos }}</td>
                                     <td class="direct">{{ $kos->pemilik_kos }}</td>
-                                    <td class="direct2" style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td>
+                                    <td class="direct2" style="text-align: center;" title ="Klik Untuk melihat detail penghuni kos">{{ $jumlah_penghuni[$kos->id] }}</td>
                                     <td class="direct">{{ $kos->alamat_kos }}</td>
-                                    <td class="direct">
+                                    <td class="direct" title ="Untuk melihat status kos">
                                         @if ($kos->status)
                                             <span class="badge bg-success">Aktif</span>
                                         @else
@@ -133,7 +133,7 @@
                                     </td>
                                     @if(Auth::check() && Auth::user()->level == 'admin')
                                     <td>
-                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}"
+                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}" title ="Klik untuk mengaktifkan dan Nonaktifkan kos"
                                         class="btn btn-sm
                                                 @if($kos->status)
                                                     btn-secondary
@@ -145,7 +145,7 @@
                                         </a>
                                         <!-- Tombol Toggle Edit -->
                                         <a href="{{ route('dataKos.edit', $kos->id) }}"
-                                            class="btn btn-sm btn-warning toggle-edit">
+                                            class="btn btn-sm btn-warning toggle-edit" title ="edit kos">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>
                                         <!-- Tombol Hapus -->
@@ -153,11 +153,11 @@
                                             onclick="confirmDelete(event, {{ $kos->id }})">
                                             <i class="bi bi-trash-fill"></i>
                                         </a> -->
-                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal" title ="Klik untuk menghapus kos">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
 
-                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail" title ="klik untuk melihat info kos"
                                             onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
                                             <i class="bi bi-eye-fill text-white"></i>
                                         </a>
@@ -171,7 +171,7 @@
                                     <td class="direct">{{ $loop->iteration }}</td>
                                     <td class="direct">{{ $kos->nama_kos }}</td>
                                     <td class="direct">{{ $kos->pemilik_kos }}</td>
-                                    <td class="direct2" style="text-align: center;">{{ $jumlah_penghuni[$kos->id] }}</td>
+                                    <td class="direct2" style="text-align: center;" title ="Klik untuk melihat detail penghuni kos">{{ $jumlah_penghuni[$kos->id] }}</td>
                                     <td class="direct">{{ $kos->alamat_kos }}</td>
                                     <td class="direct">
                                         @if ($kos->status)
@@ -181,7 +181,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}"
+                                    <a href="{{ route('dataKos.toggle_status', $kos->id) }}" title ="Klik untuk mengaktifkan dan Nonaktifkan kos"
                                         class="btn btn-sm
                                                 @if($kos->status)
                                                     btn-secondary
@@ -192,7 +192,7 @@
                                             <i class="bi bi-exclamation-triangle text-white"></i>
                                         </a>
                                         <!-- Tombol Toggle Edit -->
-                                        <a href="{{ route('dataKos.edit', $kos->id) }}"
+                                        <a href="{{ route('dataKos.edit', $kos->id) }}" title ="Klik untuk mengedit data kos"
                                             class="btn btn-sm btn-warning toggle-edit">
                                             <i class="bi bi-pencil-fill text-white"></i>
                                         </a>
@@ -201,11 +201,11 @@
                                             onclick="confirmDelete(event, {{ $kos->id }})">
                                             <i class="bi bi-trash-fill"></i>
                                         </a> -->
-                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal" title ="Klik untuk menhapus kos">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
 
-                                        <a href="#" class="btn btn-sm btn-info toggle-detail" 
+                                        <a href="#" class="btn btn-sm btn-info toggle-detail"  title ="Klik untuk melihat info kos"
                                             onclick="showDetailModal('{{ $kos->nama_kos }}', '{{ $kos->pemilik_kos }}', '{{ $jumlah_penghuni[$kos->id] }}', '{{ $kos->alamat_kos }}', '{{ $kos->no_hp_pemilik }}', '{{ $kos->email_pemilik }}', '{{ $kos->foto_kos }}',)">
                                             <i class="bi bi-eye-fill text-white"></i>
                                         </a>
@@ -227,6 +227,7 @@
     <p>Klik  <span  class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengedit informasi kos</p>
     <p>Klik  <span  class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></span></i> untuk menghapus kos</p>
     <p>Klik  <span  class="btn btn-sm btn-info"><i class="bi bi-eye-fill text-white"></span></i> untuk menampilkan informasi kos</p>
+    <p>Klik Kolom jumlah penghuni untuk melihat data penghuni kos</p>
     @endif
 </div>
 
@@ -236,7 +237,7 @@
     @if(Auth::user()->level != 'RW')
     <!-- Floating Toggle -->
     <div class="btn-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 1031;">
-        <a href="{{ route('dataKos.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal"
+        <a href="{{ route('dataKos.create') }}" class="btn btn-primary rounded-pill btn-lg toggle-data" data-toggle="modal" title ="tambah kos"
             data-target="#tambahDataModal">
             <i class="bi bi-plus-lg"></i>
         </a>

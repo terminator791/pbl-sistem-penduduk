@@ -38,13 +38,24 @@
     <section class="section">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
-                    Rekap Data Warga Asli RT {{ $id_rt }}
-                </h5>
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Asli Admin
+                    </h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Asli RW 13
+                    </h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Asli RT {{ $id_rt }}
+                    </h5>
+                @endif
                 <a href="{{ route('wargaAsli.print') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-print"></i>
                     Cetak
                 </a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Import Data Warga</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -112,7 +123,41 @@
                 </div>
             </div>
         </div>
+
+        {{-- Modal Import --}}
+        <div class="modal fade" id="import" tabindex="-1" aria-labelledby="importlabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{route('Import Data Penduduk')}}" method="post" enctype="multipart/form-data">
+                        <div class="modal-header bg-primary text-white">
+                            <h1 class="modal-title fs-5" id="importlabel">Import Data Penduduk</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <b>
+                                <p>Catatan</p>
+                            </b>
+                            <p>Pastikan data sudah terisi dengan benar</p>
+                            <p>Pastikan sudah mengedit data perkawinan dan pendidikan agar menyesuaikan program</p>
+                            <p>Jika sudah melakukan Import jangan melakukan import lagi</p>
+                            <p>agar tidak ada data duplikat!!!1</p>
+                            <input class="form-control" type="file" name="file">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        {{-- Modal Import END --}}
     @endif
+
+    
 @endsection
 
 @section('scripts')

@@ -43,9 +43,19 @@
 <section class="section">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">
-                Rekap Data Warga Pendatang RT {{ $id_rt }}
-            </h5>
+                @if (Auth::user()->level == 'admin')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Pendatang Admin
+                    </h5>
+                @elseif (Auth::user()->level == 'RW')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Pendatang RW 13
+                    </h5>
+                @elseif(Auth::user()->level == 'RT')
+                    <h5 class="card-title mb-0">
+                        Rekap Data Warga Pendatang RT {{ $id_rt }}
+                    </h5>
+                @endif
             <a href="{{ route('wargaPendatang.print') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-print"></i>
                 Cetak
@@ -242,7 +252,7 @@ $(document).ajaxComplete(function(event, xhr, settings) {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Redirect ke route delete dengan id yang sesuai
-                window.location.href = "{{ url('/wargaPendatang/hapus-data-warga-asli') }}/" + id;
+                window.location.href = "{{ url('/wargaPendatang/hapus-data-warga-pendatang') }}/" + id;
             }
         });
     }

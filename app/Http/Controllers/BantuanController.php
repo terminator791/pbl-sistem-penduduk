@@ -75,10 +75,33 @@ class BantuanController extends Controller
 
     public function print(bantuan $bantuan)
     {
-        // Ambil data kejadian berdasarkan kategori jenis_kejadian
-        $sosial = penduduk::where('id_bantuan', $bantuan->id)->get();
+        // Ambil NIK pengguna yang saat ini login
+        $NIK = Auth::user()->NIK_penduduk;
+    
+        // Temukan data penduduk berdasarkan NIK pengguna
+        $pengguna = penduduk::where('NIK', $NIK)->first();
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+
+        $sosial = Penduduk::where('id_rt', $id_rt)
+                  ->where('id_bantuan', $bantuan->id)
+                  ->with('bantuan')
+                  ->get();
+
+        if (Auth::user()->level === 'admin') {
+            $nama_pengguna = "Admin";
+        }elseif (Auth::user()->level === 'RW') {
+            $nama_pengguna = $pengguna->nama;
+        } elseif (Auth::user()->level === 'RT') {
+            $nama_pengguna = $pengguna->nama;
+        }else{
+            $nama_pengguna = "";
+        }
+
+
+        // // Ambil data kejadian berdasarkan kategori jenis_kejadian
+        // $sosial = penduduk::where('id_bantuan', $bantuan->id)->with('bantuan')->get();
 
         // Kembalikan view print dengan data kejadian
-        return view('bantuan.print', compact('sosial', 'bantuan'));
+        return view('bantuan.print', compact('sosial', 'bantuan', 'nama_pengguna'));
     }
 }

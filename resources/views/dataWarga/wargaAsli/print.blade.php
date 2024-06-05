@@ -68,6 +68,14 @@
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Shadow ketika dihover */
         }
         
+        .signature {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            margin-bottom: 30px; /* Jarak antara tanda tangan dan nama bertanda tangan */
+            margin-right: 50px;
+            text-align: right; /* Memastikan teks terletak di kanan */
+        }
         /* Penyesuaian jarak antara tanggal dan nama yang bertanda tangan */
         .signature p {
             margin-bottom: 90px; /* Jarak antara elemen dalam div signature */
@@ -116,31 +124,20 @@
         </tbody>
     </table>
 
-   <!-- Tempat Tanda Tangan -->
-   <div class="signature">
-        <p id="tanggal">{{ date("Y-m-d") }}</p>
-        <p id="nama">{{ Auth::user()->username }}</p>
+    <div class="signature">
+        
+        <p>{{ date("Y-m-d") }}</p>
+        <!-- Ganti ini dengan gambar tanda tangan jika diperlukan -->
+        <p id="nama"><span id="nama_pengguna">{{ $nama_pengguna }}</span></p>
     </div>
-
-    <!-- Skrip JavaScript untuk mengatur tanggal dan pencetakan -->
     <script>
         // Panggil fungsi fillSignature() saat dokumen selesai dimuat
         window.onload = fillSignature;
 
         // Fungsi untuk mengisi tempat, tanggal, dan tahun secara otomatis
         function fillSignature() {
-            const today = new Date();
-            document.getElementById('tanggal').textContent = getFormattedDate(today);
-            document.getElementById('nama').value;
-
             // Memanggil fungsi window.print() setelah mengisi tanda tangan
             window.print();
-        }
-
-        // Fungsi untuk mendapatkan format tanggal yang sesuai (dd mmmm yyyy)
-        function getFormattedDate(date) {
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            return date.toLocaleDateString('id-ID', options);
         }
     </script>
 </body>
