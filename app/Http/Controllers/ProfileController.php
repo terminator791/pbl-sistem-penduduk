@@ -26,6 +26,9 @@ class ProfileController extends Controller
      * Display the user's profile form.
      */
     public function index(){
+
+        try{
+
         $NIK = Auth::user()->NIK_penduduk;
         $username = Auth::user()->username;
         $id_penjabatan_users = Auth::user()->id_penjabatan_users;
@@ -42,6 +45,12 @@ class ProfileController extends Controller
 
         $list_RT = RT::all();
         return view('profile.index', compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'id_rw', 'ketua_rw', 'ketua_rt']));
+
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
+
     }
     
      public function edit(Request $request): View
@@ -82,6 +91,9 @@ class ProfileController extends Controller
 
 
     public function create(){
+
+        try{
+
         $NIK = Auth::user()->NIK_penduduk;
         $username = Auth::user()->username;
         $nama = penduduk::where('NIK', $NIK)->value('nama');
@@ -103,6 +115,12 @@ class ProfileController extends Controller
 
         $list_RT = RT::all();
         return view('profile.create',compact(['list_RT', 'id_rt', 'NIK', 'username', 'nama', 'no_hp', 'email', 'jabatan', 'list_penduduk']));
+
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
+
     }
 
     /**
@@ -329,8 +347,9 @@ class ProfileController extends Controller
     return view('penjabatan.index', compact('id_rt', 'list_ketua', 'nama_ketua'));
 
 } catch (\Exception $e) {
-    return back()->withErrors(['message' => 'Gagal Menampilkan Data: ' . $e->getMessage()]);
-}
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
 
 }
 
@@ -456,6 +475,7 @@ public function delete_ketua($id)
 
 public function kelola_akun()
 {
+    try{
 
     $users = User::all();
     $uniqueLevels = $users->pluck('level')->unique();
@@ -466,6 +486,12 @@ public function kelola_akun()
     $list_users_pemilik_kos = User::byLevel('pemilik_kos')->get();
 
     return view('profile.kelola_akun', compact('users', 'uniqueLevels', 'list_users_admin', 'list_users_RT', 'list_users_RW', 'list_users_pemilik_kos'));
+
+} catch (\Exception $e) {
+    // Tangani pengecualian jika terjadi
+    return response()->view('errors.error-500', [], 500);
+}
+
 }
 
 

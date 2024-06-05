@@ -172,7 +172,7 @@
 @endif
 
 @if (Auth::user()->level == 'admin' || Auth::user()->level == 'RW' || Auth::user()->level == 'RT')
-
+&nbsp;&nbsp;&nbsp;
     <section class="row justify-content-center">
         <div class="col-lg-6 mb-4">
             <div class="card text-center shadow-lg">
@@ -223,8 +223,8 @@
                             <i class="bi-person-fill"></i>
                         </div>
                         <h5 class="card-title text-muted mb-3">Profil</h5>
-                        <p class="card-text">Lihat dan ubah profil Anda di sini.</p>
                     </a>
+                    <p class="card-text">Lihat dan ubah profil Anda di sini.</p>
                 </div>
             </div>
         </div>
@@ -319,7 +319,6 @@
         </div>
     </div>
 
-@if (Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
     <div class="col-lg-6 mb-4">
         <div class="card text-center shadow-lg">
             <div class="card-body">
@@ -328,7 +327,7 @@
                 @elseif (Auth::user()->level == 'RW')
                     <h5 class="card-title text-muted mb-3">kesehatan Penduduk RW {{ $id_rw }}</h5>
                 @elseif(Auth::user()->level == 'RT')
-                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RT {{ $id_rt }}</h5>
+                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RT {{ $id_rt }}, RW {{ $id_rw }}</h5>
                 @endif
                 <div class="form-group">
                     <label for="yearSelect2">Select Year:</label>
@@ -353,7 +352,7 @@
                 @elseif (Auth::user()->level == 'RW')
                     <h5 class="card-title text-muted mb-3">Bencana RW {{ $id_rw }}</h5>
                 @elseif(Auth::user()->level == 'RT')
-                    <h5 class="card-title text-muted mb-3">Bencana RT {{ $id_rt }}</h5>
+                    <h5 class="card-title text-muted mb-3">Bencana RT {{ $id_rt }}, RW {{ $id_rw }}</h5>
                 @endif
                 <div class="form-group">
                     <label for="yearSelect3">Select Year:</label>
@@ -369,7 +368,7 @@
         </div>
     </div>
 
-
+@if (Auth::user()->level == 'admin' || Auth::user()->level == 'RW')
     &nbsp;&nbsp;&nbsp;
     <h3 class="text-center">Statistik Data Kos</h3>
 
@@ -752,7 +751,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Panggil fungsi toggleScrollButton untuk set awal
         toggleScrollButton();
+
+        
     </script>
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+                title: 'Error!',
+                @foreach ($errors->all() as $error)
+                    text: '{{ $error }}',
+                @endforeach
+                icon: 'error',
+                showConfirmButton: true,
+            });
+    </script>
+@endif
+
 @endif
 
 @endsection

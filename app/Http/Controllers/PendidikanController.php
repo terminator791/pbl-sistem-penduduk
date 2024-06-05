@@ -15,6 +15,8 @@ class PendidikanController extends Controller
 {
     public function index()
 {
+    try{
+
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -40,6 +42,12 @@ class PendidikanController extends Controller
     $pendidikan = pendidikan::with('penduduk')->get();
 
     return view('pendidikan.index', compact('pendidikan', 'list_penduduk', 'id_rt', 'id_rw'));
+
+} catch (\Exception $e) {
+    // Tangani pengecualian jika terjadi
+    return response()->view('errors.error-500', [], 500);
+}
+
 }
 
 

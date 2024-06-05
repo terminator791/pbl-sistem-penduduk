@@ -227,7 +227,7 @@
     <p>Klik  <span  class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill text-white"></span></i> untuk mengedit informasi kos</p>
     <p>Klik  <span  class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></span></i> untuk menghapus kos</p>
     <p>Klik  <span  class="btn btn-sm btn-info"><i class="bi bi-eye-fill text-white"></span></i> untuk menampilkan informasi kos</p>
-    <p>Klik Kolom jumlah penghuni untuk melihat data penghuni kos</p>
+    <p>Klik angka pada kolom jumlah penghuni untuk melihat data penghuni kos</p>
     @endif
 </div>
 

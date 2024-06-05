@@ -14,6 +14,9 @@ class SosialController extends Controller
 {
     public function index()
     {
+        try{
+    
+        
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -35,7 +38,11 @@ class SosialController extends Controller
         $bantuan = bantuan::with(['penduduk', 'jenis_bantuan'])->get();
         $list_bantuan = jenis_bantuan::all();
 
-        return view('social.index', compact('bantuan', 'list_bantuan', 'list_penduduk'));
+        return view('social.index', compact('bantuan', 'list_bantuan', 'list_penduduk', 'id_rt'));
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
     }
 
     public function create()

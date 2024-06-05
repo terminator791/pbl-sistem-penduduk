@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Http;
 
 class KesehatanController extends Controller
 {
+    
     //
     public function index()
 {
+    try {
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
     $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -39,8 +41,11 @@ class KesehatanController extends Controller
     $list_penyakit = jenis_penyakit::all();
 
     
-
     return view('kesehatan.index', compact( 'list_penyakit', 'list_penduduk', 'id_rt', 'kesehatan', 'id_rw'));
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
 }
 
 public function toggle_status(Request $request, $id)

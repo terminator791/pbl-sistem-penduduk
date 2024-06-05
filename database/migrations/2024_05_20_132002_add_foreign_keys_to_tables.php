@@ -53,7 +53,7 @@ return new class extends Migration
 
         Schema::table('kesehatan', function (Blueprint $table) {
             $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
-            $table->foreign('id_penyakit')->references('id')->on('jenis_penyakit');
+            $table->foreign('id_penyakit')->references('id')->on('jenis_penyakit')->onDelete('cascade');
         });
         
 

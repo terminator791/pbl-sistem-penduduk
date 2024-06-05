@@ -17,7 +17,7 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if(!(Auth::user()->level == 'admin')){
-            return redirect()->back();
+            return response()->view('errors.error-403', [], 403);
     }
         return $next($request);
     }

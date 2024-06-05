@@ -13,6 +13,8 @@ class KejadianController extends Controller
     //
     public function index()
     {
+        try{
+
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -35,7 +37,13 @@ class KejadianController extends Controller
         $kejadian = kejadian::with(['penduduk', 'jenis_kejadian'])->get();
         $list_jenis_kejadian = jenis_kejadian::all();
 
-        return view('kejadian.index', compact('kejadian', 'list_jenis_kejadian', 'list_penduduk'));
+        return view('kejadian.index', compact('kejadian', 'list_jenis_kejadian', 'list_penduduk', 'id_rt'));
+
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
+    
     }
 
     /**

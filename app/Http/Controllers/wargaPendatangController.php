@@ -21,9 +21,16 @@ class wargaPendatangController extends Controller
 {
     public function index(Request $request)
     {
+        try {
+
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
         return view('dataWarga.wargaPendatang.index', compact('id_rt'));
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
+    
     }
 
 //     public function fetchAll()
@@ -350,16 +357,26 @@ public function fetchOne($id)
 
     // Delete
     public function delete(Request $request, $id)
-    {
-        $penduduk = penduduk::findOrFail($id);
+{
+    try {
+        $penduduk = Penduduk::findOrFail($id);
         $penduduk->delete();
-        return redirect()->route('wargaPendatang')->with('success', 'Penduduk Deleted successfully!');
+        return redirect()->route('wargaPendatang')->with('success', 'Penduduk berhasil dihapus!');
+    } catch (\Illuminate\Database\QueryException $e) {
+        if ($e->getCode() === '23000') {
+            // Integrity constraint violation
+            return back()->withErrors(['message' => 'Anda tidak dapat menghapus ini, Anda harus menghilangkan data tersebut dalam seluruh data umum dan data kos']);
+        }
+        return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
+    } catch (\Exception $e) {
+        return back()->withErrors(['message' => 'Gagal mengedit penduduk: ' . $e->getMessage()]);
     }
+}
+
 
     //print
     public function print()
     {
-
         // Ambil NIK pengguna yang saat ini login
         $NIK = Auth::user()->NIK_penduduk;
     

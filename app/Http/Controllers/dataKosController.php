@@ -55,6 +55,8 @@ class dataKosController extends Controller
     // Read
     public function index(Request $request)
 {
+    try{
+    
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
     $username = Auth::user()->username;
@@ -70,10 +72,16 @@ class dataKosController extends Controller
     }
 
     return view('dataKos.index', compact('data_kos', 'jumlah_penghuni', 'data_kos_pemilik', 'data_kos_RT', 'id_rt', 'username'));
+
+} catch (\Exception $e) {
+    // Tangani pengecualian jika terjadi
+    return response()->view('errors.error-500', [], 500);
+}
 }
 
 public function penghuni($id)
 {
+    try{
     // Ambil data kos berdasarkan ID
     $kos = Kos::find($id);
     
@@ -82,6 +90,12 @@ public function penghuni($id)
 
     // Return view dengan data yang dibutuhkan
     return view('dataKos.penghuniKos', compact('kos', 'penghuni'));
+
+} catch (\Exception $e) {
+    // Tangani pengecualian jika terjadi
+    return response()->view('errors.error-500', [], 500);
+}
+
 }
 
 
@@ -269,10 +283,52 @@ public function updatePenghuni(Request $request, $id)
     public function print()
     {
         // Mengambil semua data kos
-        $data_kos = kos::all();
-        
+        $NIK = Auth::user()->NIK_penduduk;
+    $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
+    // Temukan data penduduk berdasarkan NIK pengguna
+    $pengguna = penduduk::where('NIK', $NIK)->first();
+    
+    $data_kos_pemilik = kos::where('NIK_pemilik_kos', $NIK)->get();
+    $data_kos_RT = kos::where('id_rt', $id_rt)->get();
+    $data_kos_all = kos::all();
+    
+    $jumlah_penghuni = []; // array untuk menyimpan jumlah penghuni untuk setiap kos
+
+    if (Auth::user()->level === 'admin') {
+        $nama_pengguna = "Admin";
+        $data_kos = $data_kos_all;
+        foreach ($data_kos as $kos) {
+            // Hitung jumlah penghuni untuk setiap kos
+            $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
+        }
+
+    }elseif (Auth::user()->level === 'RW') {
+        $nama_pengguna = $pengguna->nama;
+        $data_kos = $data_kos_all;
+        foreach ($data_kos as $kos) {
+            // Hitung jumlah penghuni untuk setiap kos
+            $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
+        }
+
+    } elseif (Auth::user()->level === 'RT') {
+        $nama_pengguna = $pengguna->nama;
+        $data_kos = $data_kos_RT;
+        foreach ($data_kos as $kos) {
+            // Hitung jumlah penghuni untuk setiap kos
+            $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
+        }
+
+    }else{
+        $nama_pengguna = "";
+        $data_kos = $data_kos_pemilik;
+        foreach ($data_kos as $kos) {
+            // Hitung jumlah penghuni untuk setiap kos
+            $jumlah_penghuni[$kos->id] = detail_pendatang::where('id_kos', $kos->id)->count();
+        }
+    }
+
         // Kembalikan view print dengan data kos
-        return view('dataKos.print', compact('data_kos'));
+        return view('dataKos.print', compact('data_kos', 'jumlah_penghuni', 'nama_pengguna'));
     }
 
     // Delete

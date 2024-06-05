@@ -21,9 +21,14 @@ class wargaAsliController extends Controller
     // Read
     public function index(Request $request)
 {
+    try {
     $NIK = Auth::user()->NIK_penduduk;
     $id_rt = penduduk::where('NIK', $NIK)->value('id_rt');
     return view('dataWarga.wargaAsli.index', compact('id_rt'));
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
 }
 
 public function fetchAll()

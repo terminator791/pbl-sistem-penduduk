@@ -55,6 +55,17 @@ class PendudukController extends Controller
         $list_ketua_all = penjabatan_RT::all();
 
         $NIK = Auth::user()->NIK_penduduk;
+        $years = detail_pendatang::distinct()->selectRaw('YEAR(tanggal_masuk) as year')->pluck('year')->toArray();
+        $years_kesehatan_all = kesehatan::distinct()->selectRaw('YEAR(tanggal_terdampak) as year')->pluck('year')->toArray();
+        $years_kejadian_all = kejadian::distinct()->selectRaw('YEAR(tanggal_kejadian) as year')->pluck('year')->toArray();
+
+        $years_kesehatan_rt = kesehatan::whereHas('penduduk', function ($query) use ($id_rt) {
+            $query->where('id_rt', $id_rt);
+        })->distinct()->selectRaw('YEAR(tanggal_terdampak) as year')->pluck('year')->toArray();
+        
+        $years_kejadian_rt = kejadian::whereHas('penduduk', function ($query) use ($id_rt) {
+            $query->where('id_rt', $id_rt);
+        })->distinct()->selectRaw('YEAR(tanggal_kejadian) as year')->pluck('year')->toArray();
     
         // Temukan data penduduk berdasarkan NIK pengguna
         $pengguna = penduduk::where('NIK', $NIK)->first();
@@ -62,15 +73,26 @@ class PendudukController extends Controller
         if ($userLevel === 'admin') {
             $list_penduduk = $list_penduduk_admin;
             $list_ketua_rt = $ketuaRTs;
+            $years_kesehatan = $years_kesehatan_all;
+            $years_kejadian = $years_kejadian_all;
+
         } elseif ($userLevel === 'RW') {
             $list_penduduk = $list_penduduk_rw;
             $list_ketua_rt = $ketuaRTs;
+            $years_kesehatan = $years_kesehatan_all;
+            $years_kejadian = $years_kejadian_all;
+
         } elseif ($userLevel === 'RT') {
             $list_penduduk = $list_penduduk_rt;
             $list_ketua_rt = $ketuaRT;
+            $years_kesehatan = $years_kesehatan_rt;
+            $years_kejadian = $years_kejadian_rt;
+
         }elseif ($userLevel === 'pemilik_kos') {
             $list_penduduk = $list_penduduk_admin;
             $list_ketua_rt = $ketuaRTs;
+            $years_kesehatan = $years_kesehatan_all;
+            $years_kejadian = $years_kejadian_all;
         }
 
 
@@ -137,9 +159,6 @@ class PendudukController extends Controller
             $labels_kejadian = $jenis_kejadian->pluck('jenis_kejadian');
             $data_kejadian = array_values($data_kejadian);
 
-            $years = detail_pendatang::distinct()->selectRaw('YEAR(tanggal_masuk) as year')->pluck('year')->toArray();
-            $years_kesehatan = kesehatan::distinct()->selectRaw('YEAR(tanggal_terdampak) as year')->pluck('year')->toArray();
-            $years_kejadian = kejadian::distinct()->selectRaw('YEAR(tanggal_kejadian) as year')->pluck('year')->toArray();
 
         // Calculate the maximum value from all years
         $maxValue = detail_pendatang::all()->count();
@@ -196,19 +215,59 @@ class PendudukController extends Controller
     public function fetchKesehatanData(Request $request)
 {
     $year = $request->input('year');
-    
-
+    $NIK = Auth::user()->NIK_penduduk;
+    $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
     // Ambil data kesehatan per tahun
     $jenis_penyakit = jenis_penyakit::all();
     $data_kesehatan = [];
-    foreach ($jenis_penyakit as $penyakit) {
-        $count = Kesehatan::where('id_penyakit', $penyakit->id)
-            ->whereHas('penduduk', function ($query) use ($year) {
-                $query->whereYear('tanggal_terdampak', $year);
-            })
-            ->count();
-        $data_kesehatan[$penyakit->nama_penyakit] = $count;
+
+    if (Auth::user()->level === 'admin') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = Kesehatan::where('id_penyakit', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_terdampak', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->nama_penyakit] = $count;
+        }
+    
+    }elseif (Auth::user()->level === 'RW') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = Kesehatan::where('id_penyakit', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_terdampak', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->nama_penyakit] = $count;
+        }
+    
+    } elseif (Auth::user()->level === 'RT') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = Kesehatan::where('id_penyakit', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year, $id_rt) {
+                    $query->where('id_rt', $id_rt)
+                          ->whereYear('tanggal_terdampak', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->nama_penyakit] = $count;
+        }
+      
+    }else{
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = Kesehatan::where('id_penyakit', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_terdampak', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->nama_penyakit] = $count;
+        }
     }
+       
+
 
     return response()->json(['labels' => array_keys($data_kesehatan), 'data' => array_values($data_kesehatan)]);
 }
@@ -216,17 +275,62 @@ class PendudukController extends Controller
 public function fetchKejadianData(Request $request)
 {
     $year = $request->input('year');
+    $NIK = Auth::user()->NIK_penduduk;
+    $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
 
     // Ambil data kesehatan per tahun
     $jenis_penyakit = jenis_kejadian::all();
     $data_kesehatan = [];
-    foreach ($jenis_penyakit as $penyakit) {
-        $count = kejadian::where('jenis_kejadian', $penyakit->id)
-            ->whereHas('penduduk', function ($query) use ($year) {
-                $query->whereYear('tanggal_kejadian', $year);
-            })
-            ->count();
-        $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+
+    if (Auth::user()->level === 'admin') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = kejadian::where('jenis_kejadian', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_kejadian', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+        }
+  
+    
+    }elseif (Auth::user()->level === 'RW') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = kejadian::where('jenis_kejadian', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_kejadian', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+        }
+        
+    
+    } elseif (Auth::user()->level === 'RT') {
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = kejadian::where('jenis_kejadian', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year, $id_rt) {
+                    $query->where('id_rt', $id_rt)
+                          ->whereYear('tanggal_kejadian', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+        }
+        
+      
+    }else{
+
+        foreach ($jenis_penyakit as $penyakit) {
+            $count = kejadian::where('jenis_kejadian', $penyakit->id)
+                ->whereHas('penduduk', function ($query) use ($year) {
+                    $query->whereYear('tanggal_kejadian', $year);
+                })
+                ->count();
+            $data_kesehatan[$penyakit->jenis_kejadian] = $count;
+        }
+        
+       
     }
 
     return response()->json(['labels' => array_keys($data_kesehatan), 'data' => array_values($data_kesehatan)]);

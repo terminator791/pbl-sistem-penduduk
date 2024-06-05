@@ -11,6 +11,8 @@ class BantuanController extends Controller
 {
     public function index()
     {
+        try{
+
         $NIK = Auth::user()->NIK_penduduk;
         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
         $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
@@ -30,7 +32,12 @@ class BantuanController extends Controller
     }
         $list_bantuan = bantuan::all();
 
-        return view('bantuan.index', compact('list_bantuan', 'list_penduduk'));
+        return view('bantuan.index', compact('list_bantuan', 'list_penduduk', 'id_rt'));
+    } catch (\Exception $e) {
+        // Tangani pengecualian jika terjadi
+        return response()->view('errors.error-500', [], 500);
+    }
+    
     }
 
 

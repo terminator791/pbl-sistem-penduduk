@@ -46,18 +46,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/penghuni-kos/update-data-penghuni/{id}', [dataKosController::class, 'updatePenghuni'])->name('dataKos.penghuniKos.update');
         Route::get('/penghuni-kos/edit-delete-penghuni/{id}', [dataKosController::class, 'delete_penghuni'])->name('dataKos.penghuniKos.delete');
         Route::get('/dataKos-print', [dataKosController::class, 'print'])->name('dataKos.print');
-
-         // Data Profile
-        Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-        Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
-        Route::get('/ganti_sandi_profile', [ProfileController::class, 'ganti_sandi_profile'])->name('profile.ganti_sandi_profile');
-        Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
-        Route::get('/chart_fetch',[PendudukController::class, 'fetchData'])->name('chart.fetchData');
-        Route::get('/fetchKesehatanData',[PendudukController::class, 'fetchKesehatanData'])->name('chart.fetchKesehatanData');
-        Route::get('/fetchKejadianData',[PendudukController::class, 'fetchKejadianData'])->name('chart.fetchKejadianData');
-        Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
-        Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
     });
+
+    // Data Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/update-profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/ganti_sandi_profile', [ProfileController::class, 'ganti_sandi_profile'])->name('profile.ganti_sandi_profile');
+    Route::post('/check_password', [ProfileController::class, 'check_password'])->name('profile.check_password');
+    Route::get('/chart_fetch',[PendudukController::class, 'fetchData'])->name('chart.fetchData');
+    Route::get('/fetchKesehatanData',[PendudukController::class, 'fetchKesehatanData'])->name('chart.fetchKesehatanData');
+    Route::get('/fetchKejadianData',[PendudukController::class, 'fetchKejadianData'])->name('chart.fetchKejadianData');
+    Route::get('/update-data-ketua/{id}', [ProfileController::class, 'updateKetua'])->name('profile.updateKetua');
+    Route::post('/ganti_sandi', [ProfileController::class, 'ganti_sandi'])->name('profile.ganti_sandi');
 
 
 // Data Warga Asli
@@ -141,6 +141,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-foto-ketua/{id}', [ProfileController::class, 'updateFotoKetua'])->name('update-foto-ketua');
     });
 
+});
+Route::fallback(function () {
+    return response()->view('errors.error-404', [], 404);
 });
 
 require __DIR__.'/auth.php';

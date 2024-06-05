@@ -20,7 +20,13 @@
 <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Data kejadian Admin</h3>
+                @if (Auth::user()->level == 'admin')
+                    <h3>Data Pendidikan Admin</h3>
+                @elseif (Auth::user()->level == 'RW')
+                    <h3>Data Pendidikan RW 13</h3>
+                @elseif(Auth::user()->level == 'RT')
+                    <h3>Data Pendidikan RW 13  RT {{ $id_rt}}</h3>
+                @endif
                 <p class="text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
