@@ -69,7 +69,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group" id="nik-dropdown-container" style="display: none;">
                                         <label for="NIK_pemilik_kos_asli" class="form-label">Pemilik kos</label>
-                                        <select id="NIK_pemilik_kos_asli" name="NIK_pemilik_kos_asli" class="form-select">
+                                        <select id="NIK_pemilik_kos_asli" name="NIK_pemilik_kos_asli" class="form-select choices">
                                             @foreach ($list_penduduk as $penduduk)
                                             <option value="{{ $penduduk->NIK }}" data-id-rt="{{ $penduduk->id_rt }}" data-no-hp="{{ $penduduk->no_hp }}" data-email="{{ $penduduk->email }}">{{ $penduduk->nama }}</option>
                                             @endforeach
@@ -212,6 +212,9 @@
     });
 });
 
+$(document).ready(function(){
+            $('.choices').choices();
+        });
 
 </script>
 @endsection

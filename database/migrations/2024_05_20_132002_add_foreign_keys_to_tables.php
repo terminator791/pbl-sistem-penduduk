@@ -31,20 +31,20 @@ return new class extends Migration
         });
 
         Schema::table('detail_pendatang', function (Blueprint $table) { 
-            $table->foreign('NIK')->references('NIK')->on('penduduk');
-            $table->foreign('id_kos')->references('id')->on('tabel_kos');
+            $table->foreign('NIK')->references('NIK')->on('penduduk')->onDelete('cascade');
+            $table->foreign('id_kos')->references('id')->on('tabel_kos')->onDelete('cascade');
 
         });
 
 
         Schema::table('penjabatan_rt', function (Blueprint $table) { 
-            $table->foreign('NIK_ketua_RT')->references('NIK')->on('penduduk');
-            $table->foreign('id_rt')->references('id')->on('tabel_rt');
+            $table->foreign('NIK_ketua_RT')->references('NIK')->on('penduduk')->onDelete('cascade');
+            $table->foreign('id_rt')->references('id')->on('tabel_rt')->onDelete('cascade');
         });
 
         Schema::table('kejadian', function (Blueprint $table) {
-            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
-            $table->foreign('jenis_kejadian')->references('id')->on('jenis_kejadian');
+            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk')->onDelete('cascade');
+            $table->foreign('jenis_kejadian')->references('id')->on('jenis_kejadian')->onDelete('cascade');
         });
 
         Schema::table('tabel_kos', function (Blueprint $table) {
@@ -52,7 +52,7 @@ return new class extends Migration
         });
 
         Schema::table('kesehatan', function (Blueprint $table) {
-            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk');
+            $table->foreign('NIK_penduduk')->references('NIK')->on('penduduk')->onDelete('cascade');
             $table->foreign('id_penyakit')->references('id')->on('jenis_penyakit')->onDelete('cascade');
         });
         

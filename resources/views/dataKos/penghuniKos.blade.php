@@ -48,7 +48,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">
-                    Rekap Data Warga Penghuni Kos
+                    Rekap Data Warga Penghuni Kos {{ $kos->nama_kos }}
                 </h5>
                 {{-- <a href="{{ route('#') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-print"></i>

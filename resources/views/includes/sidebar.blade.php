@@ -51,13 +51,14 @@
             </a>
         </li>
         @if(Auth::user()->level != 'pemilik_kos')
-            <li class="sidebar-item {{Request::is('jabatan') || request()->routeIs('jabatan.*') ? 'active' : ''}}">
-                <a href="{{route('jabatan')}}" class="sidebar-link">
+            <li class="sidebar-item {{ Request::is('jabatan') || request()->routeIs('jabatan') || request()->routeIs('jabatan.*') ? 'active' : '' }}">
+                <a href="{{ route('jabatan') }}" class="sidebar-link">
                     <i class="bi bi-people-fill"></i>
                     <span>Penjabatan RT</span>
-                </a>
+                </a>    
             </li>
         @endif
+
         
     <li class="sidebar-item has-sub {{ in_array(Route::currentRouteName(), ['profile', 'profile.create', 'profile.ganti_sandi_profile', 'profile.kelola_akun']) ? 'active' : '' }} ">
         <a href="{{route('profile')}}" class='sidebar-link'>

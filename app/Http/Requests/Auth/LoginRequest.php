@@ -40,46 +40,88 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+    // public function authenticate(): void
+    // {
+    //     $this->ensureIsNotRateLimited();
+    //     $credentials = $this->only('NIK_penduduk', 'password');
+    //     $credentials['status_akun'] = 1;
+    //     $level = $this->input('level'); // Get the level from the request
+
+    //     $users = User::where('NIK_penduduk', $credentials['NIK_penduduk'])->where('level', $level)->get();
+
+    //     if ($users->isEmpty()) {
+    //         throw ValidationException::withMessages([
+    //             'NIK_penduduk' => 'Akun tidak terdaftar',
+    //         ]);
+    //     }
+
+    //     $authenticated = false;
+
+    //     foreach ($users as $user) {
+    //         if ($user->status_akun == 0) {
+    //             throw ValidationException::withMessages([
+    //                 'NIK_penduduk' => trans('Akun anda sedang dinonaktifkan, coba hubungi Admin!'),
+    //             ]);
+    //         }
+    //         if (Hash::check($credentials['password'], $user->password) && $user->level == $level) {
+    //             Auth::login($user, $this->boolean('remember'));
+    //             $authenticated = true;
+    //             break;
+    //         }
+    //     }
+
+    //     if (!$authenticated) {
+    //         RateLimiter::hit($this->throttleKey());
+
+    //         throw ValidationException::withMessages([
+    //             'NIK_penduduk' => 'Password yang anda masukkan salah atau NIK tidak cocok',
+    //         ]);
+    //     }
+
+    //     RateLimiter::clear($this->throttleKey());
+    // }
     public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
-        $credentials = $this->only('NIK_penduduk', 'password');
-        $credentials['status_akun'] = 1;
-        $level = $this->input('level'); // Get the level from the request
+{
+    $this->ensureIsNotRateLimited();
 
-        $users = User::where('NIK_penduduk', $credentials['NIK_penduduk'])->where('level', $level)->get();
+    $credentials = $this->only('NIK_penduduk', 'password');
+    $level = $this->input('level'); // Get the level from the request
 
-        if ($users->isEmpty()) {
-            throw ValidationException::withMessages([
-                'NIK_penduduk' => 'Akun tidak terdaftar',
-            ]);
-        }
+    // Fetch users with the given NIK and level
+    $users = User::where('NIK_penduduk', $credentials['NIK_penduduk'])
+                 ->where('level', $level)
+                 ->get();
 
-        $authenticated = false;
-
-        foreach ($users as $user) {
-            if ($user->status_akun == 0) {
-                throw ValidationException::withMessages([
-                    'NIK_penduduk' => trans('Akun anda sedang dinonaktifkan, coba hubungi Admin!'),
-                ]);
-            }
-            if (Hash::check($credentials['password'], $user->password) && $user->level == $level) {
-                Auth::login($user, $this->boolean('remember'));
-                $authenticated = true;
-                break;
-            }
-        }
-
-        if (!$authenticated) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'NIK_penduduk' => 'Password yang anda masukkan salah atau NIK tidak cocok',
-            ]);
-        }
-
-        RateLimiter::clear($this->throttleKey());
+    if ($users->isEmpty()) {
+        throw ValidationException::withMessages([
+            'NIK_penduduk' => 'Akun tidak terdaftar',
+        ]);
     }
+
+    $activeUsers = $users->filter(function ($user) {
+        return $user->status_akun == 1;
+    });
+
+    if ($activeUsers->isEmpty()) {
+        throw ValidationException::withMessages([
+            'NIK_penduduk' => trans('Akun anda sedang dinonaktifkan, coba hubungi Admin!'),
+        ]);
+    }
+
+    foreach ($activeUsers as $user) {
+        if (Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user, $this->boolean('remember'));
+            RateLimiter::clear($this->throttleKey());
+            return;
+        }
+    }
+
+    RateLimiter::hit($this->throttleKey());
+
+    throw ValidationException::withMessages([
+        'NIK_penduduk' => 'Password yang anda masukkan salah atau NIK tidak cocok',
+    ]);
+}
 
     /**
      * Ensure the login request is not rate limited.

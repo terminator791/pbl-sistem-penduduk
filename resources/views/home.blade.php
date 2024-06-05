@@ -293,7 +293,7 @@
                 @if (Auth::user()->level == 'admin')
                     <h5 class="card-title text-muted mb-3">Pendidikan Seluruh Penduduk</h5>
                 @elseif (Auth::user()->level == 'RW')
-                    <h5 class="card-title text-muted mb-3">Pendidikan Penduduk RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">Pendidikan Penduduk RW 13</h5>
                 @elseif(Auth::user()->level == 'RT')
                     <h5 class="card-title text-muted mb-3">Pendidikan Penduduk RT {{ $id_rt }}</h5>
                 @endif
@@ -309,7 +309,7 @@
                 @if (Auth::user()->level == 'admin')
                     <h5 class="card-title text-muted mb-3">Bantuan Seluruh Penduduk</h5>
                 @elseif (Auth::user()->level == 'RW')
-                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">Bantuan Penduduk RW 13</h5>
                 @elseif(Auth::user()->level == 'RT')
                     <h5 class="card-title text-muted mb-3">Bantuan Penduduk RT {{ $id_rt }}</h5>
                 @endif
@@ -325,9 +325,9 @@
                 @if (Auth::user()->level == 'admin')
                     <h5 class="card-title text-muted mb-3">kesehatan Seluruh Penduduk</h5>
                 @elseif (Auth::user()->level == 'RW')
-                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RW 13</h5>
                 @elseif(Auth::user()->level == 'RT')
-                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RT {{ $id_rt }}, RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">kesehatan Penduduk RT {{ $id_rt }}, RW 13</h5>
                 @endif
                 <div class="form-group">
                     <label for="yearSelect2">Select Year:</label>
@@ -350,9 +350,9 @@
                 @if (Auth::user()->level == 'admin')
                     <h5 class="card-title text-muted mb-3">Bencana</h5>
                 @elseif (Auth::user()->level == 'RW')
-                    <h5 class="card-title text-muted mb-3">Bencana RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">Bencana RW 13</h5>
                 @elseif(Auth::user()->level == 'RT')
-                    <h5 class="card-title text-muted mb-3">Bencana RT {{ $id_rt }}, RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">Bencana RT {{ $id_rt }}, RW 13</h5>
                 @endif
                 <div class="form-group">
                     <label for="yearSelect3">Select Year:</label>
@@ -379,7 +379,7 @@
                 @if (Auth::user()->level == 'admin')
                     <h5 class="card-title text-muted mb-3">kos Seluruh Penduduk</h5>
                 @elseif (Auth::user()->level == 'RW')
-                    <h5 class="card-title text-muted mb-3">kos Penduduk RW {{ $id_rw }}</h5>
+                    <h5 class="card-title text-muted mb-3">kos Penduduk RW 13</h5>
                 @elseif(Auth::user()->level == 'RT')
                     <h5 class="card-title text-muted mb-3">kos Penduduk RT {{ $id_rt }}</h5>
                 @endif

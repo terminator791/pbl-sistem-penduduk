@@ -221,6 +221,8 @@ class PendudukController extends Controller
     $jenis_penyakit = jenis_penyakit::all();
     $data_kesehatan = [];
 
+    
+
     if (Auth::user()->level === 'admin') {
 
         foreach ($jenis_penyakit as $penyakit) {

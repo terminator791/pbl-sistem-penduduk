@@ -20,10 +20,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            outline-color: blue 9px;
-            /* outline-style: outset 5px #007bff;
-            outline-style: 500px #007bff ; */
-
+            
             
         }
         #auth-left {
@@ -31,6 +28,7 @@
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            outline: 2px solid #0d6efd;
         }
         .auth-logo {
             width: 250px;
@@ -44,12 +42,14 @@
         }
         .form-group {
             margin-bottom: 10px;
+            
         }
         .form-control {
             height: 60px;
             padding: 10px;
             border-radius: 8px;
             border: 1px solid #ced4da;
+            
         }
         .form-control:focus {
             border-color: #007bff;

@@ -25,16 +25,24 @@ class KejadianController extends Controller
     $list_penduduk_rw = Penduduk::where('id_rw', $id_rw)->get();
     $list_penduduk_admin = Penduduk::all();
 
+    $kejadian_all = kejadian::with(['penduduk', 'jenis_kejadian'])->get();
+
+    $kejadian_rt = Kejadian::whereHas('penduduk', function($query) use ($id_rt) {
+        $query->where('id_rt', $id_rt);
+    })->with(['penduduk', 'jenis_kejadian'])->get();
+
 
     if ($userLevel === 'admin') {
         $list_penduduk = $list_penduduk_admin;
+        $kejadian = $kejadian_all;
     } elseif ($userLevel === 'RW') {
         $list_penduduk = $list_penduduk_rw;
+        $kejadian = $kejadian_all;
     } elseif ($userLevel === 'RT') {
         $list_penduduk = $list_penduduk_rt;
+        $kejadian = $kejadian_rt;
     }
     
-        $kejadian = kejadian::with(['penduduk', 'jenis_kejadian'])->get();
         $list_jenis_kejadian = jenis_kejadian::all();
 
         return view('kejadian.index', compact('kejadian', 'list_jenis_kejadian', 'list_penduduk', 'id_rt'));

@@ -342,12 +342,13 @@ public function updatePenghuni(Request $request, $id)
 
     $kos_cek = Kos::where('NIK_pemilik_kos', $NIK_pemilik_kos)->exists();
 
-    if(!$kos_cek) {
+    if($kos_cek == false) {
         $user = User::where('NIK_penduduk', $NIK_pemilik_kos)->where('level', 'pemilik_kos')->first();
-        
-        if($user) {
-            // $user->delete();
-            $user->status_akun = 0;
+        $user_cek = User::where('NIK_penduduk', $NIK_pemilik_kos)->where('level', 'pemilik_kos')->exists();
+        if($user_cek == true) {
+            $user->delete();
+            // $user->status_akun = 0;
+            // $user->save();
             if (Auth::user()->level == 'pemilik_kos'){
                 return redirect()->route('login')->with('warning', 'Akun tidak akan bisa digunakan lagi karena tidak adanya kos yang ada di akun ini, Hubungi Admin lebih lanjut!');
             }
@@ -357,6 +358,8 @@ public function updatePenghuni(Request $request, $id)
             }
            
     }
+    
+    return redirect()->route('dataKos')->with('success', 'Kos berhasil dihapus!');
 }
     
 

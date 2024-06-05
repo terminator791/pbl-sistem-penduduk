@@ -230,10 +230,14 @@ class ProfileController extends Controller
         $id_penjabatan_users = Auth::user()->id_penjabatan_users;
 
         //penduduk
+        $penduduk_cek = penduduk::where('NIK', $NIK)->exists();
         $penduduk = penduduk::where('NIK', $NIK)->first();
-        $penduduk->no_hp = $request->input('no_hp');
+        if($penduduk_cek == true){
+            $penduduk->no_hp = $request->input('no_hp');
         $penduduk->email = $request->input('email');
         $penduduk->save();
+
+        }
         
 
         $user = User::where('NIK_penduduk' , $NIK)->where('level', $level)->first();

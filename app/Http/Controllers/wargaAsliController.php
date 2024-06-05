@@ -33,91 +33,79 @@ class wargaAsliController extends Controller
 
 public function fetchAll()
 {
-    // 1. Ambil NIK pengguna yang saat ini login
-    $NIK = Auth::user()->NIK_penduduk;
+    try {
+        // 1. Ambil NIK pengguna yang saat ini login
+        $NIK = Auth::user()->NIK_penduduk;
 
-    // 2. Temukan id_rw dari tabel penduduk berdasarkan NIK pengguna
-    $id_rw = Penduduk::where('NIK', $NIK)->value('id_rw');
+        // 2. Temukan penduduk berdasarkan NIK pengguna
+        $penduduk = Penduduk::with(['rw'])->where('NIK', $NIK)->first();
 
-    // 3. Temukan id_rt dari tabel penduduk berdasarkan NIK pengguna
-    $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
+        // 3. Ambil id_rw dan id_rt dari penduduk
+        $id_rw = optional($penduduk)->id_rw;
+        $id_rt = optional($penduduk)->id_rt;
 
-    $penduduk = Penduduk::where('NIK', $NIK)->first();
+        // 4. Ambil data dari API
+        $response = Http::withHeaders([
+            'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
+        ])->get('http://localhost:9000/v1/wargaAsli');
 
-    // 4. Ambil data dari API
-    $response = Http::withHeaders([
-        'Authorization' => 'eb22cfaa-8fc7-4d5e-bcdf-d12c9dc456d9',
-    ])->get('http://localhost:9000/v1/wargaAsli');
+        // 5. Periksa apakah request berhasil
+        if ($response->successful()) {
+            $data = $response->json();
 
-    // 5. Periksa apakah request berhasil
-    if ($response->successful()) {
-        $data = $response->json();
+            // 6. Tentukan level pengguna saat ini
+            $userLevel = Auth::user()->level;
 
-        // 6. Tentukan level pengguna saat ini
-        $userLevel = Auth::user()->level;
+            // 7. Filter data sesuai dengan level pengguna
+            $filteredData = collect($data)->filter(function ($item) use ($userLevel, $id_rw, $id_rt) {
+                // Exclude 'kos' and 'kontrak' status
+                if (in_array($item['status_penghuni'], ['kos', 'kontrak'])) {
+                    return false;
+                }
+                // Admin level access
+                if ($userLevel === 'admin') {
+                    return true;
+                }
+                // RW level access
+                elseif ($userLevel === 'RW') {
+                    return true;
+                }
+                // RT level access
+                elseif ($userLevel === 'RT') {
+                    return $item['id_rt'] == $id_rt;
+                }
+                return false;
+            })->values()->all();
 
-          // 5. Filter data sesuai kondisi yang diinginkan
-          $filteredData_rt = collect($data)->filter(function ($item) use ($id_rt) {
-            return $item['id_rt'] == $id_rt && !in_array($item['status_penghuni'], ['kos', 'kontrak']);
-        })->values()->all();
+            // 8. Urutkan data berdasarkan nama sebelum mengembalikannya ke DataTables
+            $sortedData = collect($filteredData)->sortBy('nama')->values()->all();
 
-        // 5. Filter data sesuai kondisi yang diinginkan
-        $filteredData_rw = collect($data)->filter(function ($item) use ($penduduk) {
-            return $item['id_rw'] == $penduduk->rw->nama_rw && !in_array($item['status_penghuni'], ['kos', 'kontrak']);
-        })->values()->all();
-
-        $filteredData_admin = collect($data)->filter(function ($item) use ($id_rt) {
-
-            return  !in_array($item['status_penghuni'], ['kos', 'kontrak']);
-        })->values()->all();
-
-        // 7. Filter data sesuai dengan level pengguna
-        if ($userLevel === 'admin') {
-            $filteredData = $filteredData_admin;
-        } elseif ($userLevel === 'RW') {
-            $filteredData = $filteredData_rw;
-        } elseif ($userLevel === 'RT') {
-            $filteredData = $filteredData_rt;
+            // 9. Mengembalikan data dalam format yang sesuai dengan DataTables
+            return DataTables::of($sortedData)
+                ->addColumn('action', function ($warga) {
+                    return 
+                        '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
+                        '<i class="bi bi-pencil-fill text-white"></i>' .
+                        '</a>&nbsp;&nbsp;' . 
+                        '<a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(' . $warga['id'] . ')">' .
+                        '<i class="bi bi-trash-fill"></i>' .
+                        '</a>&nbsp;&nbsp;' . 
+                        '<a class="btn btn-sm btn-primary toggle-detail" onclick="showWargaDetail(' . $warga['id'] . ')" data-id="' . $warga['id'] . '">' .
+                        '<i class="bi bi-eye-fill"></i>' .
+                        '</a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        } else {
+            // 10. Jika request gagal, kembalikan pesan error
+            return response()->json(['error' => 'Failed to fetch data from API'], 500);
         }
-
-        // 8. Urutkan data berdasarkan nama sebelum mengembalikannya ke DataTables
-        $sortedData = collect($filteredData)->sortBy('nama')->values()->all();
-
-
-        // 8. Mengembalikan data dalam format yang sesuai dengan DataTables
-        return DataTables::of($sortedData)
-        // ->addColumn('NIK', function ($warga) {
-
-        //     $NIK = $warga['NIK'];
-        //     $censoredNIK = substr_replace($NIK, 'xxxxxxxxxxx', 2, 9); // Mengganti digit ke-3 hingga ke-13 dengan 'x'
-        //     return $censoredNIK;
-        // })
-            ->addColumn('action', function ($warga) {
-                // Tambahkan tombol aksi di sini sesuai kebutuhan
-                return 
-                
-                    '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-warning toggle-edit" data-toggle="modal">' .
-                    '<i class="bi bi-pencil-fill text-white"></i>' .
-                    '</a>&nbsp;&nbsp;' . // Spasi di sini
-                    // '<a href="' . route('wargaAsli.edit', $warga['id']) . '" class="btn btn-sm btn-secondary toggle-edit" data-toggle="modal">' .
-                    // '<i class="bi fi-br-skull-crossbones"></i>' .
-                    // '</a>&nbsp;&nbsp;' . // Spasi di sini
-                    '<a href="#" class="btn btn-sm btn-danger toggle-delete" onclick="confirmDelete(' . $warga['id'] . ')">' .
-                    '<i class="bi bi-trash-fill"></i>' .
-                    '</a>&nbsp;&nbsp;' . // Spasi di sini
-                    '<a class="btn btn-sm btn-primary toggle-detail" onclick="showWargaDetail(' . $warga['id'] . ')" data-id="' . $warga['id'] . '">' .
-                    '<i class="bi bi-eye-fill"></i>' .
-                    '</a>';
-            })
-            ->rawColumns(['action']) // Menggunakan rawColumns untuk mengizinkan HTML di dalam kolom aksi
-            ->make(true);
-
-        
-    } else {
-        // 9. Jika request gagal, kembalikan pesan error
-        return response()->json(['error' => 'Failed to fetch data from API'], 500);
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        return response()->json(['error' => 'An error occurred while processing the request'], 500);
     }
 }
+
 
 
 

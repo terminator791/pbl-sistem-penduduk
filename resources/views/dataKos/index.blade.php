@@ -105,8 +105,8 @@
                                             onclick="confirmDelete(event, {{ $kos->id }})">
                                             <i class="bi bi-trash-fill"></i>
                                         </a> -->
-                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
-                                            <i class="bi bi-trash-fill" title ="Klik untuk menghapus kos"></i>
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $kos->id }}" data-toggle="modal" data-target="#deleteConfirmationModal" title ="Klik untuk menghapus kos">
+                                            <i class="bi bi-trash-fill"></i>
                                         </button>
 
                                         <a href="#" class="btn btn-sm btn-info toggle-detail"  title ="Klik untuk melihat info kos"
@@ -219,6 +219,7 @@
                 </div>
             </div>
         </div>
+        
 
 <div class="text mt-3">
     @if(Auth::user()->level != 'RW')
@@ -248,7 +249,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailModalLabel">Detail Kos</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="modalContent">
             </div>
@@ -303,7 +304,7 @@ function deleteData(id) {
     // Periksa apakah input teks sesuai dengan yang diharapkan
     if (confirmInput.toLowerCase() === 'konfirmasi') {
         // Redirect to the delete route with the correct id
-        window.location.href = "{{ url('dataKos/hapus-kos') }}/" + id;
+        window.location.href = "{{ route('dataKos.delete', '') }}/" + id;
     } else {
         Toastify({
             text: "kata yang dimasukkan salah",
@@ -326,7 +327,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
 
     if (foto_kos) {
         fotoKosHTML = `
-            <div style="text-align: center; width: 300px; height: 500px;">
+            <div style="text-align: center; width: 300px; height: 200px;">
                 <img src="/storage/${foto_kos}" alt="Foto KOS" style="max-width: 100%; max-height: 100%; width: auto; height: auto;">
             </div>
         `;
@@ -387,7 +388,7 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
         </script>
     @endif
 
-    // Script untuk menampilkan pesan warning
+    
     @if(session('warning'))
     <script>
         Toastify({
