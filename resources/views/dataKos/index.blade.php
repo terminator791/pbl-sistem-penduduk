@@ -334,19 +334,45 @@ function showDetailModal(nama_kos, pemilik_kos, jumlah_penghuni, alamat_kos, no_
     } else {
         fotoKosHTML = `<span>Tidak ada foto kos</span>`;
     }
+    
 
     modalContent.innerHTML = `
-        <p><strong>Nama Kos:</strong> ${nama_kos}</p>
-        <p><strong>Pemilik Kos:</strong> ${pemilik_kos}</p>
-        <p><strong>Jumlah Penghuni:</strong> ${jumlah_penghuni}</p>
-        <p><strong>Alamat Kos:</strong> ${alamat_kos}</p>
-        <p><strong>Kontak:</strong> ${no_hp_pemilik}</p>
-        <p><strong>Email:</strong> ${email_pemilik}</p>
-        <div style="width: 175px; height: 220px; text-align: center;">
-            <strong>Foto KOS:</strong><br>
-            ${fotoKosHTML}
+        <div class="container p-3 mb-2" style="background-color: #d3d3d3; color: #333; border-radius: 10px;">
+            <div class="row mb-3">
+                <div class="col-4"><strong>Nama Kos:</strong></div>
+                <div class="col-8">${nama_kos}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4"><strong>Pemilik Kos:</strong></div>
+                <div class="col-8">${pemilik_kos}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4"><strong>Jumlah Penghuni:</strong></div>
+                <div class="col-8">${jumlah_penghuni}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4"><strong>Alamat Kos:</strong></div>
+                <div class="col-8">${alamat_kos}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4"><strong>Kontak:</strong></div>
+                <div class="col-8">${no_hp_pemilik}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4"><strong>Email:</strong></div>
+                <div class="col-8">${email_pemilik}</div>
+            </div>
+            <div class="row text-center">
+                <div class="col-12"><strong>Foto KOS:</strong></div>
+                <div class="col-12">
+                    <div class="d-inline-block border rounded p-2 mt-2 shadow" style="width: 320px; height: 200px; background-color: #f8f9fa;">
+                        ${fotoKosHTML}
+                    </div>
+                </div>
+            </div>
         </div>
     `;
+    
     $('#detailModal').modal('show');
 }
 

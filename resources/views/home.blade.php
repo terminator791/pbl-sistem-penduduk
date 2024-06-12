@@ -6,12 +6,15 @@
         <p style="margin: 0; font-size: 14px; color: white; margin-left: 5px;">{{ Auth::user()->level }}, {{ Auth::user()->username }}</p>
     </div>
     @if (Auth::user()->level == 'admin')
+    &nbsp;&nbsp;&nbsp;
         <h3 class="text-center">Selamat Datang {{ Auth::user()->level }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
     @elseif (Auth::user()->level == 'RW')
+    &nbsp;&nbsp;&nbsp;
         <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ $nama_pengguna }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
     @elseif(Auth::user()->level == 'RT')
+    &nbsp;&nbsp;&nbsp;
         <h3 class="text-center">Selamat Datang Ketua {{ Auth::user()->level }}, {{ $nama_pengguna }} di Dasbor Tegalsari</h3>
         <p class="text-center text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13 RT {{ $roles->id_rt }}</p>
     @elseif(Auth::user()->level == 'pemilik_kos')

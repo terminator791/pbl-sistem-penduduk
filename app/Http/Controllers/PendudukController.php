@@ -44,6 +44,7 @@ class PendudukController extends Controller
         $ketuaRTs = penjabatan_RT::whereNull('tanggal_diberhentikan')
         ->join('penduduk', 'penjabatan_RT.NIK_ketua_rt', '=', 'penduduk.NIK')
         ->select('penjabatan_RT.*', 'penduduk.nama AS nama_ketua_rt')
+        ->orderBy('id_rt', 'ASC')
         ->get();
 
         $ketuaRT = penjabatan_RT::whereNull('tanggal_diberhentikan')
@@ -66,6 +67,13 @@ class PendudukController extends Controller
         $years_kejadian_rt = kejadian::whereHas('penduduk', function ($query) use ($id_rt) {
             $query->where('id_rt', $id_rt);
         })->distinct()->selectRaw('YEAR(tanggal_kejadian) as year')->pluck('year')->toArray();
+
+        // Ensure years arrays have at least 0 if empty
+$years = empty($years) ? [0] : $years;
+$years_kesehatan_all = empty($years_kesehatan_all) ? [0] : $years_kesehatan_all;
+$years_kejadian_all = empty($years_kejadian_all) ? [0] : $years_kejadian_all;
+$years_kesehatan_rt = empty($years_kesehatan_rt) ? [0] : $years_kesehatan_rt;
+$years_kejadian_rt = empty($years_kejadian_rt) ? [0] : $years_kejadian_rt;
     
         // Temukan data penduduk berdasarkan NIK pengguna
         $pengguna = penduduk::where('NIK', $NIK)->first();
@@ -340,7 +348,7 @@ public function fetchKejadianData(Request $request)
 
 
 
-    public function fetchData(Request $request)
+public function fetchData(Request $request)
 {
     $year = $request->input('year');
 
@@ -355,7 +363,7 @@ public function fetchKejadianData(Request $request)
         ->first();
 
     if ($latestMasukEntry && $latestKeluarEntry) {
-        if ($latestMasukEntry->tanggal_masuk > $latestKeluarEntry->tanggal_keluar) {
+        if ($latestMasukEntry->year > $latestKeluarEntry->year || ($latestMasukEntry->year == $latestKeluarEntry->year && $latestMasukEntry->month > $latestKeluarEntry->month)) {
             $latestYear = $latestMasukEntry->year;
             $latestMonth = $latestMasukEntry->month;
         } else {
@@ -378,6 +386,7 @@ public function fetchKejadianData(Request $request)
     $previousYear = $year - 1;
     $previousYearInCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
         ->whereYear('tanggal_masuk', '<=', $previousYear)
+        ->whereNull('tanggal_keluar') // Only count entries that haven't left yet
         ->count();
 
     $previousYearOutCount = detail_pendatang::join('penduduk', 'detail_pendatang.NIK', '=', 'penduduk.NIK')
@@ -438,6 +447,7 @@ public function fetchKejadianData(Request $request)
         'data' => $data
     ]);
 }
+
 
 
 

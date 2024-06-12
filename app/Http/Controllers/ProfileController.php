@@ -142,7 +142,6 @@ class ProfileController extends Controller
     public function store(Request $request)
     { 
         try {
-
             $request->validate([
                 'foto_ketua' => 'image|mimes:jpeg,png,jpg|max:10240',
             ]);
@@ -156,6 +155,7 @@ class ProfileController extends Controller
 
         // Membuat id_penjabatan dengan angka unik hari ini
         $id_penjabatan = $today->format('Ymd') . str_pad($countToday + 1, 2, '0', STR_PAD_LEFT);
+        $id_penjabatan= $id_penjabatan+10;
         $NewUser = new User();
 
         if($request->input('level') == 'RW'){
@@ -184,8 +184,14 @@ class ProfileController extends Controller
             $penjabatan = new penjabatan_RT();
             $penjabatan->id_penjabatan = $id_penjabatan;
             $penjabatan->NIK_ketua_rt = $request->input('NIK_penduduk');
+
+            $NIk_ketua = $request->input('NIK_penduduk');
+
+            $id_rt_ketua = penduduk::where('NIK', $NIk_ketua)->value('id_rt');
+
             $penjabatan->tanggal_dilantik = $request->input('tanggal_dilantik');
-            $penjabatan->id_rt = $request->input('id_rt');
+            $penjabatan->id_rt = $id_rt_ketua;
+            // dd($id_rt_ketua);
             if ($request->hasFile('foto_ketua')) {
                 $file = $request->file('foto_ketua');
                 $fileName = time() . '_' . $file->getClientOriginalName();
@@ -194,6 +200,7 @@ class ProfileController extends Controller
             }
             $NewUser->id_penjabatan_users = $id_penjabatan;
             $penjabatan->save();
+            $id_penjabatan++;
         }
 
 

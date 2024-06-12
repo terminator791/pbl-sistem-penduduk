@@ -15,11 +15,11 @@
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
                 @if (Auth::user()->level == 'admin')
-                    <h3>Data Pendidikan Admin</h3>
+                    <h3>Data Bantuan Admin</h3>
                 @elseif (Auth::user()->level == 'RW')
-                    <h3>Data Pendidikan RW 13</h3>
+                    <h3>Data Bantuan RW 13</h3>
                 @elseif(Auth::user()->level == 'RT')
-                    <h3>Data Pendidikan RW 13  RT {{ $id_rt}}</h3>
+                    <h3>Data Bantuan RW 13  RT {{ $id_rt}}</h3>
                 @endif
             <p class="text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
         </div>
@@ -97,6 +97,7 @@ $icons = [
                                     @endif
                                 </tr>
                             </thead>
+                            @if(Auth::user()->level == 'admin')
                             <tbody>
                                 @foreach($bantuan->penduduk as $p)
                                 <tr>
@@ -113,6 +114,62 @@ $icons = [
                                 </tr>
                                 @endforeach
                             </tbody>
+                            @endif
+
+                            @php
+                            $nomor_iterasi_rw = 1;
+                        @endphp
+                        @if(Auth::user()->level == 'RW' )
+                            <tbody>
+                                @foreach($bantuan->penduduk as $p)
+                                <tr>
+                                    <td>{{ $nomor_iterasi_rw }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
+                                    <td>
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $p->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
+                                    @endif
+                                </tr>
+                                    @php
+                                        $nomor_iterasi_rw++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                        @endif
+
+                            
+
+                        @php
+                            $nomor_iterasi_rt = 1;
+                        @endphp
+                        @if(Auth::user()->level == 'RT' )
+                            <tbody>
+                                @foreach($bantuan->penduduk as $p)
+                                @if($p->id_rt == $id_rt)
+                                <tr>
+                                    <td>{{ $nomor_iterasi_rt }}</td>
+                                    <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->nama_jalan }} , RT {{ $p->id_rt }} , RW {{ $p->id_rw }}</td>
+                                    @if(Auth::user()->level == 'admin' ||Auth::user()->level == 'RT')
+                                    <td>
+                                        <button class="btn btn-sm btn-danger toggle-delete" data-id="{{ $p->id }}" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
+                                    @endif
+                                </tr>
+                                    @php
+                                        $nomor_iterasi_rt++;
+                                    @endphp
+                                @endif
+                                @endforeach
+                            </tbody>
+                        @endif
+
                         </table>
                     </div>
                 </div>

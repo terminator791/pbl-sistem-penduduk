@@ -21,11 +21,11 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 @if (Auth::user()->level == 'admin')
-                    <h3>Data Pendidikan Admin</h3>
+                    <h3>Data Bencana Admin</h3>
                 @elseif (Auth::user()->level == 'RW')
-                    <h3>Data Pendidikan RW 13</h3>
+                    <h3>Data Bencana RW 13</h3>
                 @elseif(Auth::user()->level == 'RT')
-                    <h3>Data Pendidikan RW 13  RT {{ $id_rt}}</h3>
+                    <h3>Data Bencana RW 13  RT {{ $id_rt}}</h3>
                 @endif
                 <p class="text-subtitle text-muted">Kec.Candisari, Kel.Tegalsari, RW 13</p>
             </div>

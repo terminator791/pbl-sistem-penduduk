@@ -89,19 +89,27 @@ class BantuanController extends Controller
         $pengguna = penduduk::where('NIK', $NIK)->first();
         $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
 
-        $sosial = Penduduk::where('id_rt', $id_rt)
+        $sosial_rt = Penduduk::where('id_rt', $id_rt)
                   ->where('id_bantuan', $bantuan->id)
                   ->with('bantuan')
                   ->get();
 
+        $sosial_all = penduduk::where('id_bantuan', $bantuan->id)->get();
+
+        
+
         if (Auth::user()->level === 'admin') {
             $nama_pengguna = "Admin";
+            $sosial = $sosial_all;
         }elseif (Auth::user()->level === 'RW') {
             $nama_pengguna = $pengguna->nama;
+            $sosial = $sosial_all;
         } elseif (Auth::user()->level === 'RT') {
             $nama_pengguna = $pengguna->nama;
+            $sosial = $sosial_rt;
         }else{
             $nama_pengguna = "";
+            $sosial = $sosial_all;
         }
 
 

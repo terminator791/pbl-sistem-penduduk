@@ -89,7 +89,7 @@
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
             <form method="POST" action="{{ route('login') }}">
-                @csrf
+            @csrf
 
                 <!-- Email Address -->
                 <div class="form-group position-relative has-icon-left mb-4 text-center">

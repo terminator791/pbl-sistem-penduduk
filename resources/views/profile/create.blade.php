@@ -159,8 +159,8 @@
                 rtSelectWrapper.style.display = 'none'; // Sembunyikan elemen RT
                 rtSelect.disabled = true; // Disable elemen RT
             } else { // Jika selain RW dipilih
-                rtSelectWrapper.style.display = 'block'; // Tampilkan kembali elemen RT
-                rtSelect.disabled = false; // Enable elemen RT
+                rtSelectWrapper.style.display = 'none'; // Tampilkan kembali elemen RT
+                rtSelect.disabled = true; // Enable elemen RT
             }
         }
 

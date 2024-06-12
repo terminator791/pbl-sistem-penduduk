@@ -117,22 +117,37 @@ class KejadianController extends Controller
     {
         // Ambil NIK pengguna yang saat ini login
         $NIK = Auth::user()->NIK_penduduk;
+        $id_rt = Penduduk::where('NIK', $NIK)->value('id_rt');
     
         // Temukan data penduduk berdasarkan NIK pengguna
         $pengguna = penduduk::where('NIK', $NIK)->first();
+
+        $kejadian_rt = kejadian::where('jenis_kejadian', $jenis_kejadian->id)
+        ->whereHas('penduduk', function($query) use ($id_rt) {
+            $query->where('id_rt', $id_rt);
+        })
+        ->with('penduduk')
+        ->with('jenis_kejadian')
+        ->get();
+
+        $kejadian_all = kejadian::where('jenis_kejadian', $jenis_kejadian->id)->with('penduduk')->get();
     
         if (Auth::user()->level === 'admin') {
             $nama_pengguna = "Admin";
+            $kejadian = $kejadian_all;
         }elseif (Auth::user()->level === 'RW') {
             $nama_pengguna = $pengguna->nama;
+            $kejadian = $kejadian_all;
         } elseif (Auth::user()->level === 'RT') {
             $nama_pengguna = $pengguna->nama;
+            $kejadian = $kejadian_rt;
         }else{
             $nama_pengguna = "";
+            $kejadian = $kejadian_all;
         }
 
         // Ambil data kejadian berdasarkan kategori jenis_kejadian
-        $kejadian = kejadian::where('jenis_kejadian', $jenis_kejadian->id)->with('penduduk')->get();
+        // $kejadian = kejadian::where('jenis_kejadian', $jenis_kejadian->id)->with('penduduk')->get();
         
         // Kembalikan view print dengan data kejadian
         return view('kejadian.print', compact('kejadian', 'jenis_kejadian', 'nama_pengguna'));

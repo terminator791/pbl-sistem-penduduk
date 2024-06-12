@@ -120,7 +120,7 @@ $icons = [
                             @foreach($penyakit->kesehatan as $p)
                                 @if($p->penduduk->id_rt == $id_rt)
                                 <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $nomor_iterasi }}</td>
                                         <td>{{ $p->penduduk->nama }}</td>
                                         <td>{{ $p->penduduk->nama_jalan }}, RT {{ $p->penduduk->id_rt }}, RW {{ $p->penduduk->rw->nama_rw }}</td>
                                         <td>{{ $p->tanggal_terdampak }}</td>

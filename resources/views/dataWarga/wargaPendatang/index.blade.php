@@ -105,7 +105,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="detailModalLabel">Detail Warga</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body"  id="modalContent">
                     <!-- Konten modal -->
@@ -205,23 +205,25 @@ $(document).ajaxComplete(function(event, xhr, settings) {
                 .then(response => response.json())
                 .then(warga => {
                     // Mengisi konten modal dengan informasi warga
+                    const checkNull = (value) => value === null ? '' : value;
+                    
                     const modalBody = document.getElementById('modalContent');
                     modalBody.innerHTML = `
                     <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Nama:</strong> ${warga.nama}</p>
-                            <p><strong>NIK:</strong> ${warga.NIK}</p>
-                            <p><strong>Alamat:</strong> ${warga.nama_jalan}, RT: ${warga.id_rt}, RW: ${warga.id_rw}</p>
-                            <p><strong>Status:</strong> ${warga.status_penghuni}</p>
-                            <p><strong>Pendidikan Terakhir:</strong> ${warga.id_pendidikan}</p>
+                            <p><strong>Nama:</strong> ${checkNull(warga.nama)}</p>
+                            <p><strong>NIK:</strong> ${checkNull(warga.NIK)}</p>
+                            <p><strong>Alamat:</strong> ${checkNull(warga.nama_jalan)}, RT: ${checkNull(warga.id_rt)}, RW: ${checkNull(warga.id_rw)}</p>
+                            <p><strong>Status:</strong> ${checkNull(warga.status_penghuni)}</p>
+                            <p><strong>Pendidikan Terakhir:</strong> ${checkNull(warga.id_pendidikan)}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Agama:</strong> ${warga.agama}</p>
-                            <p><strong>Status Perkawinan:</strong> ${warga.id_status_perkawinan}</p>
-                            <p><strong>Pekerjaan:</strong> ${warga.id_pekerjaan}</p>
-                            <p><strong>No Hp:</strong> ${warga.no_hp}</p>
-                            <p><strong>Email:</strong> ${warga.email}</p>
+                            <p><strong>Agama:</strong> ${checkNull(warga.agama)}</p>
+                            <p><strong>Status Perkawinan:</strong> ${checkNull(warga.id_status_perkawinan)}</p>
+                            <p><strong>Pekerjaan:</strong> ${checkNull(warga.id_pekerjaan)}</p>
+                            <p><strong>No Hp:</strong> ${checkNull(warga.no_hp)}</p>
+                            <p><strong>Email:</strong> ${checkNull(warga.email)}</p>
                         </div>
                     </div>
                     <div class="row">
